@@ -1,4 +1,7 @@
-package Backend;
+package Technical_Services;
+
+import Technical_Services.ECategory;
+import Technical_Services.ELocation;
 
 import java.sql.Date;
 

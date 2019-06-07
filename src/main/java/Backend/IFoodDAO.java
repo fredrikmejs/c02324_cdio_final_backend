@@ -1,5 +1,9 @@
 package Backend;
 
+import Technical_Services.ECategory;
+import Technical_Services.ELocation;
+import Technical_Services.IFoodDTO;
+
 import java.sql.Date;
 import java.util.List;
 
