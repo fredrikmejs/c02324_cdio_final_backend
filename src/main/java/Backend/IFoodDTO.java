@@ -21,6 +21,6 @@ public interface IFoodDTO {
 
     //Category
     //TODO: Create enum for category (Fish, meats, vegetables etc.)
-    void setCategory(ECategory category)
+    void setCategory(ECategory category);
     ECategory getCategory();
 }
