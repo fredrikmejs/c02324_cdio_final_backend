@@ -8,7 +8,6 @@ public interface IFoodDAO {
 
     //Create food
     boolean createFood(IFoodDTO food);
-
     //Read food
     List readFoods();
 
