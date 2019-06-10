@@ -1,7 +1,7 @@
 package Backend;
 
+import Technical_Services.ELocation;
 import Technical_Services.IFoodDTO;
-import Technical_Services.foodDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,9 +50,13 @@ public class DataLayer implements IDataLayer {
     }
 
     /**
-     * Method which deletes all entries in the list.
+     * THis methods deletes all entries from the desired location.
+     * @param location The location of deletion.
      */
-    public void deleteAll() {
-        foodList.clear();
+    public void deleteAll(ELocation location) {
+        for (int i = 0; i < foodList.size(); i++) {
+            if (foodList.get(i).getLocation().equals(location) || location.equals(ELocation.All))
+                foodList.remove(i);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package Backend;
 
+import Technical_Services.ELocation;
 import Technical_Services.IFoodDTO;
 
 import java.util.Date;
@@ -13,5 +14,5 @@ public interface IDataLayer {
 
     void deleteFood(IFoodDTO food);
 
-    void deleteAll();
+    void deleteAll(ELocation location);
 }
