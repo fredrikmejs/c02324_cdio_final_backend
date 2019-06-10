@@ -59,4 +59,12 @@ public class DataLayer implements IDataLayer {
                 foodList.remove(i);
         }
     }
+
+    /**
+     * For testing purposes atm.
+     * @return This list.
+     */
+    public ArrayList<IFoodDTO> getFoodList() {
+        return foodList;
+    }
 }
