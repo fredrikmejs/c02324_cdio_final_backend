@@ -18,6 +18,11 @@ public interface IFoodDTO {
 
     //TODO: Unit - redacted for now
 
+    //ID
+    int getFoodId();
+    void setFoodId(int foodId);
+
+
     //Name
     String getName();
     void setName(String name);

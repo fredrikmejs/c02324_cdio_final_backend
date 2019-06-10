@@ -1,6 +1,5 @@
 package Backend;
 
-import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.IFoodDTO;
 
@@ -21,8 +20,8 @@ public interface IFoodDAO {
     boolean updateFood(IFoodDTO food) throws SQLException;
 
     //Delete food
-    boolean deleteFood(String name, Date expDate) throws SQLException;
+    boolean deleteFood(int foodId) throws SQLException;
 
     //Delete all foods
-    boolean deleteAllFoods(ELocation location);
+    boolean deleteAllFoods(ELocation location, String userName) throws SQLException;
 }

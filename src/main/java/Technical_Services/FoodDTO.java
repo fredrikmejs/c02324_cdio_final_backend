@@ -4,19 +4,27 @@ import java.sql.Date;
 
 public class FoodDTO implements IFoodDTO{
 
+    private int foodId;
     private Date expDate;
     private String name;
     private ELocation location;
     private ECategory category;
 
 
-public FoodDTO(String name, Date date, ECategory category, ELocation location ){
+public FoodDTO(int food_id,String name, Date date, ECategory category, ELocation location ){
     this.expDate = date;
     this.name = name;
     this.category = category;
     this.location = location;
+    this.foodId = food_id;
 }
 
+
+    public int getFoodId(){return foodId;}
+
+    public void setFoodId(int foodId){
+    this.foodId = foodId;
+    }
 
     public Date getExpDate() {
         return expDate;
@@ -35,7 +43,7 @@ public FoodDTO(String name, Date date, ECategory category, ELocation location ){
     }
 
     public ELocation getLocation() {
-        return location;
+    return location;
     }
 
     public void setLocation(ELocation location) {

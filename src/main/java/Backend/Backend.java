@@ -1,6 +1,6 @@
 package Backend;
 
-import Technical_Services.ECategory;
+
 import Technical_Services.ELocation;
 import Technical_Services.IFoodDTO;
 import java.sql.*;
@@ -23,14 +23,15 @@ public class Backend implements IFoodDAO {
     public boolean createFood(IFoodDTO food) throws SQLException {
         createConnection();
         // TODO maybe change names.
-        String query = "INSERT INTO food(food_name, expiring_date,   " +
+        String query = "INSERT INTO food(food_id,food_name, expirering_date,   " +
                 "category, location) " +
-                "VALUES(?, ?, ?, ?, ?)";
+                "VALUES(?, ?, ?, ?, ?,?)";
         PreparedStatement psQuery = con.prepareStatement(query);
-        psQuery.setString(1, food.getName());
-        psQuery.setDate(2, food.getExpDate());
-        psQuery.setObject(3, food.getCategory());
-        psQuery.setObject(4, food.getLocation());
+        psQuery.setInt(1,getLastID()+1);
+        psQuery.setString(2, food.getName());
+        psQuery.setDate(3, food.getExpDate());
+        psQuery.setObject(4, food.getCategory());
+        psQuery.setObject(5, food.getLocation());
         boolean success = psQuery.execute();
         closeConnection();
         return success;
@@ -45,32 +46,59 @@ public class Backend implements IFoodDAO {
     public boolean updateFood(IFoodDTO food) throws SQLException {
         //TODO should we be able to update the expiring date?
         createConnection();
-        String query = "UPDATE food SET category = ? AND location = ? WHERE food_name = ? AND expiring_date = ? ";
+        String query = "UPDATE food SET category = ? AND location = ? AND expirering_date = ? " +
+                "AND food_name = ? WHERE food_id = ?";
         PreparedStatement prepStat = con.prepareStatement(query);
         prepStat.setObject(1, food.getCategory());
         prepStat.setObject(2,food.getLocation());
-        prepStat.setString(3, food.getName());
-        prepStat.setDate(4, food.getExpDate());
+        prepStat.setDate(3,food.getExpDate());
+        prepStat.setString(4, food.getName());
+        prepStat.setInt(5, food.getFoodId());
         if (!prepStat.execute()) throw new SQLException();
 
         con.close();
         return true;
     }
 
-    public boolean deleteFood(String name, Date expDate) throws SQLException {
+    public boolean deleteFood(int foodId) throws SQLException {
         createConnection();
         String query = "DELETE FROM food" +
-                "WHERE food_name = ? and expiring_date = ? ";
+                "WHERE food_id = ? ";
         PreparedStatement psQuery = con.prepareStatement(query);
-        psQuery.setString(1, name);
-        psQuery.setDate(2,expDate);
+        psQuery.setInt(1,foodId );
         boolean success = psQuery.execute();
         closeConnection();
         return success;
     }
 
     //TODO
-    public boolean deleteAllFoods(ELocation location) {
-        return false;
+    public boolean deleteAllFoods(ELocation location, String userName) throws SQLException {
+
+        createConnection();
+        String query = "DELETE ALL WHERE user_name = ? AND location = ?";
+        PreparedStatement psQuery = con.prepareStatement(query);
+        psQuery.setString(1,userName);
+        psQuery.setObject(2,location);
+
+        boolean success = psQuery.execute();
+        closeConnection();
+        return success;
     }
+
+
+    private int getLastID() throws SQLException {
+        int ID = -1;
+        String query = "SELECT food_id " +
+                "FROM food";
+        PreparedStatement psQuery = con.prepareStatement(query);
+        ResultSet rs = psQuery.executeQuery();
+        rs.last();
+        try {
+            ID = rs.getInt("id_user");
+        }catch (SQLException e){
+            ID = 0;
+        }
+        return ID;
+    }
+
 }

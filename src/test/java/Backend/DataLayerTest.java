@@ -20,7 +20,7 @@ class DataLayerTest {
     @Test
     void addFood() {
         int preSize = dl.getFoodList().size();
-        IFoodDTO food = new FoodDTO("candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
+        IFoodDTO food = new FoodDTO(2,"candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
         dl.addFood(food);
         dl.addFood(food);
         assertEquals(preSize+2, dl.getFoodList().size());
@@ -31,22 +31,19 @@ class DataLayerTest {
      */
     @Test
     void updateFood() {
-        IFoodDTO newFood = new FoodDTO("candy", Date.valueOf("2018-09-10"), ECategory.Dairy, ELocation.Fridge);
-        dl.addFood(new FoodDTO("candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer));
+        IFoodDTO newFood = new FoodDTO(2,"candy", Date.valueOf("2018-09-10"), ECategory.Dairy, ELocation.Fridge);
+        dl.addFood(new FoodDTO(2,"candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer));
         dl.updateFood(dl.getFoodList().get(0), newFood);
         assertEquals(newFood, dl.getFoodList().get(0));
     }
 
     @Test
     void deleteFood() {
-
-        IFoodDTO food = new FoodDTO("candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
+        IFoodDTO food = new FoodDTO(2,"candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
         dl.addFood(food);
         assertEquals(1,dl.getFoodList().size());
         dl.deleteFood(food);
         assertEquals(0,dl.getFoodList().size());
-
-
     }
 
     /**
@@ -54,9 +51,8 @@ class DataLayerTest {
      */
     @Test
     void deleteAll() {
-
         //test if it's delete all the elements.
-        IFoodDTO food = new FoodDTO("candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
+        IFoodDTO food = new FoodDTO(2,"candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
         dl.addFood(food);
         dl.addFood(food);
         dl.addFood(food);
@@ -72,7 +68,6 @@ class DataLayerTest {
 
         dl.deleteAll(ELocation.All);
         assertEquals(0,dl.getFoodList().size());
-
 
         //Checks if the deletes the elements in the Freezer
         dl.addFood(food);
@@ -105,7 +100,5 @@ class DataLayerTest {
         assertEquals(10,dl.getFoodList().size());
         dl.deleteAll(ELocation.Fridge);
         assertEquals(10,dl.getFoodList().size());
-
-
     }
 }
