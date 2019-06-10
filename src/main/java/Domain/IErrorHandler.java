@@ -1,15 +1,18 @@
 package Domain;
 
+import Technical_Services.ELocation;
 import Technical_Services.IFoodDTO;
+
+import java.sql.SQLException;
 
 public interface IErrorHandler {
 
-    boolean addFood(IFoodDTO food);
+    boolean addFood(IFoodDTO food) throws SQLException;
 
-    boolean updateFood(IFoodDTO oldFood);
+    boolean updateFood(IFoodDTO oldFood, IFoodDTO newFood) throws SQLException;
 
-    boolean deleteFood(IFoodDTO Food);
+    boolean deleteFood(IFoodDTO food) throws SQLException;
 
-    boolean deleteAll();
+    boolean deleteAll(ELocation location, IFoodDTO food);
 
 }

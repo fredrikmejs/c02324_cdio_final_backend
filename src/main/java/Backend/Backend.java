@@ -42,47 +42,15 @@ public class Backend implements IFoodDAO {
 
     }
 
-
-    public boolean updateFood(ECategory category, IFoodDTO food) throws SQLException {
-
-        //sets a new expiring date
+    public boolean updateFood(IFoodDTO food) throws SQLException {
+        //TODO should we be able to update the expiring date?
         createConnection();
-        String query = "UPDATE food SET category = ? WHERE food_name = ? AND expiring_date = ? ";
+        String query = "UPDATE food SET category = ? AND location = ? WHERE food_name = ? AND expiring_date = ? ";
         PreparedStatement prepStat = con.prepareStatement(query);
-        prepStat.setObject(1, category);
-        prepStat.setString(2, food.getName());
-        prepStat.setDate(3, food.getExpDate());
-        if (!prepStat.execute()) throw new SQLException();
-
-        con.close();
-        return true;
-    }
-
-    public boolean updateFood(Date expDate, IFoodDTO food) throws SQLException {
-
-        //sets a new expiring date
-        createConnection();
-        String query = "UPDATE food SET expiring_date = ? WHERE food_name = ? AND expiring_date = ? ";
-        PreparedStatement prepStat = con.prepareStatement(query);
-        prepStat.setDate(1, expDate);
-        prepStat.setString(2, food.getName());
-        prepStat.setDate(3,expDate);
-        if (!prepStat.execute()) throw new SQLException();
-
-        con.close();
-        return true;
-    }
-
-    public boolean updateFood(ECategory category, Date expDate, IFoodDTO food) throws SQLException {
-
-        //sets a new expiring date
-        createConnection();
-        String query = "UPDATE food SET category = ? AND expiring_date = ? WHERE food_name = ? AND expiring_date = ? ";
-        PreparedStatement prepStat = con.prepareStatement(query);
-        prepStat.setObject(1, category);
-        prepStat.setDate(2,expDate);
+        prepStat.setObject(1, food.getCategory());
+        prepStat.setObject(2,food.getLocation());
         prepStat.setString(3, food.getName());
-        prepStat.setDate(4,food.getExpDate());
+        prepStat.setDate(4, food.getExpDate());
         if (!prepStat.execute()) throw new SQLException();
 
         con.close();

@@ -18,10 +18,7 @@ public interface IFoodDAO {
     List readFoods(String name) throws SQLException;
 
     //Update food
-    boolean updateFood(ECategory category, IFoodDTO food) throws SQLException;
-    boolean updateFood(Date expDate, IFoodDTO food) throws SQLException;
-    //TODO: Consider doing location update
-    boolean updateFood(ECategory category, Date expDate, IFoodDTO food) throws SQLException;
+    boolean updateFood(IFoodDTO food) throws SQLException;
 
     //Delete food
     boolean deleteFood(String name, Date expDate) throws SQLException;

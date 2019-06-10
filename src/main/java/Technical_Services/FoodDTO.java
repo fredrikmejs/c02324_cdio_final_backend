@@ -2,7 +2,7 @@ package Technical_Services;
 
 import java.sql.Date;
 
-public class foodDTO implements IFoodDTO{
+public class FoodDTO implements IFoodDTO{
 
     private Date expDate;
     private String name;
@@ -10,7 +10,7 @@ public class foodDTO implements IFoodDTO{
     private ECategory category;
 
 
-public foodDTO(String name, Date date, ECategory category, ELocation location ){
+public FoodDTO(String name, Date date, ECategory category, ELocation location ){
     this.expDate = date;
     this.name = name;
     this.category = category;
