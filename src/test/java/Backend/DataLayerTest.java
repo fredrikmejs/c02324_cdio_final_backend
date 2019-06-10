@@ -32,9 +32,35 @@ class DataLayerTest {
 
     @Test
     void deleteFood() {
+
+        IFoodDTO food = new FoodDTO("candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
+        dl.addFood(food);
+        assertEquals(1,dl.getFoodList().size());
+        dl.deleteFood(food);
+        assertEquals(0,dl.getFoodList().size());
+
+
     }
 
     @Test
     void deleteAll() {
+        IFoodDTO food = new FoodDTO("candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
+        dl.addFood(food);
+        dl.addFood(food);
+        dl.addFood(food);
+        dl.addFood(food);
+        dl.addFood(food);
+        dl.addFood(food);
+        dl.addFood(food);
+        dl.addFood(food);
+        dl.addFood(food);
+        dl.addFood(food);
+
+        assertEquals(10,dl.getFoodList().size());
+
+        dl.deleteAll(ELocation.All);
+        assertEquals(0,dl.getFoodList().size());
+
+
     }
 }

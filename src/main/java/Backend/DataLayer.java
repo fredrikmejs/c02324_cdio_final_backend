@@ -54,9 +54,14 @@ public class DataLayer implements IDataLayer {
      * @param location The location of deletion.
      */
     public void deleteAll(ELocation location) {
-        for (int i = 0; i < foodList.size(); i++) {
+
+        int size = foodList.size();
+
+        for (int i = size-1; i >= 0; i--) {
             if (foodList.get(i).getLocation().equals(location) || location.equals(ELocation.All))
                 foodList.remove(i);
+
+
         }
     }
 
