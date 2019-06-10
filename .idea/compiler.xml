@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="14_CDIOFinal" />
+        <module name="c02324_cdio_final_backend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="14_CDIOFinal" target="1.5" />
+      <module name="c02324_cdio_final_backend" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
