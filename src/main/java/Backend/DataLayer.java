@@ -60,11 +60,8 @@ public class DataLayer implements IDataLayer {
         for (int i = size-1; i >= 0; i--) {
             if (foodList.get(i).getLocation().equals(location) || location.equals(ELocation.All))
                 foodList.remove(i);
-
-
         }
     }
-
     /**
      * For testing purposes atm.
      * @return This list.

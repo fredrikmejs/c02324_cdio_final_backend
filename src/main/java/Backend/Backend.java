@@ -1,9 +1,13 @@
 package Backend;
 
 
+import Technical_Services.ECategory;
 import Technical_Services.ELocation;
+import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Backend implements IFoodDAO {
@@ -39,8 +43,23 @@ public class Backend implements IFoodDAO {
 
     //TODO
     public List readFoods(String name) throws SQLException {
-        return null;
+        ResultSet rs;
+        Statement queryUser = con.createStatement();
+        rs = queryUser.executeQuery(
+                "SELECT * FROM user");
 
+        List<IFoodDTO> userList = new ArrayList<>();
+        while (rs.next()) {
+            int foodId = rs.getInt("food_id");
+            String foodName = rs.getString("food_name");
+            Date expDate = rs.getDate("expirering_date");
+            ELocation location = ELocation.values()[ rs.getInt("location")];
+            ECategory category = ECategory.values()[rs.getInt("category")];
+
+            IFoodDTO user = new FoodDTO(foodId,foodName, expDate, category, location);
+            userList.add(user);
+        }
+        return userList;
     }
 
     public boolean updateFood(IFoodDTO food) throws SQLException {

@@ -36,17 +36,17 @@ private DataLayer dataLayer = new DataLayer();
         checkLocation(food);
         checkCategory(food);
 
-        backend.deleteFood(food.getName(),food.getExpDate());
+        backend.deleteFood(food.getFoodId());
         dataLayer.deleteFood(food);
 
         return false;
     }
 
-    public boolean deleteAll(ELocation location, IFoodDTO food) {
+    public boolean deleteAll(ELocation location, IFoodDTO food, String userName) throws SQLException {
 
 
         checkLocation(food);
-        backend.deleteAllFoods(location);
+        backend.deleteAllFoods(location,userName);
         dataLayer.deleteAll(location);
 
         return false;
