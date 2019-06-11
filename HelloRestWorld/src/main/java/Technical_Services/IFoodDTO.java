@@ -33,4 +33,10 @@ public interface IFoodDTO {
     ECategory getCategory();
     void setCategory(ECategory category);
 
+    int getAmount();
+    void setAmount(int amount);
+
+    String getUserName();
+    void setUserName(String userName);
 }
+
