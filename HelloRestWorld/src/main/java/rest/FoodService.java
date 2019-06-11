@@ -6,6 +6,7 @@ import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +21,7 @@ import java.util.Map;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class FoodService {
+    //Dummy data for local testing
     static Map<Integer, FoodDTO> foodDTOMap = new HashMap<>();
     static {
         FoodDTO food1 = new FoodDTO();
@@ -30,7 +32,9 @@ public class FoodService {
         food1.setLocation(ELocation.Fridge);
         foodDTOMap.put(1, food1);
     }
+    //TODO: Implement SQL support
 
+    //GET request from frontend receives a JSON array of JSON objects as a String
     @GET
     public String getAllFoods(){
         List<IFoodDTO> foodList = new ArrayList<>(foodDTOMap.values());
@@ -46,6 +50,7 @@ public class FoodService {
         }
         return jsonArray.toString();
     }
+//TODO: Implement SQL support
 
     //This method should return a specified food
     @GET
@@ -63,7 +68,7 @@ public class FoodService {
         System.out.println(jsonObject.toString());
         return jsonObject.toString();
     }
-
+//TODO: Implement SQL support
     @POST
     public Response createFood(FoodDTO foodDTO){
         System.out.println("Post succeeded!");
@@ -76,7 +81,7 @@ public class FoodService {
             throw new WebApplicationException(response1);
         }
     }
-
+//TODO: Implement SQL support
     @DELETE
     @Path("{id}")
     public Response deleteFood(@PathParam("id") int id){
@@ -88,5 +93,32 @@ public class FoodService {
             return Response.status(404).entity("Food not found..").build();
         }
     }
+//TODO: Implement SQL support
+    @PUT
+    @Path("{id}")
+    public Response updateFood(@PathParam("id") int id, FoodDTO food) {
+        FoodDTO updatedFood = foodDTOMap.get(id);
+        //TODO: Check up on method toLocalDate();
+        try {
+            if (food.getFoodName() != null) {
+                updatedFood.setName(food.getFoodName());
+            }
+            if(food.getExpDate() != null){
+                updatedFood.setExpDate(food.getExpDate());
+            }
+            if(food.getCategory() != null){
+                updatedFood.setCategory(food.getCategory());
+            }
+            if(food.getLocation() != null){
+                updatedFood.setLocation(food.getLocation());
+            }
+            foodDTOMap.replace(id, updatedFood);
+        }catch(Exception e){
+            return Response.status(400).entity("Update failed!").build();
+        }
+        return Response.status(200).entity("Food updated").build();
+    }
+
+
 
 }

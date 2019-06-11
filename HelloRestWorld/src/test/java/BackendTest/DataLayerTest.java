@@ -8,12 +8,15 @@ import Technical_Services.IFoodDTO;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DataLayerTest {
 
-    DataLayer dl = new DataLayer();
+    private DataLayer dl = new DataLayer();
 
     /**
      * Testing if we are able to add food to our arraylist.
@@ -21,26 +24,39 @@ class DataLayerTest {
     @Test
     void addFood() {
         int preSize = dl.getFoodList().size();
-        IFoodDTO food = new FoodDTO(2,"candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
+        IFoodDTO food = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
         dl.addFood(food);
         dl.addFood(food);
         assertEquals(preSize+2, dl.getFoodList().size());
     }
+
+    @Test
+    void getFoodList() {
+        IFoodDTO food = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
+        dl.addFood(food);
+        IFoodDTO food1 = new FoodDTO("Per",Date.valueOf("2020-09-10"),ELocation.Freezer,ECategory.Fish,30,"GusserNusser");
+        dl.addFood(food1);
+        System.out.println(dl.getFoodList().toString());
+
+
+
+    }
+
 
     /**
      * Testing if we are able to update a food
      */
     @Test
     void updateFood() {
-        IFoodDTO newFood = new FoodDTO(2,"candy", Date.valueOf("2018-09-10"), ECategory.Dairy, ELocation.Fridge);
-        dl.addFood(new FoodDTO(2,"candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer));
+        IFoodDTO newFood = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
+        dl.addFood(new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Freezer, ECategory.Beef, 50.0,"FredrikMejs"));
         dl.updateFood(dl.getFoodList().get(0), newFood);
         assertEquals(newFood, dl.getFoodList().get(0));
     }
 
     @Test
     void deleteFood() {
-        IFoodDTO food = new FoodDTO(2,"candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
+        IFoodDTO food = new FoodDTO(0,"Pære", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
         dl.addFood(food);
         assertEquals(1,dl.getFoodList().size());
         dl.deleteFood(food);
@@ -53,7 +69,7 @@ class DataLayerTest {
     @Test
     void deleteAll() {
         //test if it's delete all the elements.
-        IFoodDTO food = new FoodDTO(2,"candy", Date.valueOf("2016-04-07"), ECategory.Beef, ELocation.Freezer);
+        IFoodDTO food = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Freezer, ECategory.Beef, 50.0,"FredrikMejs");
         dl.addFood(food);
         dl.addFood(food);
         dl.addFood(food);
