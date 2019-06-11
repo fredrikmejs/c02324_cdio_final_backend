@@ -14,12 +14,11 @@ public class Backend implements IFoodDAO {
 
     private static Connection con;
 
-    public void createConnection() throws SQLException {
-        //TODO change to the correct database
+    private void createConnection() throws SQLException {
         con = DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185140?"
                 + "user=s185140&password=YKl6EOAgNqhvE0fjJ0uJX");
     }
-    public void closeConnection() throws SQLException {
+    private void closeConnection() throws SQLException {
         con.close();
     }
 
@@ -27,27 +26,30 @@ public class Backend implements IFoodDAO {
     public boolean createFood(IFoodDTO food) throws SQLException {
         createConnection();
         // TODO maybe change names.
-        String query = "INSERT INTO food(food_id,food_name, expirering_date,   " +
-                "category, location) " +
-                "VALUES(?, ?, ?, ?, ?,?)";
+        String query = "INSERT INTO Food(food_id,food_name, expirering_date,   " +
+                " loc_id, cat_id, amount, user_name) " +
+                "VALUES(?, ?, ?, ?, ?,?, ?, ?)";
         PreparedStatement psQuery = con.prepareStatement(query);
-        psQuery.setInt(1,getLastID()+1);
+        psQuery.setInt(1,(getLastID()+1));
         psQuery.setString(2, food.getName());
         psQuery.setDate(3, food.getExpDate());
-        psQuery.setObject(4, food.getCategory());
-        psQuery.setObject(5, food.getLocation());
+        psQuery.setObject(4, food.getLocation());
+        psQuery.setObject(5, food.getCategory());
+        psQuery.setInt(6,food.getAmount());
+        psQuery.setString(7,food.getUserName);
         boolean success = psQuery.execute();
         closeConnection();
         return success;
     }
 
     //TODO
-    public List readFoods(String name) throws SQLException {
+    public List readFoods(int id) throws SQLException {
         ResultSet rs;
-        Statement queryUser = con.createStatement();
-        rs = queryUser.executeQuery(
-                "SELECT * FROM user");
 
+        String query = "SELECT * FROM Food WHERE food_id = ?";
+        PreparedStatement psQuery = con.prepareStatement(query);
+        psQuery.setInt(1,id);
+        rs = psQuery.executeQuery();
         List<IFoodDTO> userList = new ArrayList<>();
         while (rs.next()) {
             int foodId = rs.getInt("food_id");
@@ -55,8 +57,10 @@ public class Backend implements IFoodDAO {
             Date expDate = rs.getDate("expirering_date");
             ELocation location = ELocation.values()[ rs.getInt("location")];
             ECategory category = ECategory.values()[rs.getInt("category")];
+            double amount = rs.getDouble("amount");
+            String userName = rs.getString("user_name");
 
-            IFoodDTO user = new FoodDTO(foodId,foodName, expDate, category, location);
+            IFoodDTO user = new FoodDTO(foodId,foodName, expDate, location, category, amount, userName);
             userList.add(user);
         }
         return userList;
@@ -66,7 +70,7 @@ public class Backend implements IFoodDAO {
         //TODO should we be able to update the expiring date?
         createConnection();
         String query = "UPDATE food SET category = ? AND location = ? AND expirering_date = ? " +
-                "AND food_name = ? WHERE food_id = ?";
+                "AND food_name = ? AND amount = ? WHERE food_id = ?";
         PreparedStatement prepStat = con.prepareStatement(query);
         prepStat.setObject(1, food.getCategory());
         prepStat.setObject(2,food.getLocation());
