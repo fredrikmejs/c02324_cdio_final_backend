@@ -42,7 +42,7 @@ public FoodDTO(){}
     this.expDate = date;
     }
 
-    public String getFoodName() {
+    public String getFoodName(){
         return name;
     }
 

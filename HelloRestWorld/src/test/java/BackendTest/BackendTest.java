@@ -15,12 +15,40 @@ import static org.junit.jupiter.api.Assertions.*;
 class BackendTest {
     Backend backend = new Backend();
 
-    @Test
-    void createFood() {
-        try {
-            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable, 1, "Pur");
-            assertTrue(backend.createFood(foo));
 
+    @Test
+    void createConnection() throws SQLException {
+        try {
+
+            backend.createConnection();
+            backend.closeConnection();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+
+
+        }
+    }
+
+//TODO check dates writes 2019-06-10 in the data-base
+    @Test
+    void createFood() throws SQLException {
+        try {
+            backend.createConnection();
+            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable, 1, "Pur");
+            int size = backend.getLastID();
+            backend.closeConnection();
+
+            int length = 10;
+            for (int i = 0; i < length ; i++) {
+                backend.createFood(foo);
+            }
+            size += length;
+            backend.createConnection();
+            int totalSize = backend.getLastID();
+            backend.closeConnection();
+            assertEquals(totalSize,size);
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -29,18 +57,36 @@ class BackendTest {
         }
     }
     @Test
-    void readFoods() {
+    void readFoods() throws SQLException {
+
     }
 
     @Test
-    void updateFood() {
+    void updateFood() throws SQLException {
+        IFoodDTO foo = new FoodDTO(3,"smør", Date.valueOf("2019-06-03"), ELocation.Freezer, ECategory.Beef, 5, "Pur");
+        backend.updateFood(foo);
+
+
     }
 
     @Test
-    void deleteFood() {
+    void deleteFood() throws SQLException {
+        int size = backend.getLastID();
+        backend.deleteFood(1);
+        backend.createConnection();
+        assertEquals(size,(backend.getLastID()-1));
+        backend.closeConnection();
+
+
+
     }
 
     @Test
-    void deleteAllFoods() {
+    void deleteAllFoods() throws SQLException {
+
+        backend.deleteAllFoods(ELocation.Pantry,"Pur");
+        backend.createConnection();
+        assertEquals(0,backend.getLastID());
+        backend.closeConnection();
     }
 }

@@ -14,11 +14,11 @@ public class Backend implements IFoodDAO {
 
     private static Connection con;
 
-    private void createConnection() throws SQLException {
+    public void createConnection() throws SQLException {
         con = DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185140?"
                 + "user=s185140&password=YKl6EOAgNqhvE0fjJ0uJX");
     }
-    private void closeConnection() throws SQLException {
+    public void closeConnection() throws SQLException {
         con.close();
     }
 
@@ -40,43 +40,48 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
-    public List readFoods(int id) throws SQLException {
+    public List<IFoodDTO> readFoods() throws SQLException {
         ResultSet rs;
+        Statement queryUser = con.createStatement();
+        rs = queryUser.executeQuery(
+                "SELECT * FROM Food");
 
-        String query = "SELECT * FROM Food WHERE food_id = ?";
-        PreparedStatement psQuery = con.prepareStatement(query);
-        psQuery.setInt(1,id);
-        rs = psQuery.executeQuery();
-        List<IFoodDTO> userList = new ArrayList<>();
+        List<IFoodDTO> foodlist = new ArrayList<>();
+
         while (rs.next()) {
             int foodId = rs.getInt("food_id");
             String foodName = rs.getString("food_name");
             Date expDate = rs.getDate("expirering_date");
-            ELocation location = ELocation.values()[ rs.getInt("location")];
-            ECategory category = ECategory.values()[rs.getInt("category")];
-            double amount = rs.getDouble("amount");
+            ELocation location = ELocation.valueOf(rs.getString("loc_id"));
+            ECategory category = ECategory.valueOf(rs.getString("cat_id"));
+            int amount = rs.getInt("amount");
             String userName = rs.getString("user_name");
 
-            IFoodDTO user = new FoodDTO(foodName, expDate, location, category, amount, userName);
-            userList.add(user);
+            IFoodDTO food = new FoodDTO(foodId, foodName, expDate, location, category, amount, userName);
+
+            foodlist.add(food);
         }
-        return userList;
+        return foodlist;
     }
 
     public boolean updateFood(IFoodDTO food) throws SQLException {
-        createConnection();
-        String query = "UPDATE Food SET category = ? AND location = ? AND expirering_date = ? " +
-                "AND food_name = ? AND amount = ? AND user_name = ?  WHERE food_id = ?";
-        PreparedStatement prepStat = con.prepareStatement(query);
-        prepStat.setInt(1, food.getCategory().ordinal());
-        prepStat.setInt(2,food.getLocation().ordinal());
-        prepStat.setDate(3,food.getExpDate());
-        prepStat.setString(4, food.getFoodName());
-        prepStat.setDouble(5,food.getAmount());
-        prepStat.setString(6,food.getUserName());
-        prepStat.setInt(7, food.getID());
 
-        if (!prepStat.execute()) throw new SQLException();
+
+       // String query1 = "UPDATE s185140.Food SET `loc_id` = '1', `cat_id` = '0', `amount` = '5' WHERE (`food_id` = '3') and (`user_name` = 'Pur');";
+       // PreparedStatement pre = con.prepareStatement(query1);
+
+        createConnection();
+        String query = "UPDATE Food SET food_name = ?, expirering_date = ?, loc_id = ?," +
+                " cat_id = ?, amount = ? WHERE food_id = ? AND user_name = ?;";
+        PreparedStatement prepStat = con.prepareStatement(query);
+        prepStat.setString(1,food.getFoodName());
+        prepStat.setDate(2,food.getExpDate());
+        prepStat.setInt(3,food.getLocation().ordinal());
+        prepStat.setInt(4, food.getCategory().ordinal());
+        prepStat.setDouble(5,food.getAmount());
+        prepStat.setInt(6, food.getID());
+        prepStat.setString(7,food.getUserName());
+
 
         con.close();
         return true;
@@ -93,20 +98,22 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
+    //TODO make it work with location
     public boolean deleteAllFoods(ELocation location, String userName) throws SQLException {
         createConnection();
-        String query = "DELETE ALL FROM Food WHERE user_name = ? AND location = ?";
+        String query = "DELETE FROM Food WHERE user_name = ?"; //AND loc_id= ?";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setString(1,userName);
-        psQuery.setObject(2,location);
+       // psQuery.setObject(2,location);
 
         boolean success = psQuery.execute();
         closeConnection();
         return success;
     }
 
-    private int getLastID() throws SQLException {
-        int ID = -1;
+    public int getLastID() throws SQLException {
+
+        int ID;
         String query = "SELECT food_id " +
                 "FROM Food";
         PreparedStatement psQuery = con.prepareStatement(query);

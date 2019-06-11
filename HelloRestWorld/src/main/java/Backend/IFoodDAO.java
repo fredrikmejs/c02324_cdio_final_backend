@@ -1,6 +1,7 @@
 package Backend;
 
 import Technical_Services.ELocation;
+import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
 
 import java.sql.Date;
@@ -14,7 +15,7 @@ public interface IFoodDAO {
     boolean createFood(IFoodDTO food) throws SQLException;
 
     //Read food
-    List readFoods(int id) throws SQLException;
+    List<IFoodDTO> readFoods() throws SQLException;
 
     //Update food
     boolean updateFood(IFoodDTO food) throws SQLException;

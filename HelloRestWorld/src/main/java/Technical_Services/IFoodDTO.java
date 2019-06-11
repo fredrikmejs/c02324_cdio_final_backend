@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public interface IFoodDTO {
 
-
+    //Food ID
     int getID();
     void setID(int food_id);
 
@@ -12,12 +12,9 @@ public interface IFoodDTO {
     Date getExpDate();
     void setExpDate(Date date);
 
-
-    //TODO: Amount - redacted for now
-
     //TODO: Unit - redacted for now
 
-    //Name
+    //Food name
     String getFoodName();
     void setName(String name);
 
@@ -33,9 +30,11 @@ public interface IFoodDTO {
     ECategory getCategory();
     void setCategory(ECategory category);
 
+    //Amount
     double getAmount();
     void setAmount(double amount);
 
+    //User name
     String getUserName();
     void setUserName(String userName);
 

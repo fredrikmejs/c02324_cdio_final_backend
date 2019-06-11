@@ -23,7 +23,6 @@ class DataLayerTest {
      */
     @Test
     void addFood() {
-        int preSize = dl.getFoodList().size();
         IFoodDTO food = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
         dl.addFood(food);
         dl.addFood(food);
