@@ -24,15 +24,15 @@ public class Backend implements IFoodDAO {
 
     public boolean createFood(IFoodDTO food) throws SQLException {
         createConnection();
-        String query = "INSERT INTO Food(food_id,food_name, expirering_date,   " +
-                " loc_id, cat_id, amount, user_name) " +
-                "VALUES(?, ?, ?, ?, ?,?, ?)";
+        String query = "INSERT INTO Food(food_id, food_name, expirering_date, " +
+                "loc_id, cat_id, amount, user_name) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement psQuery = con.prepareStatement(query);
-        psQuery.setInt(1,(getLastID()+1));
+        psQuery.setInt(1,getLastID()+1);
         psQuery.setString(2, food.getFoodName());
         psQuery.setDate(3, food.getExpDate());
-        psQuery.setObject(4, food.getLocation());
-        psQuery.setObject(5, food.getCategory());
+        psQuery.setInt(4, food.getLocation().ordinal());
+        psQuery.setInt(5, food.getCategory().ordinal());
         psQuery.setDouble(6,food.getAmount());
         psQuery.setString(7,food.getUserName());
         boolean success = psQuery.execute();
@@ -68,8 +68,8 @@ public class Backend implements IFoodDAO {
         String query = "UPDATE Food SET category = ? AND location = ? AND expirering_date = ? " +
                 "AND food_name = ? AND amount = ? AND user_name = ?  WHERE food_id = ?";
         PreparedStatement prepStat = con.prepareStatement(query);
-        prepStat.setObject(1, food.getCategory());
-        prepStat.setObject(2,food.getLocation());
+        prepStat.setInt(1, food.getCategory().ordinal());
+        prepStat.setInt(2,food.getLocation().ordinal());
         prepStat.setDate(3,food.getExpDate());
         prepStat.setString(4, food.getFoodName());
         prepStat.setDouble(5,food.getAmount());
@@ -115,7 +115,7 @@ public class Backend implements IFoodDAO {
         ResultSet rs = psQuery.executeQuery();
         rs.last();
         try {
-            ID = rs.getInt("id_user");
+            ID = rs.getInt("food_id");
         }catch (SQLException e){
             ID = 0;
         }
