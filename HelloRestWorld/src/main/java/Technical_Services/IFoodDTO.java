@@ -18,7 +18,7 @@ public interface IFoodDTO {
     //TODO: Unit - redacted for now
 
     //Name
-    String getName();
+    String getFoodName();
     void setName(String name);
 
 
@@ -32,5 +32,12 @@ public interface IFoodDTO {
     //TODO: Create enum for category (Fish, meats, vegetables etc.)
     ECategory getCategory();
     void setCategory(ECategory category);
+
+    double getAmount();
+    void setAmount(double amount);
+
+    String getUserName();
+    void setUserName(String userName);
+
 
 }

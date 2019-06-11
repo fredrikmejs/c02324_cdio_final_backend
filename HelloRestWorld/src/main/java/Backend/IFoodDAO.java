@@ -14,7 +14,7 @@ public interface IFoodDAO {
     boolean createFood(IFoodDTO food) throws SQLException;
 
     //Read food
-    List readFoods(String name) throws SQLException;
+    List readFoods(int id) throws SQLException;
 
     //Update food
     boolean updateFood(IFoodDTO food) throws SQLException;

@@ -25,7 +25,7 @@ public class DataLayer implements IDataLayer {
      */
     public IFoodDTO readFood(String name, Date expDate) {
         for (int i = 0; i <foodList.size() ; i++) {
-            if(foodList.get(i).getName().equals(name) && foodList.get(i).getExpDate().equals(expDate))
+            if(foodList.get(i).getFoodName().equals(name) && foodList.get(i).getExpDate().equals(expDate))
                 return foodList.get(i);
         }
         return null;
