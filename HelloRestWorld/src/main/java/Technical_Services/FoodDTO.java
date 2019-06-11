@@ -13,14 +13,14 @@ public class FoodDTO implements IFoodDTO {
     private String userName;
 
 
-public FoodDTO(int food_id, String name, Date date, ELocation location, ECategory category, double amount, String userName){
+public FoodDTO(String name, Date date, ELocation location, ECategory category, double amount, String userName){
     this.expDate = date;
     this.name = name;
     this.category = category;
     this.location = location;
     this.amount = amount;
     this.userName = userName;
-    this.food_id = food_id;
+    //this.food_id = food_id;
 
 }
 public FoodDTO(){};

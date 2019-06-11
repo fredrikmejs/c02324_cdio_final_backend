@@ -26,7 +26,7 @@ public class Backend implements IFoodDAO {
         createConnection();
         String query = "INSERT INTO Food(food_id,food_name, expirering_date,   " +
                 " loc_id, cat_id, amount, user_name) " +
-                "VALUES(?, ?, ?, ?, ?,?, ?, ?)";
+                "VALUES(?, ?, ?, ?, ?,?, ?)";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1,(getLastID()+1));
         psQuery.setString(2, food.getFoodName());
@@ -57,7 +57,7 @@ public class Backend implements IFoodDAO {
             double amount = rs.getDouble("amount");
             String userName = rs.getString("user_name");
 
-            IFoodDTO user = new FoodDTO(foodId,foodName, expDate, location, category, amount, userName);
+            IFoodDTO user = new FoodDTO(foodName, expDate, location, category, amount, userName);
             userList.add(user);
         }
         return userList;
