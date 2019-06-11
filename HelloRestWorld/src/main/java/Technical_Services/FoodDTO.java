@@ -21,8 +21,9 @@ public FoodDTO(int food_id, String name, Date date, ELocation location, ECategor
     this.amount = amount;
     this.userName = userName;
     this.food_id = food_id;
-}
 
+}
+public FoodDTO(){};
 
     public Date getExpDate() {
         return expDate;
