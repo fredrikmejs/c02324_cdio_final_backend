@@ -5,6 +5,7 @@ import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class DataLayer implements IDataLayer {
@@ -15,7 +16,13 @@ public class DataLayer implements IDataLayer {
      * @param food The FoodDTO object that should be added to the list of food items.
      */
     public void addFood(IFoodDTO food) {
-        int id = foodList.size();
+        int id;
+        if (foodList.size() == 0){
+        id = 1;
+        }else
+        id = foodList.get(foodList.size()-1).getID()+1;
+        //test +=1;
+        //int id = foodList.size();
         foodList.add(new FoodDTO(id,food.getFoodName(),food.getExpDate(),food.getLocation(),food.getCategory(),food.getAmount(),food.getUserName()));
     }
 
@@ -48,7 +55,17 @@ public class DataLayer implements IDataLayer {
      * @param food the item which is to be deleted.
      */
     public void deleteFood(IFoodDTO food) {
-       foodList.remove(food);
+       //foodList.remove(food);
+        //foodList.remove(food.getID());
+
+        int index = -1;
+        for (int i = 0; i <foodList.size() ; i++) {
+            if (foodList.get(i).getID()== food.getID()){
+                index = i;
+                break;
+            }
+        }
+        foodList.remove(index);
     }
 
     /**
@@ -62,6 +79,7 @@ public class DataLayer implements IDataLayer {
         for (int i = size-1; i >= 0; i--) {
             if (foodList.get(i).getLocation().equals(location) || location.equals(ELocation.All))
                 foodList.remove(i);
+
         }
     }
     /**
