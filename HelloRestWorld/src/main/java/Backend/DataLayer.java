@@ -1,20 +1,22 @@
 package Backend;
 
 import Technical_Services.ELocation;
+import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class DataLayer implements IDataLayer {
-    private ArrayList<IFoodDTO> foodList = new ArrayList<IFoodDTO>();
+    private ArrayList<IFoodDTO> foodList = new ArrayList<>();
 
     /**
      * Method fot adding a FoodDTO to a list of FoodDTO items.
      * @param food The FoodDTO object that should be added to the list of food items.
      */
     public void addFood(IFoodDTO food) {
-        foodList.add(food);
+        int id = foodList.size();
+        foodList.add(new FoodDTO(id,food.getFoodName(),food.getExpDate(),food.getLocation(),food.getCategory(),food.getAmount(),food.getUserName()));
     }
 
     /**
@@ -46,7 +48,7 @@ public class DataLayer implements IDataLayer {
      * @param food the item which is to be deleted.
      */
     public void deleteFood(IFoodDTO food) {
-        foodList.remove(food);
+       foodList.remove(food);
     }
 
     /**

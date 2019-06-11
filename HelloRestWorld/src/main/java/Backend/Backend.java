@@ -94,7 +94,6 @@ public class Backend implements IFoodDAO {
     }
 
     public boolean deleteAllFoods(ELocation location, String userName) throws SQLException {
-
         createConnection();
         String query = "DELETE ALL FROM Food WHERE user_name = ? AND location = ?";
         PreparedStatement psQuery = con.prepareStatement(query);
@@ -105,7 +104,6 @@ public class Backend implements IFoodDAO {
         closeConnection();
         return success;
     }
-
 
     private int getLastID() throws SQLException {
         int ID = -1;
@@ -121,5 +119,4 @@ public class Backend implements IFoodDAO {
         }
         return ID;
     }
-
 }
