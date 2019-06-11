@@ -36,7 +36,7 @@ public class ErrorHandling implements IErrorHandler {
         checkLocation(food);
         checkCategory(food);
 
-        backend.deleteFood(food.getFoodId());
+        backend.deleteFood(food.getID());
         dataLayer.deleteFood(food);
 
         return false;

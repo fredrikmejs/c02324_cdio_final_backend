@@ -72,7 +72,7 @@ public class Backend implements IFoodDAO {
         prepStat.setObject(2,food.getLocation());
         prepStat.setDate(3,food.getExpDate());
         prepStat.setString(4, food.getName());
-        prepStat.setInt(5, food.getFoodId());
+        prepStat.setInt(5, food.getID());
         if (!prepStat.execute()) throw new SQLException();
 
         con.close();
