@@ -22,10 +22,8 @@ public class Backend implements IFoodDAO {
         con.close();
     }
 
-
     public boolean createFood(IFoodDTO food) throws SQLException {
         createConnection();
-        // TODO maybe change names.
         String query = "INSERT INTO Food(food_id,food_name, expirering_date,   " +
                 " loc_id, cat_id, amount, user_name) " +
                 "VALUES(?, ?, ?, ?, ?,?, ?, ?)";
@@ -42,7 +40,6 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
-    //TODO
     public List readFoods(int id) throws SQLException {
         ResultSet rs;
 
@@ -67,7 +64,6 @@ public class Backend implements IFoodDAO {
     }
 
     public boolean updateFood(IFoodDTO food) throws SQLException {
-        //TODO should we be able to update the expiring date?
         createConnection();
         String query = "UPDATE Food SET category = ? AND location = ? AND expirering_date = ? " +
                 "AND food_name = ? AND amount = ? AND user_name = ?  WHERE food_id = ?";
@@ -97,7 +93,6 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
-    //TODO
     public boolean deleteAllFoods(ELocation location, String userName) throws SQLException {
 
         createConnection();
