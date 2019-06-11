@@ -6,7 +6,7 @@ public interface IFoodDTO {
 
 
     int getID();
-    void setID(int id);
+    void setID(int food_id);
 
     //Expiration Dates
     Date getExpDate();

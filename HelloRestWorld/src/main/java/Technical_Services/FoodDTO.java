@@ -8,10 +8,10 @@ public class FoodDTO implements IFoodDTO {
     private String name;
     private ELocation location;
     private ECategory category;
-    private int id;
+    private int food_id;
 
     public FoodDTO(){}
-public FoodDTO(int id, String name, Date date, ECategory category, ELocation location ){
+public FoodDTO(int food_id, String name, Date date, ECategory category, ELocation location ){
     this.expDate = date;
     this.name = name;
     this.category = category;
@@ -52,10 +52,10 @@ public FoodDTO(int id, String name, Date date, ECategory category, ELocation loc
     }
 
     public void setID(int id){
-        this.id = id;
+        this.food_id = id;
     }
 
     public int getID(){
-        return id;
+        return food_id;
     }
 }
