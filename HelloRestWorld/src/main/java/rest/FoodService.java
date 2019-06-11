@@ -11,8 +11,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +38,7 @@ public class FoodService {
         for(int i = 0; i < foodList.size(); i++){
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("id", foodList.get(i).getID());
-            jsonObject.addProperty("name", foodList.get(i).getName());
+            jsonObject.addProperty("name", foodList.get(i).getFoodName());
             jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
             jsonObject.addProperty("category", foodList.get(i).getCategory().toString());
             jsonObject.addProperty("location", foodList.get(i).getLocation().toString());
@@ -56,7 +54,7 @@ public class FoodService {
         FoodDTO food = foodDTOMap.get(id);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("id", food.getID());
-        jsonObject.addProperty("name", food.getName());
+        jsonObject.addProperty("name", food.getFoodName());
         jsonObject.addProperty("expDate", DTS.dateToString(10, 06, 2019));
         String foodCat = food.getCategory().toString();
         String foodLoc = food.getLocation().toString();

@@ -31,12 +31,12 @@ public class Backend implements IFoodDAO {
                 "VALUES(?, ?, ?, ?, ?,?, ?, ?)";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1,(getLastID()+1));
-        psQuery.setString(2, food.getName());
+        psQuery.setString(2, food.getFoodName());
         psQuery.setDate(3, food.getExpDate());
         psQuery.setObject(4, food.getLocation());
         psQuery.setObject(5, food.getCategory());
-        psQuery.setInt(6,food.getAmount());
-        psQuery.setString(7,food.getUserName);
+        psQuery.setDouble(6,food.getAmount());
+        psQuery.setString(7,food.getUserName());
         boolean success = psQuery.execute();
         closeConnection();
         return success;
@@ -69,14 +69,17 @@ public class Backend implements IFoodDAO {
     public boolean updateFood(IFoodDTO food) throws SQLException {
         //TODO should we be able to update the expiring date?
         createConnection();
-        String query = "UPDATE food SET category = ? AND location = ? AND expirering_date = ? " +
-                "AND food_name = ? AND amount = ? WHERE food_id = ?";
+        String query = "UPDATE Food SET category = ? AND location = ? AND expirering_date = ? " +
+                "AND food_name = ? AND amount = ? AND user_name = ?  WHERE food_id = ?";
         PreparedStatement prepStat = con.prepareStatement(query);
         prepStat.setObject(1, food.getCategory());
         prepStat.setObject(2,food.getLocation());
         prepStat.setDate(3,food.getExpDate());
-        prepStat.setString(4, food.getName());
-        prepStat.setInt(5, food.getID());
+        prepStat.setString(4, food.getFoodName());
+        prepStat.setDouble(5,food.getAmount());
+        prepStat.setString(6,food.getUserName());
+        prepStat.setInt(7, food.getID());
+
         if (!prepStat.execute()) throw new SQLException();
 
         con.close();
@@ -85,7 +88,7 @@ public class Backend implements IFoodDAO {
 
     public boolean deleteFood(int foodId) throws SQLException {
         createConnection();
-        String query = "DELETE FROM food" +
+        String query = "DELETE FROM Food" +
                 "WHERE food_id = ? ";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1,foodId );
@@ -98,7 +101,7 @@ public class Backend implements IFoodDAO {
     public boolean deleteAllFoods(ELocation location, String userName) throws SQLException {
 
         createConnection();
-        String query = "DELETE ALL WHERE user_name = ? AND location = ?";
+        String query = "DELETE ALL FROM Food WHERE user_name = ? AND location = ?";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setString(1,userName);
         psQuery.setObject(2,location);
@@ -112,7 +115,7 @@ public class Backend implements IFoodDAO {
     private int getLastID() throws SQLException {
         int ID = -1;
         String query = "SELECT food_id " +
-                "FROM food";
+                "FROM Food";
         PreparedStatement psQuery = con.prepareStatement(query);
         ResultSet rs = psQuery.executeQuery();
         rs.last();

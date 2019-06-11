@@ -32,7 +32,7 @@ public FoodDTO(int food_id, String name, Date date, ELocation location, ECategor
     this.expDate = date;
     }
 
-    public String getName() {
+    public String getFoodName() {
         return name;
     }
 

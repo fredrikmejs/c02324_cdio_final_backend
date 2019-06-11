@@ -18,7 +18,7 @@ public interface IFoodDTO {
     //TODO: Unit - redacted for now
 
     //Name
-    String getName();
+    String getFoodName();
     void setName(String name);
 
 
