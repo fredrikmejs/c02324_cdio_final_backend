@@ -6,6 +6,7 @@ import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -88,5 +89,32 @@ public class FoodService {
             return Response.status(404).entity("Food not found..").build();
         }
     }
+
+    @PUT
+    @Path("{id}")
+    public Response updateFood(@PathParam("id") int id, FoodDTO food) {
+        FoodDTO updatedFood = foodDTOMap.get(id);
+        //TODO: Check up on method toLocalDate();
+        try {
+            if (food.getFoodName() != null) {
+                updatedFood.setName(food.getFoodName());
+            }
+            if(food.getExpDate() != null){
+                updatedFood.setExpDate(food.getExpDate());
+            }
+            if(food.getCategory() != null){
+                updatedFood.setCategory(food.getCategory());
+            }
+            if(food.getLocation() != null){
+                updatedFood.setLocation(food.getLocation());
+            }
+            foodDTOMap.replace(id, updatedFood);
+        }catch(Exception e){
+            return Response.status(400).entity("Update failed!").build();
+        }
+        return Response.status(200).entity("Food updated").build();
+    }
+
+
 
 }
