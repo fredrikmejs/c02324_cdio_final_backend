@@ -96,8 +96,8 @@ public class FoodService {
         FoodDTO updatedFood = foodDTOMap.get(id);
         //TODO: Check up on method toLocalDate();
         try {
-            if (food.getName() != null) {
-                updatedFood.setName(food.getName());
+            if (food.getFoodName() != null) {
+                updatedFood.setName(food.getFoodName());
             }
             if(food.getExpDate() != null){
                 updatedFood.setExpDate(food.getExpDate());
