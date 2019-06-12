@@ -87,18 +87,22 @@ public class FoodService {
             return Response.status(Response.Status.BAD_REQUEST).entity("Something went wrong!").build();
         }
     }
-//TODO: Implement SQL support
     @DELETE
     @Path("{userName}/{id}")
     public Response deleteFood(@PathParam("id") int id, @PathParam("userName") String userName){
-      IFoodDTO food = foodDTOMap.get(id);
-        if(food != null){
-            foodDTOMap.remove(id);
-            return Response.status(200).entity("Deletion successful").build();
-        }else{
-            return Response.status(404).entity("Food not found..").build();
+        boolean success;
+        try {
+            success = errorHandling.deleteFood(userName, id);
+            if(success) {
+                return Response.status(200).build();
+            }else {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+        } catch (SQLException e) {
+            throw new BadRequestException();
         }
     }
+
     @PUT
     @Path("{userName}/{id}")
     public Response updateFood(@PathParam("id") int id, @PathParam("userName") String userName,FoodDTO food) {
