@@ -25,4 +25,5 @@ public interface IFoodDAO {
 
     //Delete all foods
     boolean deleteAllFoods(String userName, ELocation location) throws SQLException;
+
 }

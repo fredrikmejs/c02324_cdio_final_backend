@@ -142,7 +142,7 @@ public class Backend implements IFoodDAO {
         return ID;
     }
 
-    IFoodDTO readFood(String userName, int foodID) throws SQLException{
+    public IFoodDTO readFood(String userName, int foodID) throws SQLException{
         createConnection();
         String query = "SELECT * from Food where user_name = "+userName+" AND food_id = "+foodID;
         PreparedStatement psQuery = con.prepareStatement(query);
