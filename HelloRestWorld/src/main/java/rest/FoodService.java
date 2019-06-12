@@ -54,8 +54,6 @@ public class FoodService {
         }
         return jsonArray.toString();
     }
-//TODO: Implement SQL support
-
     //This method should return a specified food
     @GET
     @Path("{userName}/get/{id}")
