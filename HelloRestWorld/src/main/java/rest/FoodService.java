@@ -28,7 +28,7 @@ public class FoodService {
     static {
         FoodDTO food1 = new FoodDTO();
         food1.setID(1);
-        food1.setName("Smør");
+        food1.setFoodName("Smør");
         food1.setExpDate(new Date(System.currentTimeMillis()));
         food1.setCategory(ECategory.Dairy);
         food1.setLocation(ELocation.Fridge);
@@ -106,7 +106,7 @@ public class FoodService {
         //TODO: Check up on method toLocalDate();
         try {
             if (food.getFoodName() != null) {
-                updatedFood.setName(food.getFoodName());
+                updatedFood.setFoodName(food.getFoodName());
             }
             if(food.getExpDate() != null){
                 updatedFood.setExpDate(food.getExpDate());

@@ -43,7 +43,7 @@ public FoodDTO(){}
         return name;
     }
 
-    public void setName(String name) {
+    public void setFoodName(String name) {
     this.name = name;
     }
 
