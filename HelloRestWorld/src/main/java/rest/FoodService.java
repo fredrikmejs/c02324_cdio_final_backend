@@ -47,8 +47,8 @@ public class FoodService {
             jsonObject.addProperty("id", foodList.get(i).getID());
             jsonObject.addProperty("name", foodList.get(i).getFoodName());
             jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
-            jsonObject.addProperty("category", foodList.get(i).getCategory().toString());
-            jsonObject.addProperty("location", foodList.get(i).getLocation().toString());
+            jsonObject.addProperty("category", foodList.get(i).getCategory().name());
+            jsonObject.addProperty("location", foodList.get(i).getLocation().name());
             jsonArray.add(jsonObject);
         }
         return jsonArray.toString();

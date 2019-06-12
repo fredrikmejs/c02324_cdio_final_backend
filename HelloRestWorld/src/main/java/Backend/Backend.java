@@ -12,33 +12,16 @@ import java.util.List;
 
 public class Backend implements IFoodDAO {
 
-    private static String DB_PORT = "3306";
-    private static String DB_URI = "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com:"+DB_PORT+"/";
-    private static String DB_USER = "s164863";
-    private static String DB_PASS = "LPUj5vpaQZepYQgtCtdWR";
-    private static String DB_NAME = "s164863";
-
     private static Connection con;
 
     public void createConnection() throws SQLException {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
         }
-
-        try {
-            String jdbcUrl = "jdbc:mysql://" + DB_URI + ":" + DB_PORT + "/" + DB_NAME + "?user=" + DB_USER + "&password=" + DB_PASS;
-
-            con = DriverManager.getConnection(
-                    DB_URI.concat(DB_NAME), DB_USER, DB_PASS);
-        } catch (Exception e) {
-            System.out.println("FEJL!" + e.toString());
-        }
+        con = DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185140?"
+                + "user=s185140&password=YKl6EOAgNqhvE0fjJ0uJX");
     }
     public void closeConnection() throws SQLException {
         con.close();
@@ -69,10 +52,10 @@ public class Backend implements IFoodDAO {
     public List<IFoodDTO> readFoods() throws SQLException {
         createConnection();
         ResultSet rs;
-        Statement queryUser = con.createStatement();
-        rs = queryUser.executeQuery(
-                "SELECT * FROM Food");
-        closeConnection();
+        String query = "SELECT * FROM Food";
+        PreparedStatement queryUser = con.prepareStatement(query);
+        rs = queryUser.executeQuery();
+
         List<IFoodDTO> foodlist = new ArrayList<>();
 
         while (rs.next()) {
@@ -88,6 +71,7 @@ public class Backend implements IFoodDAO {
 
             foodlist.add(food);
         }
+        closeConnection();
         return foodlist;
     }
 
