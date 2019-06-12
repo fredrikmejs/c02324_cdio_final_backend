@@ -102,7 +102,8 @@ public class FoodService {
     @PUT
     @Path("{userName}/{id}")
     public Response updateFood(@PathParam("id") int id, @PathParam("userName") String userName,FoodDTO food) {
-        FoodDTO updatedFood = foodDTOMap.get(id);
+        FoodDTO updatedFood = new FoodDTO();
+
         //TODO: Check up on method toLocalDate();
         try {
             if (food.getFoodName() != null) {

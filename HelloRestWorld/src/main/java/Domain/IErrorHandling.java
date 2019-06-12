@@ -5,7 +5,7 @@ import Technical_Services.IFoodDTO;
 
 import java.sql.SQLException;
 
-public interface IErrorHandler {
+public interface IErrorHandling {
 
     boolean addFood(IFoodDTO food) throws SQLException;
 
