@@ -44,7 +44,7 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
-    public List<IFoodDTO> readFoods(String name) throws SQLException {
+    public List<IFoodDTO> getFoodList(String name) throws SQLException {
         ResultSet rs;
         createConnection();
         String query = "SELECT * FROM Food WHERE user_name = ?";
@@ -133,4 +133,6 @@ public class Backend implements IFoodDAO {
         }
         return ID;
     }
+
+
 }

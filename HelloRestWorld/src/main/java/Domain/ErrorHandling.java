@@ -6,7 +6,7 @@ import Technical_Services.ELocation;
 import Technical_Services.IFoodDTO;
 import java.sql.SQLException;
 
-public class ErrorHandling implements IErrorHandler {
+public class ErrorHandling implements IErrorHandling {
 
     private Backend backend = new Backend();
     private DataLayer dataLayer = new DataLayer();
