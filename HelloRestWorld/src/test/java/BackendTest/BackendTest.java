@@ -39,8 +39,7 @@ class BackendTest {
             IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable,"Pur");
             int size = backend.getLastID();
             backend.closeConnection();
-
-            int length = 10;
+            int length = 5;
             for (int i = 0; i < length ; i++) {
                 backend.createFood(foo);
             }
@@ -60,10 +59,9 @@ class BackendTest {
     void readFoods() throws SQLException {
         createFood();
         backend.createConnection();
-        assertEquals(backend.getLastID(),backend.readFoods("Pur").size());
-        System.out.println(backend.readFoods("Pur").toString());
+        assertEquals(backend.getLastID(),backend.getFoodList("Pur").size());
+        System.out.println(backend.getFoodList("Pur").toString());
         backend.closeConnection();
-
     }
 
     @Test
@@ -76,9 +74,14 @@ class BackendTest {
     @Test
     void deleteFood() throws SQLException {
         backend.createConnection();
-        int size = backend.getLastID();
-        backend.deleteFood(1,"Pur");
-        assertEquals(size,(backend.getLastID()-1));
+        int size = backend.getLastID()-1;
+        backend.closeConnection();
+
+        backend.deleteFood(5,"Pur");
+
+        int size1 = backend.getLastID();
+        assertEquals(size,size1);
+
         backend.closeConnection();
 
 

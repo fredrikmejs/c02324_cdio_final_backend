@@ -7,7 +7,6 @@ import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -41,7 +40,7 @@ public class FoodService {
     @GET
     @Path("{userName}/get")
     public String getAllFoods(@PathParam("userName") String userName) throws SQLException {
-        List<IFoodDTO> foodList = new ArrayList<>(backend.readFoods(userName));
+        List<IFoodDTO> foodList = new ArrayList<>(backend.getFoodList(userName));
         JsonArray jsonArray = new JsonArray();
         for(int i = 0; i < foodList.size(); i++){
             JsonObject jsonObject = new JsonObject();
