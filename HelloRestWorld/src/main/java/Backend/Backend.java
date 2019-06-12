@@ -12,11 +12,33 @@ import java.util.List;
 
 public class Backend implements IFoodDAO {
 
+    private static String DB_PORT = "3306";
+    private static String DB_URI = "jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com:"+DB_PORT+"/";
+    private static String DB_USER = "s164863";
+    private static String DB_PASS = "LPUj5vpaQZepYQgtCtdWR";
+    private static String DB_NAME = "s164863";
+
     private static Connection con;
 
     public void createConnection() throws SQLException {
-        con = DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185140?"
-                + "user=s185140&password=YKl6EOAgNqhvE0fjJ0uJX");
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            String jdbcUrl = "jdbc:mysql://" + DB_URI + ":" + DB_PORT + "/" + DB_NAME + "?user=" + DB_USER + "&password=" + DB_PASS;
+
+            con = DriverManager.getConnection(
+                    DB_URI.concat(DB_NAME), DB_USER, DB_PASS);
+        } catch (Exception e) {
+            System.out.println("FEJL!" + e.toString());
+        }
     }
     public void closeConnection() throws SQLException {
         con.close();
@@ -24,6 +46,10 @@ public class Backend implements IFoodDAO {
 
     public boolean createFood(IFoodDTO food) throws SQLException {
         createConnection();
+
+//        Connection con = DriverManager.getConnection(
+//                DB_URI, DB_USER, DB_PASS);
+
         String query = "INSERT INTO Food(food_id, food_name, expirering_date, " +
                 "loc_id, cat_id, amount, user_name) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?)";
