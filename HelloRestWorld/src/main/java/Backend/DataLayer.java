@@ -42,11 +42,21 @@ public class DataLayer implements IDataLayer {
 
     /**
      * Method for updating an item in the list, where it is set to be a new FoodDTO.
-     * @param oldFood The old version of the item, which is to be updated.
-     * @param newFood The new version of the item, which should be set as.
+     *@param newFood The new version of the item, which should be set as.
      */
-    public void updateFood(IFoodDTO oldFood, IFoodDTO newFood) {
-        int pos = foodList.indexOf(oldFood);
+    public void updateFood(IFoodDTO newFood) {
+
+
+        int pos = -1; //= foodList.indexOf(newFood.getID());
+
+        for (int i = 0; i <foodList.size() ; i++) {
+            if (foodList.get(i).equals(newFood.getID()));
+            {
+                pos = i;
+                break;
+            }
+        }
+
         foodList.set(pos, newFood);
     }
 
@@ -90,5 +100,17 @@ public class DataLayer implements IDataLayer {
      */
     public ArrayList<IFoodDTO> getFoodList() {
         return foodList;
+    }
+
+    public IFoodDTO readFood(int foodID) {
+        int pos = -1;
+
+        for (int i = 0; i <foodList.size() ; i++) {
+            if (foodList.get(i).equals(foodID)) {
+                pos = i;
+                break;
+            }
+        }
+        return new FoodDTO(foodList.get(pos).getID(), foodList.get(pos).getFoodName(), foodList.get(pos).getExpDate(),foodList.get(pos).getLocation(),foodList.get(pos).getCategory(),foodList.get(pos).getUserName());
     }
 }
