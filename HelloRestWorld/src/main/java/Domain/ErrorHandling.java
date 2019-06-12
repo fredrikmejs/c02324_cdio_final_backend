@@ -15,13 +15,16 @@ public class ErrorHandling implements IErrorHandling {
     private DataLayer dataLayer = new DataLayer();
 
     public boolean addFood(IFoodDTO food) throws SQLException {
-
+        boolean success;
         checkCategory(food);
         checkLocation(food);
-        backend.createFood(food);
+        success = backend.createFood(food);
         dataLayer.addFood(food);
-
-        return true;
+        if(success){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public boolean updateFood(IFoodDTO foodDTO) throws SQLException {
@@ -30,9 +33,12 @@ public class ErrorHandling implements IErrorHandling {
 //        checkLocation(oldFood);
 //        backend.updateFood(newFood);
 //        dataLayer.updateFood(oldFood,newFood);
-          backend.updateFood(foodDTO);
-
-        return true;
+        boolean success =  backend.updateFood(foodDTO);
+        if(success){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public boolean deleteFood(String userName, int id) throws SQLException {
