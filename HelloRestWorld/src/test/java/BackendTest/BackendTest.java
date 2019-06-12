@@ -59,8 +59,8 @@ class BackendTest {
     void readFoods() throws SQLException {
         createFood();
         backend.createConnection();
-        assertEquals(backend.getLastID(),backend.readFoods("Pur").size());
-        System.out.println(backend.readFoods("Pur").toString());
+        assertEquals(backend.getLastID(),backend.getFoodList("Pur").size());
+        System.out.println(backend.getFoodList("Pur").toString());
         backend.closeConnection();
     }
 
