@@ -122,10 +122,11 @@ public class FoodService {
             }
             foodDTOMap.replace(id, updatedFood);
             errorHandling.updateFood(updatedFood);
+            return Response.status(200).entity("Food updated").build();
         }catch(Exception e){
             return Response.status(400).entity("Update failed!").build();
         }
-        return Response.status(200).entity("Food updated").build();
+
     }
 
 
