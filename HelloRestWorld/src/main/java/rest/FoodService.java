@@ -65,10 +65,8 @@ public class FoodService {
         jsonObject.addProperty("id", food.getID());
         jsonObject.addProperty("name", food.getFoodName());
         jsonObject.addProperty("expDate", food.getExpDate().toString());
-        String foodCat = food.getCategory().toString();
-        String foodLoc = food.getLocation().toString();
-        jsonObject.addProperty("category", foodCat);
-        jsonObject.addProperty("location", foodLoc);
+        jsonObject.addProperty("category", food.getCategory().name());
+        jsonObject.addProperty("location", food.getLocation().name());
         System.out.println(jsonObject.toString());
         return jsonObject.toString();
     }
@@ -87,7 +85,7 @@ public class FoodService {
     @DELETE
     @Path("{userName}/{id}")
     public Response deleteFood(@PathParam("id") int id, @PathParam("userName") String userName){
-        IFoodDTO food = foodDTOMap.get(id);
+      IFoodDTO food = foodDTOMap.get(id);
         if(food != null){
             foodDTOMap.remove(id);
             return Response.status(200).entity("Deletion successful").build();
@@ -95,7 +93,6 @@ public class FoodService {
             return Response.status(404).entity("Food not found..").build();
         }
     }
-//TODO: Implement SQL support
     @PUT
     @Path("{userName}/{id}")
     public Response updateFood(@PathParam("id") int id, @PathParam("userName") String userName,FoodDTO food) {
@@ -103,7 +100,6 @@ public class FoodService {
         updatedFood.setID(id);
         updatedFood.setUserName(userName);
 
-        //TODO: Check up on method toLocalDate();
         try {
             if (food.getFoodName() != null) {
                 updatedFood.setName(food.getFoodName());
