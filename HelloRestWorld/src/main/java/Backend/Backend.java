@@ -15,6 +15,11 @@ public class Backend implements IFoodDAO {
     private static Connection con;
 
     public void createConnection() throws SQLException {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         con = DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185140?"
                 + "user=s185140&password=YKl6EOAgNqhvE0fjJ0uJX");
     }
@@ -40,15 +45,14 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
-    //TODO fix ENUMS
     public List<IFoodDTO> readFoods(String name) throws SQLException {
         ResultSet rs;
+        createConnection();
         String query = "SELECT * FROM Food WHERE user_name = ?";
         PreparedStatement foodQuery = con.prepareStatement(query);
         foodQuery.setString(1,name);
         rs = foodQuery.executeQuery();
         List<IFoodDTO> foodList = new ArrayList<>();
-        createConnection();
         while (rs.next()) {
             int foodId = rs.getInt("food_id");
             String foodName = rs.getString("food_name");

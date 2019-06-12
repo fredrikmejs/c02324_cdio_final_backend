@@ -1,5 +1,6 @@
 package rest;
 
+import Backend.Backend;
 import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
@@ -12,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +23,14 @@ import java.util.Map;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class FoodService {
+    Backend backend = new Backend();
     //Dummy data for local testing
     static Map<Integer, FoodDTO> foodDTOMap = new HashMap<>();
     static {
         FoodDTO food1 = new FoodDTO();
         food1.setID(1);
         food1.setName("Smør");
-        food1.setExpDate(new Date(10/06/2019));
+        food1.setExpDate(new Date(System.currentTimeMillis()));
         food1.setCategory(ECategory.Dairy);
         food1.setLocation(ELocation.Fridge);
         foodDTOMap.put(1, food1);
@@ -36,16 +39,16 @@ public class FoodService {
 
     //GET request from frontend receives a JSON array of JSON objects as a String
     @GET
-    public String getAllFoods(){
-        List<IFoodDTO> foodList = new ArrayList<>(foodDTOMap.values());
+    public String getAllFoods() throws SQLException {
+        List<IFoodDTO> foodList = new ArrayList<>(backend.readFoods());
         JsonArray jsonArray = new JsonArray();
         for(int i = 0; i < foodList.size(); i++){
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("id", foodList.get(i).getID());
             jsonObject.addProperty("name", foodList.get(i).getFoodName());
             jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
-            jsonObject.addProperty("category", foodList.get(i).getCategory().toString());
-            jsonObject.addProperty("location", foodList.get(i).getLocation().toString());
+            jsonObject.addProperty("category", foodList.get(i).getCategory().name());
+            jsonObject.addProperty("location", foodList.get(i).getLocation().name());
             jsonArray.add(jsonObject);
         }
         return jsonArray.toString();
@@ -60,7 +63,7 @@ public class FoodService {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("id", food.getID());
         jsonObject.addProperty("name", food.getFoodName());
-        jsonObject.addProperty("expDate", DTS.dateToString(10, 06, 2019));
+        jsonObject.addProperty("expDate", food.getExpDate().toString());
         String foodCat = food.getCategory().toString();
         String foodLoc = food.getLocation().toString();
         jsonObject.addProperty("category", foodCat);
