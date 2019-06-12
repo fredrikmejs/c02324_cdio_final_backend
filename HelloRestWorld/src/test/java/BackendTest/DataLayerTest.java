@@ -23,14 +23,14 @@ class DataLayerTest {
      */
     @Test
     void addFood() {
-        IFoodDTO food = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
+        IFoodDTO food = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, "FredrikMejs");
         dl.addFood(food);
         dl.addFood(food);
         dl.addFood(food);
         dl.addFood(food);
-        IFoodDTO foodDelete = new FoodDTO(4,"Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
+        IFoodDTO foodDelete = new FoodDTO(4,"Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, "FredrikMejs");
         dl.deleteFood(foodDelete);
-        foodDelete = new FoodDTO(3,"Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
+        foodDelete = new FoodDTO(3,"Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef,"FredrikMejs");
         dl.deleteFood(foodDelete);
         dl.addFood(food);
         dl.addFood(food);
@@ -41,9 +41,9 @@ class DataLayerTest {
 
     @Test
     void getFoodList() {
-        IFoodDTO food = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
+        IFoodDTO food = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef,"FredrikMejs");
         dl.addFood(food);
-        IFoodDTO food1 = new FoodDTO("Per",Date.valueOf("2020-09-10"),ELocation.Freezer,ECategory.Fish,30,"GusserNusser");
+        IFoodDTO food1 = new FoodDTO("Per",Date.valueOf("2020-09-10"),ELocation.Freezer,ECategory.Fish,"GusserNusser");
         dl.addFood(food1);
         System.out.println(dl.getFoodList().toString());
 
@@ -57,15 +57,15 @@ class DataLayerTest {
      */
     @Test
     void updateFood() {
-        IFoodDTO newFood = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
-        dl.addFood(new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Freezer, ECategory.Beef, 50.0,"FredrikMejs"));
+        IFoodDTO newFood = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, "FredrikMejs");
+        dl.addFood(new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Freezer, ECategory.Beef, "FredrikMejs"));
         dl.updateFood(dl.getFoodList().get(0), newFood);
         assertEquals(newFood, dl.getFoodList().get(0));
     }
 
     @Test
     void deleteFood() {
-        IFoodDTO food = new FoodDTO(1,"Pære", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
+        IFoodDTO food = new FoodDTO(1,"Pære", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, "FredrikMejs");
         dl.addFood(food);
         assertEquals(1,dl.getFoodList().size());
         dl.deleteFood(food);
@@ -78,7 +78,7 @@ class DataLayerTest {
     @Test
     void deleteAll() {
         //test if it's delete all the elements.
-        IFoodDTO food = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Freezer, ECategory.Beef, 50.0,"FredrikMejs");
+        IFoodDTO food = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Freezer, ECategory.Beef, "FredrikMejs");
         dl.addFood(food);
         dl.addFood(food);
         dl.addFood(food);
