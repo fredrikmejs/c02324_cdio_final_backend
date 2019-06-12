@@ -9,7 +9,7 @@ public interface IErrorHandling {
 
     boolean addFood(IFoodDTO food) throws SQLException;
 
-    boolean updateFood(IFoodDTO oldFood, IFoodDTO newFood) throws SQLException;
+    boolean updateFood(IFoodDTO foodDTO) throws SQLException;
 
     boolean deleteFood(IFoodDTO food) throws SQLException;
 

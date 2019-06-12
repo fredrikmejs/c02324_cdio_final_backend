@@ -21,12 +21,13 @@ public class ErrorHandling implements IErrorHandling {
         return true;
     }
 
-    public boolean updateFood(IFoodDTO oldFood, IFoodDTO newFood) throws SQLException {
+    public boolean updateFood(IFoodDTO foodDTO) throws SQLException {
 
-        checkCategory(oldFood);
-        checkLocation(oldFood);
-        backend.updateFood(newFood);
-        dataLayer.updateFood(oldFood,newFood);
+//        checkCategory(oldFood);
+//        checkLocation(oldFood);
+//        backend.updateFood(newFood);
+//        dataLayer.updateFood(oldFood,newFood);
+          backend.updateFood(foodDTO);
 
         return true;
     }
