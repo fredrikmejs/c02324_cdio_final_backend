@@ -29,16 +29,16 @@ public class Backend implements IFoodDAO {
 
     public boolean createFood(IFoodDTO food) throws SQLException {
         createConnection();
-        String query = "INSERT INTO Food(food_id, food_name, expirering_date, " +
-                "loc_id, cat_id, user_name) " +
+        String query = "INSERT INTO Food(food_id, food_name, " +
+                "loc_id, cat_id, user_name, expiration_date) " +
                 "VALUES(?, ?, ?, ?, ?, ?)";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1,getLastID()+1);
         psQuery.setString(2, food.getFoodName());
-        psQuery.setDate(3, food.getExpDate());
-        psQuery.setInt(4, food.getLocation().ordinal());
-        psQuery.setInt(5, food.getCategory().ordinal());
-        psQuery.setString(6,food.getUserName());
+        psQuery.setInt(3, food.getLocation().ordinal());
+        psQuery.setInt(4, food.getCategory().ordinal());
+        psQuery.setString(5,food.getUserName());
+        psQuery.setDate(6, food.getExpDate());
         boolean success = psQuery.execute();
         closeConnection();
         return success;
@@ -55,7 +55,7 @@ public class Backend implements IFoodDAO {
         while (rs.next()) {
             int foodId = rs.getInt("food_id");
             String foodName = rs.getString("food_name");
-            Date expDate = rs.getDate("expirering_date");
+            Date expDate = rs.getDate("expiration_date");
 
             ELocation location = ELocation.values()[rs.getInt("loc_id")];
             ECategory category = ECategory.values()[rs.getInt("cat_id")];
@@ -71,7 +71,7 @@ public class Backend implements IFoodDAO {
     public boolean updateFood(IFoodDTO food) throws SQLException {
 
         createConnection();
-        String query = "UPDATE Food SET food_name = ?, expirering_date = ?, loc_id = ?," +
+        String query = "UPDATE Food SET food_name = ?, expiration_date = ?, loc_id = ?," +
                 " cat_id = ?, WHERE food_id = ? AND user_name = ?;";
         PreparedStatement prepStat = con.prepareStatement(query);
         prepStat.setString(1,food.getFoodName());
