@@ -71,13 +71,13 @@ public class Backend implements IFoodDAO {
     public boolean updateFood(IFoodDTO food) throws SQLException {
 
         createConnection();
-        String query = "UPDATE Food SET food_name = ?, expiration_date = ?, loc_id = ?," +
-                " cat_id = ?, WHERE food_id = ? AND user_name = ?;";
+        String query = "UPDATE Food SET food_name = ?, loc_id = ?," +
+                " cat_id = ?,expiration_date = ? WHERE food_id = ? AND user_name = ?";
         PreparedStatement prepStat = con.prepareStatement(query);
         prepStat.setString(1,food.getFoodName());
-        prepStat.setDate(2,food.getExpDate());
-        prepStat.setInt(3,food.getLocation().ordinal());
-        prepStat.setInt(4, food.getCategory().ordinal());
+        prepStat.setInt(2,food.getLocation().ordinal());
+        prepStat.setInt(3, food.getCategory().ordinal());
+        prepStat.setDate(4,food.getExpDate());
         prepStat.setInt(5, food.getID());
         prepStat.setString(6,food.getUserName());
         prepStat.executeUpdate();
@@ -110,6 +110,7 @@ public class Backend implements IFoodDAO {
     }
 
     public int getLastID() throws SQLException {
+        createConnection();
         int ID;
         String query = "SELECT food_id " +
                 "FROM Food";
@@ -121,6 +122,7 @@ public class Backend implements IFoodDAO {
         }catch (SQLException e){
             ID = 0;
         }
+        closeConnection();
         return ID;
     }
 }
