@@ -40,7 +40,7 @@ public class FoodService {
     //GET request from frontend receives a JSON array of JSON objects as a String
     @GET
     public String getAllFoods() throws SQLException {
-        List<IFoodDTO> foodList = new ArrayList<>(backend.readFoods());
+        List<IFoodDTO> foodList = new ArrayList<>();
         JsonArray jsonArray = new JsonArray();
         for(int i = 0; i < foodList.size(); i++){
             JsonObject jsonObject = new JsonObject();
