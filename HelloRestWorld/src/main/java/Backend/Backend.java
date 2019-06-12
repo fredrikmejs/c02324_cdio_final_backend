@@ -40,13 +40,12 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
-    public List<IFoodDTO> readFoods() throws SQLException {
+    public List<IFoodDTO> readFoods(String name) throws SQLException {
         ResultSet rs;
-        String query = "SELECT * FROM Food";
+        String query = "SELECT * FROM Food WHERE user_name = ?";
         PreparedStatement foodQuery = con.prepareStatement(query);
-        rs = foodQuery.executeQuery(
-                query);
-
+        foodQuery.setString(1,name);
+        rs = foodQuery.executeQuery();
         List<IFoodDTO> foodList = new ArrayList<>();
         createConnection();
         while (rs.next()) {
