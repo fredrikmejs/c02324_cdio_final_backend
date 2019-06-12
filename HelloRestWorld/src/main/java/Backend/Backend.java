@@ -40,6 +40,7 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
+    //TODO fix ENUMS
     public List<IFoodDTO> readFoods(String name) throws SQLException {
         ResultSet rs;
         String query = "SELECT * FROM Food WHERE user_name = ?";
@@ -58,7 +59,6 @@ public class Backend implements IFoodDAO {
             String userName = rs.getString("user_name");
 
             IFoodDTO food = new FoodDTO(foodId, foodName, expDate, location, category, amount, userName);
-
             foodList.add(food);
         }
         closeConnection();
@@ -90,8 +90,7 @@ public class Backend implements IFoodDAO {
 
     public boolean deleteFood(int foodId, String userName) throws SQLException {
         createConnection();
-        String query = "DELETE FROM Food" +
-                "WHERE food_id = ? AND user_name = ? ";
+        String query =" DELETE FROM Food WHERE food_id = ? AND user_name = ?";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1,foodId );
         psQuery.setString(2,userName);
@@ -113,7 +112,6 @@ public class Backend implements IFoodDAO {
     }
 
     public int getLastID() throws SQLException {
-
         int ID;
         String query = "SELECT food_id " +
                 "FROM Food";

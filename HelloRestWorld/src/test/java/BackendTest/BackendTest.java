@@ -75,11 +75,10 @@ class BackendTest {
 
     @Test
     void deleteFood() throws SQLException {
+        backend.createConnection();
         int size = backend.getLastID();
         backend.deleteFood(1,"Pur");
-        backend.createConnection();
         assertEquals(size,(backend.getLastID()-1));
-        backend.deleteAllFoods("Pur",ELocation.All);
         backend.closeConnection();
 
 
@@ -88,7 +87,7 @@ class BackendTest {
 
     @Test
     void deleteAllFoods() throws SQLException {
-        IFoodDTO foo = new FoodDTO(3,"smør", Date.valueOf("2019-06-03"), ELocation.Pantry, ECategory.Beef, 5, "Pur");
+        IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable, 1, "Pur");
         backend.deleteAllFoods(foo.getUserName(),foo.getLocation());
         backend.createConnection();
         assertEquals(0,backend.getLastID());
