@@ -42,11 +42,12 @@ public class Backend implements IFoodDAO {
 
     public List<IFoodDTO> readFoods() throws SQLException {
         ResultSet rs;
-        Statement queryUser = con.createStatement();
-        rs = queryUser.executeQuery(
-                "SELECT * FROM Food");
+        String query = "SELECT * FROM Food";
+        PreparedStatement foodQuery = con.prepareStatement(query);
+        rs = foodQuery.executeQuery(
+                query);
 
-        List<IFoodDTO> foodlist = new ArrayList<>();
+        List<IFoodDTO> foodList = new ArrayList<>();
         createConnection();
         while (rs.next()) {
             int foodId = rs.getInt("food_id");
@@ -59,10 +60,10 @@ public class Backend implements IFoodDAO {
 
             IFoodDTO food = new FoodDTO(foodId, foodName, expDate, location, category, amount, userName);
 
-            foodlist.add(food);
+            foodList.add(food);
         }
         closeConnection();
-        return foodlist;
+        return foodList;
     }
 
     public boolean updateFood(IFoodDTO food) throws SQLException {
