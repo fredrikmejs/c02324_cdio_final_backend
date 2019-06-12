@@ -46,20 +46,18 @@ class DataLayerTest {
         IFoodDTO food1 = new FoodDTO("Per",Date.valueOf("2020-09-10"),ELocation.Freezer,ECategory.Fish,"GusserNusser");
         dl.addFood(food1);
         System.out.println(dl.getFoodList().toString());
-
-
-
     }
-
 
     /**
      * Testing if we are able to update a food
      */
     @Test
     void updateFood() {
-        IFoodDTO newFood = new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, "FredrikMejs");
-        dl.addFood(new FoodDTO("Fredrik", Date.valueOf("2018-09-10"),ELocation.Freezer, ECategory.Beef, "FredrikMejs"));
-        dl.updateFood(dl.getFoodList().get(0), newFood);
+        IFoodDTO newFood = new FoodDTO(1,"Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, "FredrikMejs");
+        dl.addFood(new FoodDTO(1,"Fredrik", Date.valueOf("2018-09-10"),ELocation.Freezer, ECategory.Beef, "FredrikMejs"));
+        dl.updateFood(newFood);
+        System.out.println(dl.getFoodList().toString());
+
         assertEquals(newFood, dl.getFoodList().get(0));
     }
 

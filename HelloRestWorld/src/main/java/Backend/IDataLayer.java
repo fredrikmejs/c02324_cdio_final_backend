@@ -10,9 +10,11 @@ public interface IDataLayer {
 
     IFoodDTO readFood(String name, Date expDate);
 
-    void updateFood(IFoodDTO oldFood, IFoodDTO newFood);
+    void updateFood(IFoodDTO newFood);
 
     void deleteFood(IFoodDTO food);
 
     void deleteAll(ELocation location, String userName);
+
+    IFoodDTO readFood(int foodID);
 }
