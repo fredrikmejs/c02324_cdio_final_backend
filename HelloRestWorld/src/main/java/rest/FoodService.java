@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Path("food")
+@Path("food/user")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class FoodService {
@@ -39,8 +39,9 @@ public class FoodService {
 
     //GET request from frontend receives a JSON array of JSON objects as a String
     @GET
-    public String getAllFoods() throws SQLException {
-        List<IFoodDTO> foodList = new ArrayList<>();
+    @Path("{userName}/get")
+    public String getAllFoods(@PathParam("userName") String userName) throws SQLException {
+        List<IFoodDTO> foodList = new ArrayList<>(backend.readFoods(userName));
         JsonArray jsonArray = new JsonArray();
         for(int i = 0; i < foodList.size(); i++){
             JsonObject jsonObject = new JsonObject();
@@ -57,7 +58,7 @@ public class FoodService {
 
     //This method should return a specified food
     @GET
-    @Path("{id}")
+    @Path("{userName}/get/{id}")
     public String getFood(@PathParam("id") int id){
         FoodDTO food = foodDTOMap.get(id);
         JsonObject jsonObject = new JsonObject();
@@ -73,6 +74,7 @@ public class FoodService {
     }
 //TODO: Implement SQL support
     @POST
+    @Path("{userName}")
     public Response createFood(FoodDTO foodDTO){
         System.out.println("Post succeeded!");
         if(foodDTOMap.putIfAbsent(foodDTO.getID(), foodDTO) == null){
@@ -86,8 +88,8 @@ public class FoodService {
     }
 //TODO: Implement SQL support
     @DELETE
-    @Path("{id}")
-    public Response deleteFood(@PathParam("id") int id){
+    @Path("{userName}/{id}")
+    public Response deleteFood(@PathParam("id") int id, @PathParam("userName") String userName){
         IFoodDTO food = foodDTOMap.get(id);
         if(food != null){
             foodDTOMap.remove(id);
@@ -98,8 +100,8 @@ public class FoodService {
     }
 //TODO: Implement SQL support
     @PUT
-    @Path("{id}")
-    public Response updateFood(@PathParam("id") int id, FoodDTO food) {
+    @Path("{userName}/{id}")
+    public Response updateFood(@PathParam("id") int id, @PathParam("userName") String userName,FoodDTO food) {
         FoodDTO updatedFood = foodDTOMap.get(id);
         //TODO: Check up on method toLocalDate();
         try {
