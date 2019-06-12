@@ -21,8 +21,8 @@ public interface IFoodDAO {
     boolean updateFood(IFoodDTO food) throws SQLException;
 
     //Delete food
-    boolean deleteFood(int foodId) throws SQLException;
+    boolean deleteFood(int foodId, String userName) throws SQLException;
 
     //Delete all foods
-    boolean deleteAllFoods(ELocation location, String userName) throws SQLException;
+    boolean deleteAllFoods(String userName, ELocation location) throws SQLException;
 }
