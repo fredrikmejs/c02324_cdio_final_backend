@@ -108,7 +108,7 @@ public class Backend implements IFoodDAO {
     public boolean deleteAllFoods(String userName, ELocation location) throws SQLException {
         createConnection();
 
-        Boolean success;
+        boolean success;
         if (ELocation.All == location){
             String query = "DELETE FROM Food WHERE user_name = ?";
             PreparedStatement psQuery = con.prepareStatement(query);
@@ -144,18 +144,28 @@ public class Backend implements IFoodDAO {
 
     public IFoodDTO readFood(String userName, int foodID) throws SQLException{
         createConnection();
-        String query = "SELECT * from Food where user_name = "+userName+" AND food_id = "+foodID;
+        String query = "SELECT * from Food where user_name = ? AND food_id = ?";
         PreparedStatement psQuery = con.prepareStatement(query);
+        psQuery.setString(1, userName);
+        psQuery.setInt(2,foodID);
         ResultSet rs = psQuery.executeQuery();
         int foodId = rs.getInt("food_id");
         String foodName = rs.getString("food_name");
         Date expDate = rs.getDate("expiration_date");
-
         ELocation location = ELocation.values()[rs.getInt("loc_id")];
         ECategory category = ECategory.values()[rs.getInt("cat_id")];
         String user_Name = rs.getString("user_name");
-
+        closeConnection();
         return new FoodDTO(foodId, foodName, expDate, location, category, user_Name);
+    }
 
+    public boolean createUser(String userName) throws SQLException{
+        createConnection();
+        String query = "INSERT INTO User VALUES(?)";
+        PreparedStatement psQuery = con.prepareStatement(query);
+        psQuery.setString(1,userName);
+        psQuery.executeQuery();
+        closeConnection();
+        return psQuery.execute();
     }
 }
