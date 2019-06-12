@@ -61,6 +61,7 @@ class BackendTest {
         createFood();
         backend.createConnection();
         assertEquals(backend.getLastID(),backend.readFoods("Pur").size());
+        System.out.println(backend.readFoods("Pur").toString());
         backend.closeConnection();
 
     }
@@ -69,7 +70,6 @@ class BackendTest {
     void updateFood() throws SQLException {
         IFoodDTO foo = new FoodDTO(3,"smør", Date.valueOf("2019-06-03"), ELocation.Freezer, ECategory.Beef, 5, "Pur");
         backend.updateFood(foo);
-
 
     }
 
