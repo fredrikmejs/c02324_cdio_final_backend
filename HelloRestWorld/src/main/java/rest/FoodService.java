@@ -78,7 +78,6 @@ public class FoodService {
     }
 
     @POST
-    @Path("{userName}")
     public Response createFood(FoodDTO foodDTO){
         try {
             errorHandling.addFood(foodDTO);
