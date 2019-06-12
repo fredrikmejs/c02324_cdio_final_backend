@@ -72,14 +72,16 @@ public class DataLayer implements IDataLayer {
      * THis methods deletes all entries from the desired location.
      * @param location The location of deletion.
      */
-    public void deleteAll(ELocation location) {
+    public void deleteAll(ELocation location, String userName) {
 
         int size = foodList.size();
 
-        for (int i = size-1; i >= 0; i--) {
-            if (foodList.get(i).getLocation().equals(location) || location.equals(ELocation.All))
+        for (int i = size - 1; i >= 0; i--) {
+            if ((foodList.get(i).getLocation().equals(location) && foodList.get(i).getUserName().equals(userName))
+                    || ((location.equals(ELocation.All)) && foodList.get(i).getUserName().equals(userName))) {
                 foodList.remove(i);
 
+            }
         }
     }
     /**

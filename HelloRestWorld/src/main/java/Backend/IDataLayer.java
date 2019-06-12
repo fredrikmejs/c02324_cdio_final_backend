@@ -14,5 +14,5 @@ public interface IDataLayer {
 
     void deleteFood(IFoodDTO food);
 
-    void deleteAll(ELocation location);
+    void deleteAll(ELocation location, String userName);
 }
