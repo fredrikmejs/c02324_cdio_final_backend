@@ -99,7 +99,6 @@ public class FoodService {
             return Response.status(400).build();
         }
     }
-//TODO: TEST THIS WITH DATABASE
     @PUT
     @Path("{userName}/put/{id}")
     public Response updateFood(@PathParam("id") int id, @PathParam("userName") String userName,FoodDTO food) {
@@ -124,6 +123,7 @@ public class FoodService {
             errorHandling.updateFood(updatedFood);
             return Response.status(200).entity("Food updated").build();
         }catch(Exception e){
+            e.printStackTrace();
             return Response.status(400).entity("Update failed!").build();
         }
 
