@@ -45,11 +45,14 @@ public class ErrorHandling implements IErrorHandling {
 
 //        checkLocation(food);
 //        checkCategory(food);
-
-        backend.deleteFood(id,userName);
+        boolean success =  backend.deleteFood(id,userName);
+        if(success){
+            return true;
+        }else{
+            return false;
+        }
 //        dataLayer.deleteFood(food);
 
-        return false;
     }
 
     public boolean deleteAll(ELocation location, String userName, IFoodDTO food) throws SQLException {
