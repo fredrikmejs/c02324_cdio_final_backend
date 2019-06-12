@@ -65,7 +65,7 @@ class DataLayerTest {
 
     @Test
     void deleteFood() {
-        IFoodDTO food = new FoodDTO(0,"Pære", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
+        IFoodDTO food = new FoodDTO(1,"Pære", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, 50.0,"FredrikMejs");
         dl.addFood(food);
         assertEquals(1,dl.getFoodList().size());
         dl.deleteFood(food);
@@ -92,7 +92,7 @@ class DataLayerTest {
 
         assertEquals(10,dl.getFoodList().size());
 
-        dl.deleteAll(ELocation.All);
+        dl.deleteAll(ELocation.All, "FredrikMejs");
         assertEquals(0,dl.getFoodList().size());
 
         //Checks if the deletes the elements in the Freezer
@@ -109,7 +109,8 @@ class DataLayerTest {
 
         assertEquals(10,dl.getFoodList().size());
 
-        dl.deleteAll(ELocation.Freezer);
+
+        dl.deleteAll(ELocation.Freezer,"FredrikMejs");
         assertEquals(0,dl.getFoodList().size());
 
         // checks if it's deletes elements in the Fridge, with a wrong location given.
@@ -124,7 +125,7 @@ class DataLayerTest {
         dl.addFood(food);
         dl.addFood(food);
         assertEquals(10,dl.getFoodList().size());
-        dl.deleteAll(ELocation.Fridge);
+        dl.deleteAll(ELocation.Fridge,"FredrikMejs");
         assertEquals(10,dl.getFoodList().size());
     }
 }

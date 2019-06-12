@@ -13,6 +13,6 @@ public interface IErrorHandler {
 
     boolean deleteFood(IFoodDTO food) throws SQLException;
 
-    boolean deleteAll(ELocation location, IFoodDTO food, String userName) throws SQLException;
+    boolean deleteAll(ELocation location, String userName, IFoodDTO food) throws SQLException;
 
 }

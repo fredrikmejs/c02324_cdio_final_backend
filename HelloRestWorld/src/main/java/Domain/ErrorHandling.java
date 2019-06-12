@@ -36,18 +36,18 @@ public class ErrorHandling implements IErrorHandler {
         checkLocation(food);
         checkCategory(food);
 
-        backend.deleteFood(food.getID());
+        backend.deleteFood(food.getID(),food.getUserName());
         dataLayer.deleteFood(food);
 
         return false;
     }
 
-    public boolean deleteAll(ELocation location, IFoodDTO food, String userName) throws SQLException {
+    public boolean deleteAll(ELocation location, String userName, IFoodDTO food) throws SQLException {
 
 
         checkLocation(food);
-        backend.deleteAllFoods(location,userName);
-        dataLayer.deleteAll(location);
+        backend.deleteAllFoods(userName,location);
+        dataLayer.deleteAll(location,userName);
 
         return false;
     }

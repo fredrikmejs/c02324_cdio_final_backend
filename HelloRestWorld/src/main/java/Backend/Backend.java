@@ -56,8 +56,8 @@ public class Backend implements IFoodDAO {
         PreparedStatement queryUser = con.prepareStatement(query);
         rs = queryUser.executeQuery();
 
-        List<IFoodDTO> foodlist = new ArrayList<>();
-
+        List<IFoodDTO> foodList = new ArrayList<>();
+        createConnection();
         while (rs.next()) {
             int foodId = rs.getInt("food_id");
             String foodName = rs.getString("food_name");
@@ -69,10 +69,10 @@ public class Backend implements IFoodDAO {
 
             IFoodDTO food = new FoodDTO(foodId, foodName, expDate, location, category, amount, userName);
 
-            foodlist.add(food);
+            foodList.add(food);
         }
         closeConnection();
-        return foodlist;
+        return foodList;
     }
 
     public boolean updateFood(IFoodDTO food) throws SQLException {
@@ -92,30 +92,30 @@ public class Backend implements IFoodDAO {
         prepStat.setDouble(5,food.getAmount());
         prepStat.setInt(6, food.getID());
         prepStat.setString(7,food.getUserName());
-
+        prepStat.executeUpdate();
 
         con.close();
         return true;
     }
 
-    public boolean deleteFood(int foodId) throws SQLException {
+    public boolean deleteFood(int foodId, String userName) throws SQLException {
         createConnection();
         String query = "DELETE FROM Food" +
-                "WHERE food_id = ? ";
+                "WHERE food_id = ? AND user_name = ? ";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1,foodId );
+        psQuery.setString(2,userName);
         boolean success = psQuery.execute();
         closeConnection();
         return success;
     }
 
-    //TODO make it work with location
-    public boolean deleteAllFoods(ELocation location, String userName) throws SQLException {
+    public boolean deleteAllFoods(String userName, ELocation location) throws SQLException {
         createConnection();
-        String query = "DELETE FROM Food WHERE user_name = ?"; //AND loc_id= ?";
+        String query = "DELETE FROM Food WHERE user_name = ? AND loc_id = ?";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setString(1,userName);
-       // psQuery.setObject(2,location);
+        psQuery.setInt(2,location.ordinal());
 
         boolean success = psQuery.execute();
         closeConnection();
