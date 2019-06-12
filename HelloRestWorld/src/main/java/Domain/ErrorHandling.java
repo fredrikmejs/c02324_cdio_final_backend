@@ -70,10 +70,22 @@ public class ErrorHandling implements IErrorHandling {
         return false;
     }
     public boolean getFoodList(String userName) throws SQLException{
-        return false;//TODO: Fill out this method
+        boolean success = true;
+        try {
+
+            backend.getFoodList(userName); throw new Exception();
+
+        } catch (Exception e) {
+            success = false;
+        }
+
+        return success;
     }
 
     public boolean getFoodItem(String userName, int id) throws SQLException {
-        return false; //TODO: Fill out this method
+
+        backend.readFood(userName,id);
+
+        return false;
     }
 }

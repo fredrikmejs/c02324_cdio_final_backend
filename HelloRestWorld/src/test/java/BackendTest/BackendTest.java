@@ -6,7 +6,6 @@ import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
 import org.junit.jupiter.api.Test;
-
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -26,8 +25,6 @@ class BackendTest {
         } catch (SQLException e) {
             e.printStackTrace();
             fail();
-
-
         }
     }
 
@@ -52,14 +49,19 @@ class BackendTest {
         }catch (SQLException e){
             e.printStackTrace();
             fail();
-
         }
     }
+
     @Test
     void readFoods() throws SQLException {
+        createFood();
         backend.createConnection();
         assertEquals(backend.getLastID(),backend.getFoodList("Pur").size());
-        System.out.println(backend.getFoodList("Pur").toString());
+        if (backend.getFoodList("pur").isEmpty()){
+            System.out.println("The list is empty");
+        }else
+           System.out.println(backend.getFoodList("Pur").toString());
+
         backend.closeConnection();
     }
 
@@ -67,8 +69,8 @@ class BackendTest {
     void updateFood() throws SQLException {
         IFoodDTO foo = new FoodDTO(3,"smør", Date.valueOf("2019-06-03"), ELocation.Freezer, ECategory.Beef, "Pur");
         backend.updateFood(foo);
-
     }
+
 
     @Test
     void deleteFood() throws SQLException {
@@ -83,9 +85,6 @@ class BackendTest {
         assertEquals(size,size1);
 
         backend.closeConnection();
-
-
-
     }
 
     @Test
