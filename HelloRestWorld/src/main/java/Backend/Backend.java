@@ -15,6 +15,11 @@ public class Backend implements IFoodDAO {
     private static Connection con;
 
     public void createConnection() throws SQLException {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         con = DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185140?"
                 + "user=s185140&password=YKl6EOAgNqhvE0fjJ0uJX");
     }
@@ -24,6 +29,10 @@ public class Backend implements IFoodDAO {
 
     public boolean createFood(IFoodDTO food) throws SQLException {
         createConnection();
+
+//        Connection con = DriverManager.getConnection(
+//                DB_URI, DB_USER, DB_PASS);
+
         String query = "INSERT INTO Food(food_id, food_name, expirering_date, " +
                 "loc_id, cat_id, amount, user_name) " +
                 "VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -40,14 +49,15 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
+
     public List<IFoodDTO> readFoods(String name) throws SQLException {
         ResultSet rs;
+        createConnection();
         String query = "SELECT * FROM Food WHERE user_name = ?";
         PreparedStatement foodQuery = con.prepareStatement(query);
         foodQuery.setString(1,name);
         rs = foodQuery.executeQuery();
         List<IFoodDTO> foodList = new ArrayList<>();
-        createConnection();
         while (rs.next()) {
             int foodId = rs.getInt("food_id");
             String foodName = rs.getString("food_name");
