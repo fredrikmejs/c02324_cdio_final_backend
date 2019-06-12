@@ -1,6 +1,7 @@
 package rest;
 
 import Backend.Backend;
+import Domain.ErrorHandling;
 import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
@@ -22,9 +23,9 @@ import java.util.Map;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class FoodService {
-    Backend backend = new Backend();
+    ErrorHandling errorHandling = new ErrorHandling();
     //Dummy data for local testing
-    static Map<Integer, FoodDTO> foodDTOMap = new HashMap<>();
+    static Map<Integer, IFoodDTO> foodDTOMap = new HashMap<>();
     static {
         FoodDTO food1 = new FoodDTO();
         food1.setID(1);
@@ -40,7 +41,7 @@ public class FoodService {
     @GET
     @Path("{userName}/get")
     public String getAllFoods(@PathParam("userName") String userName) throws SQLException {
-        List<IFoodDTO> foodList = new ArrayList<>(backend.getFoodList(userName));
+        List<IFoodDTO> foodList = new ArrayList<>();
         JsonArray jsonArray = new JsonArray();
         for(int i = 0; i < foodList.size(); i++){
             JsonObject jsonObject = new JsonObject();
@@ -59,7 +60,7 @@ public class FoodService {
     @GET
     @Path("{userName}/get/{id}")
     public String getFood(@PathParam("id") int id){
-        FoodDTO food = foodDTOMap.get(id);
+        IFoodDTO food = foodDTOMap.get(id);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("id", food.getID());
         jsonObject.addProperty("name", food.getFoodName());
@@ -101,7 +102,9 @@ public class FoodService {
     @PUT
     @Path("{userName}/{id}")
     public Response updateFood(@PathParam("id") int id, @PathParam("userName") String userName,FoodDTO food) {
-        FoodDTO updatedFood = new FoodDTO();
+        IFoodDTO updatedFood = new FoodDTO();
+        updatedFood.setID(id);
+        updatedFood.setUserName(userName);
 
         //TODO: Check up on method toLocalDate();
         try {
@@ -118,6 +121,7 @@ public class FoodService {
                 updatedFood.setLocation(food.getLocation());
             }
             foodDTOMap.replace(id, updatedFood);
+            errorHandling.updateFood(updatedFood);
         }catch(Exception e){
             return Response.status(400).entity("Update failed!").build();
         }

@@ -21,12 +21,13 @@ public class ErrorHandling implements IErrorHandling {
         return true;
     }
 
-    public boolean updateFood(IFoodDTO oldFood, IFoodDTO newFood) throws SQLException {
+    public boolean updateFood(IFoodDTO foodDTO) throws SQLException {
 
-        checkCategory(oldFood);
-        checkLocation(oldFood);
-        backend.updateFood(newFood);
-        dataLayer.updateFood(oldFood,newFood);
+//        checkCategory(oldFood);
+//        checkLocation(oldFood);
+//        backend.updateFood(newFood);
+//        dataLayer.updateFood(oldFood,newFood);
+          backend.updateFood(foodDTO);
 
         return true;
     }
@@ -68,6 +69,11 @@ public class ErrorHandling implements IErrorHandling {
         }
         return false;
     }
+    public boolean getFoodList(String userName) throws SQLException{
+        return false;//TODO: Fill out this method
+    }
 
-
+    public boolean getFoodItem(String userName, int id) throws SQLException {
+        return false; //TODO: Fill out this method
+    }
 }
