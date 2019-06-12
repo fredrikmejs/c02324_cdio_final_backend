@@ -36,7 +36,7 @@ class BackendTest {
     void createFood() throws SQLException {
         try {
             backend.createConnection();
-            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable, 1, "Pur");
+            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable,"Pur");
             int size = backend.getLastID();
             backend.closeConnection();
 
@@ -61,15 +61,15 @@ class BackendTest {
         createFood();
         backend.createConnection();
         assertEquals(backend.getLastID(),backend.readFoods("Pur").size());
+        System.out.println(backend.readFoods("Pur").toString());
         backend.closeConnection();
 
     }
 
     @Test
     void updateFood() throws SQLException {
-        IFoodDTO foo = new FoodDTO(3,"smør", Date.valueOf("2019-06-03"), ELocation.Freezer, ECategory.Beef, 5, "Pur");
+        IFoodDTO foo = new FoodDTO(3,"smør", Date.valueOf("2019-06-03"), ELocation.Freezer, ECategory.Beef, "Pur");
         backend.updateFood(foo);
-
 
     }
 
@@ -87,7 +87,7 @@ class BackendTest {
 
     @Test
     void deleteAllFoods() throws SQLException {
-        IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable, 1, "Pur");
+        IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable,"Pur");
         backend.deleteAllFoods(foo.getUserName(),foo.getLocation());
         backend.createConnection();
         assertEquals(0,backend.getLastID());

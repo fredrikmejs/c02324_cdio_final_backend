@@ -30,16 +30,15 @@ public class Backend implements IFoodDAO {
     public boolean createFood(IFoodDTO food) throws SQLException {
         createConnection();
         String query = "INSERT INTO Food(food_id, food_name, expirering_date, " +
-                "loc_id, cat_id, amount, user_name) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?)";
+                "loc_id, cat_id, user_name) " +
+                "VALUES(?, ?, ?, ?, ?, ?)";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1,getLastID()+1);
         psQuery.setString(2, food.getFoodName());
         psQuery.setDate(3, food.getExpDate());
         psQuery.setInt(4, food.getLocation().ordinal());
         psQuery.setInt(5, food.getCategory().ordinal());
-        psQuery.setDouble(6,food.getAmount());
-        psQuery.setString(7,food.getUserName());
+        psQuery.setString(6,food.getUserName());
         boolean success = psQuery.execute();
         closeConnection();
         return success;
@@ -57,12 +56,12 @@ public class Backend implements IFoodDAO {
             int foodId = rs.getInt("food_id");
             String foodName = rs.getString("food_name");
             Date expDate = rs.getDate("expirering_date");
-            ELocation location = ELocation.valueOf(rs.getString("loc_id"));
-            ECategory category = ECategory.valueOf(rs.getString("cat_id"));
-            int amount = rs.getInt("amount");
+
+            ELocation location = ELocation.values()[rs.getInt("loc_id")];
+            ECategory category = ECategory.values()[rs.getInt("cat_id")];
             String userName = rs.getString("user_name");
 
-            IFoodDTO food = new FoodDTO(foodId, foodName, expDate, location, category, amount, userName);
+            IFoodDTO food = new FoodDTO(foodId, foodName, expDate, location, category, userName);
             foodList.add(food);
         }
         closeConnection();
@@ -71,21 +70,16 @@ public class Backend implements IFoodDAO {
 
     public boolean updateFood(IFoodDTO food) throws SQLException {
 
-
-       // String query1 = "UPDATE s185140.Food SET `loc_id` = '1', `cat_id` = '0', `amount` = '5' WHERE (`food_id` = '3') and (`user_name` = 'Pur');";
-       // PreparedStatement pre = con.prepareStatement(query1);
-
         createConnection();
         String query = "UPDATE Food SET food_name = ?, expirering_date = ?, loc_id = ?," +
-                " cat_id = ?, amount = ? WHERE food_id = ? AND user_name = ?;";
+                " cat_id = ?, WHERE food_id = ? AND user_name = ?;";
         PreparedStatement prepStat = con.prepareStatement(query);
         prepStat.setString(1,food.getFoodName());
         prepStat.setDate(2,food.getExpDate());
         prepStat.setInt(3,food.getLocation().ordinal());
         prepStat.setInt(4, food.getCategory().ordinal());
-        prepStat.setDouble(5,food.getAmount());
-        prepStat.setInt(6, food.getID());
-        prepStat.setString(7,food.getUserName());
+        prepStat.setInt(5, food.getID());
+        prepStat.setString(6,food.getUserName());
         prepStat.executeUpdate();
 
         con.close();

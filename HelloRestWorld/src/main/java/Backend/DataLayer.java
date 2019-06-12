@@ -23,7 +23,7 @@ public class DataLayer implements IDataLayer {
         id = foodList.get(foodList.size()-1).getID()+1;
         //test +=1;
         //int id = foodList.size();
-        foodList.add(new FoodDTO(id,food.getFoodName(),food.getExpDate(),food.getLocation(),food.getCategory(),food.getAmount(),food.getUserName()));
+        foodList.add(new FoodDTO(id,food.getFoodName(),food.getExpDate(),food.getLocation(),food.getCategory(),food.getUserName()));
     }
 
     /**

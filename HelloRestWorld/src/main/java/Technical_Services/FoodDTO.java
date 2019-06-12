@@ -13,7 +13,7 @@ public class FoodDTO implements IFoodDTO {
     private String userName;
 
 
-public FoodDTO(String foodName, Date date, ELocation location, ECategory category, double amount, String userName){
+public FoodDTO(String foodName, Date date, ELocation location, ECategory category, String userName){
     this.expDate = date;
     this.name = foodName;
     this.category = category;
@@ -23,7 +23,7 @@ public FoodDTO(String foodName, Date date, ELocation location, ECategory categor
 
 }
 
-    public FoodDTO(int food_id, String foodName, Date date, ELocation location, ECategory category, double amount, String userName){
+    public FoodDTO(int food_id, String foodName, Date date, ELocation location, ECategory category, String userName){
         this.expDate = date;
         this.name = foodName;
         this.category = category;
@@ -67,16 +67,6 @@ public FoodDTO(){}
     }
 
     @Override
-    public double getAmount() {
-        return amount;
-    }
-
-    @Override
-    public void setAmount(double amount) {
-    this.amount = amount;
-    }
-
-    @Override
     public String getUserName() {
         return userName;
     }
@@ -94,8 +84,8 @@ public FoodDTO(){}
         return food_id;
     }
 
- /*   public String toString() {
+    public String toString() {
         return "FoodList [Food id = " + food_id + ", Food name = " + name+ ", Expiring Date = " + expDate + ", location = " + location + ", Category = "+ category + ", Amount = " + amount + ", Username = " + userName +"]\n";
     }
-*/
+
 }
