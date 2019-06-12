@@ -4,7 +4,11 @@ import Backend.*;
 import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.IFoodDTO;
+import jdk.nashorn.internal.ir.IfNode;
+
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ErrorHandling implements IErrorHandling {
 
@@ -69,23 +73,30 @@ public class ErrorHandling implements IErrorHandling {
         }
         return false;
     }
-    public boolean getFoodList(String userName) throws SQLException{
+    public List<IFoodDTO> getFoodList(String userName) throws SQLException{
         boolean success = true;
+        List<IFoodDTO> foodDTOList = new ArrayList<>();
         try {
 
-            backend.getFoodList(userName); throw new Exception();
+           foodDTOList = backend.getFoodList(userName);
 
         } catch (Exception e) {
             success = false;
         }
-
-        return success;
+        if(success){
+            return foodDTOList;
+        }else{
+            return null;
+        }
     }
 
-    public boolean getFoodItem(String userName, int id) throws SQLException {
+    public IFoodDTO getFoodItem(String userName, int id) throws SQLException {
 
-        backend.readFood(userName,id);
-
-        return false;
+        IFoodDTO  food =  backend.readFood(userName,id);
+        if(food != null){
+            return food;
+        }else{
+            return null;
+        }
     }
 }

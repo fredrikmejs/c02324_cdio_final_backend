@@ -4,6 +4,7 @@ import Technical_Services.ELocation;
 import Technical_Services.IFoodDTO;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface IErrorHandling {
 
@@ -15,8 +16,8 @@ public interface IErrorHandling {
 
     boolean deleteAll(ELocation location, String userName, IFoodDTO food) throws SQLException;
 
-    boolean getFoodList(String userName) throws SQLException;
+    List<IFoodDTO> getFoodList(String userName) throws SQLException;
 
-    boolean getFoodItem(String userName, int id)throws SQLException;
+    IFoodDTO getFoodItem(String userName, int id)throws SQLException;
 
 }
