@@ -69,17 +69,25 @@ public class Backend implements IFoodDAO {
     }
 
     public boolean updateFood(IFoodDTO food) throws SQLException {
-
+        IFoodDTO foodN = readFood(food.getUserName(), food.getID());
+        if (food.getLocation() != null)
+            foodN.setLocation(food.getLocation());
+        if (food.getCategory() != null)
+            foodN.setCategory(food.getCategory());
+        if (food.getExpDate() != null)
+            foodN.setExpDate(food.getExpDate());
+        if (food.getFoodName() != null)
+            foodN.setFoodName(food.getFoodName());
         createConnection();
         String query = "UPDATE Food SET food_name = ?, loc_id = ?," +
                 " cat_id = ?,expiration_date = ? WHERE food_id = ? AND user_name = ?";
         PreparedStatement prepStat = con.prepareStatement(query);
-        prepStat.setString(1,food.getFoodName());
-        prepStat.setInt(2,food.getLocation().ordinal());
-        prepStat.setInt(3, food.getCategory().ordinal());
-        prepStat.setDate(4,food.getExpDate());
-        prepStat.setInt(5, food.getID());
-        prepStat.setString(6,food.getUserName());
+        prepStat.setString(1,foodN.getFoodName());
+        prepStat.setInt(2,foodN.getLocation().ordinal());
+        prepStat.setInt(3, foodN.getCategory().ordinal());
+        prepStat.setDate(4,foodN.getExpDate());
+        prepStat.setInt(5, foodN.getID());
+        prepStat.setString(6,foodN.getUserName());
         prepStat.executeUpdate();
 
         con.close();
@@ -134,5 +142,20 @@ public class Backend implements IFoodDAO {
         return ID;
     }
 
+    IFoodDTO readFood(String userName, int foodID) throws SQLException{
+        createConnection();
+        String query = "SELECT * from Food where user_name = "+userName+" AND food_id = "+foodID;
+        PreparedStatement psQuery = con.prepareStatement(query);
+        ResultSet rs = psQuery.executeQuery();
+        int foodId = rs.getInt("food_id");
+        String foodName = rs.getString("food_name");
+        Date expDate = rs.getDate("expiration_date");
 
+        ELocation location = ELocation.values()[rs.getInt("loc_id")];
+        ECategory category = ECategory.values()[rs.getInt("cat_id")];
+        String user_Name = rs.getString("user_name");
+
+        return new FoodDTO(foodId, foodName, expDate, location, category, user_Name);
+
+    }
 }

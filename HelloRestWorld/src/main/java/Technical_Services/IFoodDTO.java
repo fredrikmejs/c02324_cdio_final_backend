@@ -16,7 +16,7 @@ public interface IFoodDTO {
 
     //Food name
     String getFoodName();
-    void setName(String name);
+    void setFoodName(String name);
 
 
     //Location
