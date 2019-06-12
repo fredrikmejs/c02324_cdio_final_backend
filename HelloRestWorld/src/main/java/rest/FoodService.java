@@ -59,16 +59,21 @@ public class FoodService {
     //This method should return a specified food
     @GET
     @Path("{userName}/get/{id}")
-    public String getFood(@PathParam("id") int id){
-        IFoodDTO food = foodDTOMap.get(id);
+    public Response getFood(@PathParam("id") int id, @PathParam("userName") String userName){
+        IFoodDTO food;
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("id", food.getID());
-        jsonObject.addProperty("name", food.getFoodName());
-        jsonObject.addProperty("expDate", food.getExpDate().toString());
-        jsonObject.addProperty("category", food.getCategory().name());
-        jsonObject.addProperty("location", food.getLocation().name());
-        System.out.println(jsonObject.toString());
-        return jsonObject.toString();
+        try {
+            food = errorHandling.getFoodItem(userName, id);
+            jsonObject.addProperty("id", food.getID());
+            jsonObject.addProperty("name", food.getFoodName());
+            jsonObject.addProperty("expDate", food.getExpDate().toString());
+            jsonObject.addProperty("category", food.getCategory().name());
+            jsonObject.addProperty("location", food.getLocation().name());
+
+            return Response.status(200).entity(jsonObject.toString()).build();
+        } catch (SQLException e) {
+            return Response.status(404).build();
+        }
     }
 
     @POST
