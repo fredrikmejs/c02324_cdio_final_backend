@@ -69,6 +69,11 @@ public class ErrorHandling implements IErrorHandling {
         }
         return false;
     }
+    public boolean getFoodList(String userName) throws SQLException{
+        return false;//TODO: Fill out this method
+    }
 
-
+    public boolean getFoodItem(String userName, int id) throws SQLException {
+        return false; //TODO: Fill out this method
+    }
 }

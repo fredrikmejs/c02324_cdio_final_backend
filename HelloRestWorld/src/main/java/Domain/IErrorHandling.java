@@ -15,4 +15,8 @@ public interface IErrorHandling {
 
     boolean deleteAll(ELocation location, String userName, IFoodDTO food) throws SQLException;
 
+    boolean getFoodList(String userName) throws SQLException;
+
+    boolean getFoodItem(String userName, int id)throws SQLException;
+
 }
