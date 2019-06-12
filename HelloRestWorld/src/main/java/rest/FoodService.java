@@ -35,24 +35,27 @@ public class FoodService {
         food1.setLocation(ELocation.Fridge);
         foodDTOMap.put(1, food1);
     }
-    //TODO: Implement SQL support
-
     //GET request from frontend receives a JSON array of JSON objects as a String
     @GET
     @Path("{userName}/get")
-    public String getAllFoods(@PathParam("userName") String userName) throws SQLException {
-        List<IFoodDTO> foodList = new ArrayList<>();
-        JsonArray jsonArray = new JsonArray();
-        for(int i = 0; i < foodList.size(); i++){
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("id", foodList.get(i).getID());
-            jsonObject.addProperty("name", foodList.get(i).getFoodName());
-            jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
-            jsonObject.addProperty("category", foodList.get(i).getCategory().name());
-            jsonObject.addProperty("location", foodList.get(i).getLocation().name());
-            jsonArray.add(jsonObject);
+    public Response getAllFoods(@PathParam("userName") String userName) {
+        List<IFoodDTO> foodList;
+        try {
+            foodList = errorHandling.getFoodList(userName);
+            JsonArray jsonArray = new JsonArray();
+            for (int i = 0; i < foodList.size(); i++) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("id", foodList.get(i).getID());
+                jsonObject.addProperty("name", foodList.get(i).getFoodName());
+                jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
+                jsonObject.addProperty("category", foodList.get(i).getCategory().name());
+                jsonObject.addProperty("location", foodList.get(i).getLocation().name());
+                jsonArray.add(jsonObject);
+            }
+            return Response.status(200).entity(jsonArray.toString()).build();
+        }catch(SQLException e){
+            return Response.status(400).build();
         }
-        return jsonArray.toString();
     }
     //This method should return a specified food
     @GET
