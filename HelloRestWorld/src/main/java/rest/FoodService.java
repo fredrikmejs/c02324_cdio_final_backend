@@ -72,18 +72,15 @@ public class FoodService {
         System.out.println(jsonObject.toString());
         return jsonObject.toString();
     }
-//TODO: Implement SQL support
+
     @POST
     @Path("{userName}")
     public Response createFood(FoodDTO foodDTO){
-        System.out.println("Post succeeded!");
-        if(foodDTOMap.putIfAbsent(foodDTO.getID(), foodDTO) == null){
-            return Response.status(201).entity("Food created!").build();
-        }else{
-            Response response1 = Response.status(Response.Status.BAD_REQUEST)
-                    .entity("ID: " + foodDTO.getID() + " already in use!")
-                    .build();
-            throw new WebApplicationException(response1);
+        try {
+            errorHandling.addFood(foodDTO);
+            return Response.status(201).build();
+        } catch (SQLException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Something went wrong!").build();
         }
     }
 //TODO: Implement SQL support
