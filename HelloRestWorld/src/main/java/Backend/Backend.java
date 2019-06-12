@@ -204,13 +204,21 @@ public class Backend implements IFoodDAO {
         psQuery.setString(1, userName);
         psQuery.setInt(2,foodID);
         ResultSet rs = psQuery.executeQuery();
-        int foodId = rs.getInt("food_id");
-        String foodName = rs.getString("food_name");
-        Date expDate = rs.getDate("expiration_date");
+        int foodId = 0;
+        String foodName = "";
+        Date expDate = new Date(System.currentTimeMillis());
+        ELocation location = ELocation.All;
+        ECategory category = ECategory.Beef;
+        String user_Name = "";
+        while(rs.next()) {
+            foodId = rs.getInt("food_id");
+            foodName = rs.getString("food_name");
+            expDate = rs.getDate("expiration_date");
 
-        ELocation location = ELocation.values()[rs.getInt("loc_id")];
-        ECategory category = ECategory.values()[rs.getInt("cat_id")];
-        String user_Name = rs.getString("user_name");
+            location = ELocation.values()[rs.getInt("loc_id")];
+            category = ECategory.values()[rs.getInt("cat_id")];
+            user_Name = rs.getString("user_name");
+        }
         closeConnection();
         return new FoodDTO(foodId, foodName, expDate, location, category, user_Name);
     }

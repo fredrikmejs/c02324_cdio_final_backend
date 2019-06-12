@@ -73,6 +73,7 @@ public class FoodService {
 
             return Response.status(200).entity(jsonObject.toString()).build();
         } catch (SQLException e) {
+            e.printStackTrace();
             return Response.status(404).build();
         }
     }
@@ -83,27 +84,24 @@ public class FoodService {
             errorHandling.addFood(foodDTO);
             return Response.status(201).build();
         } catch (SQLException e) {
+            e.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).entity("Something went wrong!").build();
         }
     }
     @DELETE
     @Path("{userName}/{id}")
     public Response deleteFood(@PathParam("id") int id, @PathParam("userName") String userName){
-        boolean success;
         try {
-            success = errorHandling.deleteFood(userName, id);
-            if(success) {
-                return Response.status(200).build();
-            }else {
-                return Response.status(Response.Status.BAD_REQUEST).build();
-            }
+            errorHandling.deleteFood(userName, id);
+            return Response.status(200).build();
         } catch (SQLException e) {
-            throw new BadRequestException();
+            e.printStackTrace();
+            return Response.status(400).build();
         }
     }
-
+//TODO: TEST THIS WITH DATABASE
     @PUT
-    @Path("{userName}/{id}")
+    @Path("{userName}/put/{id}")
     public Response updateFood(@PathParam("id") int id, @PathParam("userName") String userName,FoodDTO food) {
         IFoodDTO updatedFood = new FoodDTO();
         updatedFood.setID(id);
