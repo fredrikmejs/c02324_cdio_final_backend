@@ -59,10 +59,13 @@ public class ErrorHandling implements IErrorHandling {
 
 
         checkLocation(food);
-        backend.deleteAllFoods(userName,location);
+        boolean success =  backend.deleteAllFoods(userName,location);
         dataLayer.deleteAll(location,userName);
-
-        return false;
+        if(success){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private boolean checkCategory(IFoodDTO food) {
