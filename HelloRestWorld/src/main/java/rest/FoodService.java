@@ -35,40 +35,46 @@ public class FoodService {
         food1.setLocation(ELocation.Fridge);
         foodDTOMap.put(1, food1);
     }
-    //TODO: Implement SQL support
-
     //GET request from frontend receives a JSON array of JSON objects as a String
     @GET
     @Path("{userName}/get")
-    public String getAllFoods(@PathParam("userName") String userName) throws SQLException {
-        List<IFoodDTO> foodList = new ArrayList<>();
-        JsonArray jsonArray = new JsonArray();
-        for(int i = 0; i < foodList.size(); i++){
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("id", foodList.get(i).getID());
-            jsonObject.addProperty("name", foodList.get(i).getFoodName());
-            jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
-            jsonObject.addProperty("category", foodList.get(i).getCategory().name());
-            jsonObject.addProperty("location", foodList.get(i).getLocation().name());
-            jsonArray.add(jsonObject);
+    public Response getAllFoods(@PathParam("userName") String userName) {
+        List<IFoodDTO> foodList;
+        try {
+            foodList = errorHandling.getFoodList(userName);
+            JsonArray jsonArray = new JsonArray();
+            for (int i = 0; i < foodList.size(); i++) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("id", foodList.get(i).getID());
+                jsonObject.addProperty("name", foodList.get(i).getFoodName());
+                jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
+                jsonObject.addProperty("category", foodList.get(i).getCategory().name());
+                jsonObject.addProperty("location", foodList.get(i).getLocation().name());
+                jsonArray.add(jsonObject);
+            }
+            return Response.status(200).entity(jsonArray.toString()).build();
+        }catch(SQLException e){
+            return Response.status(400).build();
         }
-        return jsonArray.toString();
     }
-//TODO: Implement SQL support
-
     //This method should return a specified food
     @GET
     @Path("{userName}/get/{id}")
-    public String getFood(@PathParam("id") int id){
-        IFoodDTO food = foodDTOMap.get(id);
+    public Response getFood(@PathParam("id") int id, @PathParam("userName") String userName){
+        IFoodDTO food;
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("id", food.getID());
-        jsonObject.addProperty("name", food.getFoodName());
-        jsonObject.addProperty("expDate", food.getExpDate().toString());
-        jsonObject.addProperty("category", food.getCategory().name());
-        jsonObject.addProperty("location", food.getLocation().name());
-        System.out.println(jsonObject.toString());
-        return jsonObject.toString();
+        try {
+            food = errorHandling.getFoodItem(userName, id);
+            jsonObject.addProperty("id", food.getID());
+            jsonObject.addProperty("name", food.getFoodName());
+            jsonObject.addProperty("expDate", food.getExpDate().toString());
+            jsonObject.addProperty("category", food.getCategory().name());
+            jsonObject.addProperty("location", food.getLocation().name());
+
+            return Response.status(200).entity(jsonObject.toString()).build();
+        } catch (SQLException e) {
+            return Response.status(404).build();
+        }
     }
 
     @POST
@@ -81,18 +87,22 @@ public class FoodService {
             return Response.status(Response.Status.BAD_REQUEST).entity("Something went wrong!").build();
         }
     }
-//TODO: Implement SQL support
     @DELETE
     @Path("{userName}/{id}")
     public Response deleteFood(@PathParam("id") int id, @PathParam("userName") String userName){
-      IFoodDTO food = foodDTOMap.get(id);
-        if(food != null){
-            foodDTOMap.remove(id);
-            return Response.status(200).entity("Deletion successful").build();
-        }else{
-            return Response.status(404).entity("Food not found..").build();
+        boolean success;
+        try {
+            success = errorHandling.deleteFood(userName, id);
+            if(success) {
+                return Response.status(200).build();
+            }else {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+        } catch (SQLException e) {
+            throw new BadRequestException();
         }
     }
+
     @PUT
     @Path("{userName}/{id}")
     public Response updateFood(@PathParam("id") int id, @PathParam("userName") String userName,FoodDTO food) {

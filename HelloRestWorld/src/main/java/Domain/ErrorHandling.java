@@ -4,7 +4,6 @@ import Backend.*;
 import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.IFoodDTO;
-import jdk.nashorn.internal.ir.IfNode;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,13 +35,13 @@ public class ErrorHandling implements IErrorHandling {
         return true;
     }
 
-    public boolean deleteFood(IFoodDTO food) throws SQLException {
+    public boolean deleteFood(String userName, int id) throws SQLException {
 
-        checkLocation(food);
-        checkCategory(food);
+//        checkLocation(food);
+//        checkCategory(food);
 
-        backend.deleteFood(food.getID(),food.getUserName());
-        dataLayer.deleteFood(food);
+        backend.deleteFood(id,userName);
+//        dataLayer.deleteFood(food);
 
         return false;
     }

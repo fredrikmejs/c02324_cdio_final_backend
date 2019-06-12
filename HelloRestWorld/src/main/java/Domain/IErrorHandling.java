@@ -12,7 +12,7 @@ public interface IErrorHandling {
 
     boolean updateFood(IFoodDTO foodDTO) throws SQLException;
 
-    boolean deleteFood(IFoodDTO food) throws SQLException;
+    boolean deleteFood(String userName, int id) throws SQLException;
 
     boolean deleteAll(ELocation location, String userName, IFoodDTO food) throws SQLException;
 

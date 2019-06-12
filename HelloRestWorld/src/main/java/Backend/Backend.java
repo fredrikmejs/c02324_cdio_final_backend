@@ -14,6 +14,11 @@ public class Backend implements IFoodDAO {
 
     private static Connection con;
 
+
+    /**
+     * Creates an connection to our data base
+     * @throws SQLException
+     */
     public void createConnection() throws SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -23,10 +28,21 @@ public class Backend implements IFoodDAO {
         con = DriverManager.getConnection("jdbc:mysql://ec2-52-30-211-3.eu-west-1.compute.amazonaws.com/s185140?"
                 + "user=s185140&password=YKl6EOAgNqhvE0fjJ0uJX");
     }
+
+    /**
+     * Closes the connection to our data base
+     * @throws SQLException
+     */
     public void closeConnection() throws SQLException {
         con.close();
     }
 
+    /**
+     * Creates a food object to our data base.
+     * @param food It's a IFoodDTO
+     * @return
+     * @throws SQLException
+     */
     public boolean createFood(IFoodDTO food) throws SQLException {
         createConnection();
         String query = "INSERT INTO Food(food_id, food_name, " +
@@ -44,6 +60,12 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
+    /**
+     * Get's a list of the food from the data-base
+     * @param name finds the food from the username
+     * @return Returns a userlist
+     * @throws SQLException
+     */
     public List<IFoodDTO> getFoodList(String name) throws SQLException {
         ResultSet rs;
         createConnection();
@@ -68,6 +90,13 @@ public class Backend implements IFoodDAO {
         return foodList;
     }
 
+    /**
+     * Update the food from the data base.
+     * Checks which objects of the food that we need to update.
+     * @param food is a IFoodDTO
+     * @return true if successful.
+     * @throws SQLException
+     */
     public boolean updateFood(IFoodDTO food) throws SQLException {
         IFoodDTO foodN = readFood(food.getUserName(), food.getID());
         if (food.getLocation() != null)
@@ -94,6 +123,13 @@ public class Backend implements IFoodDAO {
         return true;
     }
 
+    /**
+     * Deletes one food from the data base
+     * @param foodId the id of the food
+     * @param userName the user name of the user.
+     * @return returns true if successful
+     * @throws SQLException
+     */
     public boolean deleteFood(int foodId, String userName) throws SQLException {
         createConnection();
         String query =" DELETE FROM Food WHERE food_id = ? AND user_name = ?";
@@ -105,6 +141,13 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
+    /**
+     * Deletes all food for a special location for a user.
+     * @param userName user name of the user
+     * @param location the location of where the food is stored
+     * @return returns true if successful
+     * @throws SQLException
+     */
     public boolean deleteAllFoods(String userName, ELocation location) throws SQLException {
         createConnection();
 
@@ -127,6 +170,11 @@ public class Backend implements IFoodDAO {
         return success;
     }
 
+    /**
+     * Gives the last ID from the data base, that way we make sure to generate an ID + no duplicates.
+     * @return the last ID used in the data base.
+     * @throws SQLException
+     */
     public int getLastID() throws SQLException {
         int ID;
         String query = "SELECT food_id " +
@@ -142,6 +190,13 @@ public class Backend implements IFoodDAO {
         return ID;
     }
 
+    /**
+     * finds a single food.
+     * @param userName the user name of the user.
+     * @param foodID the id of the food you want to find.
+     * @return return the IFoodDTO of the specific food.
+     * @throws SQLException
+     */
     public IFoodDTO readFood(String userName, int foodID) throws SQLException{
         createConnection();
         String query = "SELECT * from Food where user_name = ? AND food_id = ?";
@@ -152,6 +207,7 @@ public class Backend implements IFoodDAO {
         int foodId = rs.getInt("food_id");
         String foodName = rs.getString("food_name");
         Date expDate = rs.getDate("expiration_date");
+
         ELocation location = ELocation.values()[rs.getInt("loc_id")];
         ECategory category = ECategory.values()[rs.getInt("cat_id")];
         String user_Name = rs.getString("user_name");
