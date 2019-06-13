@@ -196,31 +196,48 @@ public class FoodService {
         }
     }
 
+    /**
+     * This method receives parameters for a food that needs to be updated. On a success this method returns a HTTP response status of 200 (success),
+     * If the method encounters an error, it returns a HTTP response status of 400 (BAD_REQUEST)
+     * @param id Id of the given food to be updated.
+     * @param userName userName of the user whom the item belongs to
+     * @param food food object containing the data needed to be swapped
+     * @return returns HTTP status 200 if operation was successful, HTTP status 400 if operation failed.
+     */
     @PUT
     @Path("{userName}/put/{id}")
     public Response updateFood(@PathParam("id") int id, @PathParam("userName") String userName,FoodDTO food) {
         IFoodDTO updatedFood = new FoodDTO();
+//        Sets the ID and userName to always be set, given this does not change
         updatedFood.setID(id);
         updatedFood.setUserName(userName);
 
         try {
+//            If food name has been changed, it is replaced
             if (food.getFoodName() != null) {
                 updatedFood.setFoodName(food.getFoodName());
             }
+//            if expiration date has changed, it is replaced
             if(food.getExpDate() != null){
                 updatedFood.setExpDate(food.getExpDate());
             }
+//            if food category has changed, it is replaced
             if(food.getCategory() != null){
                 updatedFood.setCategory(food.getCategory());
             }
+//            if food location has been changed, it is replaced
             if(food.getLocation() != null){
                 updatedFood.setLocation(food.getLocation());
             }
+//            Food is added to arraylist (redacted)
             foodDTOMap.replace(id, updatedFood);
+//            Update command sent to MySQL database
             errorHandling.updateFood(updatedFood);
+//            On a success method returns HTTP response status 200 (success)
             return Response.status(200).entity("Food updated").build();
         }catch(Exception e){
             e.printStackTrace();
+//            On a failure method returns HTTP response status 400 (BAD_REQUEST)
             return Response.status(400).entity("Update failed!").build();
         }
 
