@@ -144,34 +144,54 @@ public class FoodService {
         }
     }
 
+    /**
+     * This method deletes all foods for a given user in a specified location.
+     * The method returns HTTP status 200 on a success and HTTP status 400 on a failure.
+     * @param userName The name of the user of which the items belong to.
+     * @param location The location of which to delete from.
+     * @return returns HTTP response status 200 (success) or HTTP response status 400 (failure)
+     */
     @DELETE
     @Path("{userName}/delete/all/{location}")
     public Response deleteAllFood(@PathParam("userName") String userName, @PathParam("location") String location) {
+//        Check if location is the fridge
         if(ELocation.Fridge.name().equals(location)){
             try {
+//                Access database to delete foods from specified location
                 errorHandling.deleteAll(ELocation.Fridge, userName);
+//                return status 200 on a success
                 return Response.status(200).build();
             } catch (SQLException e) {
                 e.printStackTrace();
+//                return status 400 on a failure
                 return Response.status(400).build();
             }
+//            Check if location is the freezer
         }else if(ELocation.Freezer.name().equals(location)){
             try {
+//                Access database to delete foods from specified location
                 errorHandling.deleteAll(ELocation.Freezer, userName);
+//                return status 200 on a success
                 return Response.status(200).build();
             } catch (SQLException e) {
                 e.printStackTrace();
+//                return status 400 on a failure
                 return Response.status(400).build();
             }
+//            check if location is the pantry
         }else if(ELocation.Pantry.name().equals(location)){
             try {
+//                Access database to delete foods from specified location
                 errorHandling.deleteAll(ELocation.Pantry, userName);
+//                return status 200 on a success
                 return Response.status(200).build();
             } catch (SQLException e) {
                 e.printStackTrace();
+//                return status 400 on a failure
                 return Response.status(400).build();
             }
         }else{
+//            return status 404 if location was not found
             return Response.status(404).entity("Location for foods not found").build();
         }
     }
