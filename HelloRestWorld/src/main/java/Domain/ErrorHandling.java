@@ -12,7 +12,7 @@ import java.util.List;
 public class ErrorHandling implements IErrorHandling {
 
     private Backend backend = new Backend();
-    private DataLayer dataLayer = new DataLayer();
+    private ArrayDataLayer dataLayer = new ArrayDataLayer();
 
     public boolean addFood(IFoodDTO food) throws SQLException {
         boolean success;

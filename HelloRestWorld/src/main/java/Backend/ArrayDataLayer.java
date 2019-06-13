@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-public class DataLayer implements IDataLayer {
+public class ArrayDataLayer implements IDataLayer {
     private ArrayList<IFoodDTO> foodList = new ArrayList<>();
 
     /**

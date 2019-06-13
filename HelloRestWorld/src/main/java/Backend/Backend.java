@@ -20,6 +20,7 @@ public class Backend implements IFoodDAO {
      * @throws SQLException
      */
     public void createConnection() throws SQLException {
+        //Enables TomCat to connect to MySQL database
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {

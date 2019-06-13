@@ -1,6 +1,6 @@
 package BackendTest;
 
-import Backend.DataLayer;
+import Backend.ArrayDataLayer;
 import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
@@ -8,15 +8,12 @@ import Technical_Services.IFoodDTO;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DataLayerTest {
 
-    private DataLayer dl = new DataLayer();
+    private ArrayDataLayer dl = new ArrayDataLayer();
 
     /**
      * Testing if we are able to add food to our arraylist.
