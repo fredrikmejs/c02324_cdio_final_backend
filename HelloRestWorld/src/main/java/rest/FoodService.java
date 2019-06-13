@@ -103,13 +103,21 @@ public class FoodService {
         }
     }
 
+    /**
+     * This method creates a food in the database from the parameters given via the HTTP POST request.
+     * @param foodDTO This parameter is given by the HTTP POST request and represents the food to be created.
+     * @return Returns HTTP response status 201 (created) on a success, and status 400 (BAD_REQUEST) on a failure.
+     */
     @POST
     public Response createFood(FoodDTO foodDTO){
         try {
+//            Accesses the database to add the provided food item
             errorHandling.addFood(foodDTO);
+//            returns status 201 if operation was successful
             return Response.status(201).build();
         } catch (SQLException e) {
             e.printStackTrace();
+//            returns status 400/BAD_REQUEST if operation failed.
             return Response.status(Response.Status.BAD_REQUEST).entity("Something went wrong!").build();
         }
     }
