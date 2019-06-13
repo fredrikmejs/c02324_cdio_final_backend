@@ -4,6 +4,6 @@ import Technical_Services.IFoodDTO;
 
 import java.util.List;
 
-public interface INotifikation {
+public interface INotification {
     List<IFoodDTO> getExpFood(String userName);
 }
