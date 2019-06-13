@@ -242,6 +242,36 @@ public class FoodService {
         }
 
     }
+    @GET
+    @Path("{userName}/get/expire/{days}")
+    @SuppressWarnings("Duplicates")
+    public Response getExpiredFoods(@PathParam("userName") String userName, @PathParam("days") int days){
+        List<IFoodDTO> foodList;
+
+        try {
+            foodList = errorHandling.getExpiredFoods(userName, days);
+            JsonArray jsonArray = new JsonArray();
+            //Add the data from the elements of the list of FoodDTO objects to a JSON object List<IFoodDTO> -> JsonObject -> JsonArray
+            for (int i = 0; i < foodList.size(); i++) {
+                JsonObject jsonObject = new JsonObject();
+                //Add each parameter in the FoodDTO object as a property to the JsonObject
+                jsonObject.addProperty("id", foodList.get(i).getID());
+                jsonObject.addProperty("name", foodList.get(i).getFoodName());
+                jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
+                jsonObject.addProperty("category", foodList.get(i).getCategory().name());
+                jsonObject.addProperty("location", foodList.get(i).getLocation().name());
+                //Add the JsonObject to the JsonArray
+                jsonArray.add(jsonObject);
+            }
+//            returns JsonArray and status code 200
+            return Response.status(200).entity(jsonArray.toString()).build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+//            returns status code 400, operation failed
+            return Response.status(400).build();
+        }
+
+    }
 
 
 
