@@ -242,6 +242,13 @@ public class FoodService {
         }
 
     }
+
+    /**
+     * This method accesses the database to retrieve foods that are expiring in a given amount of days.
+     * @param userName userName of the user whose items are being requested.
+     * @param days Number of days before expiration date.
+     * @return returns HTTP status code 200 on a success along with a JSON array. Returns HTTP status code 400 if operations fails.
+     */
     @GET
     @Path("{userName}/get/expire/{days}")
     @SuppressWarnings("Duplicates")
