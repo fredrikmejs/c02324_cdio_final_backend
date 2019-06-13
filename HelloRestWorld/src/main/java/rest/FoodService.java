@@ -121,15 +121,26 @@ public class FoodService {
             return Response.status(Response.Status.BAD_REQUEST).entity("Something went wrong!").build();
         }
     }
+
+    /**
+     * This method delete a specific food item from the given users list of foods. Method returns HTTP response status 200 on a successful deletion,
+     * and HTTP response status 404 on a failure (if item was not found)
+     * @param id The ID of the given food to be deleted
+     * @param userName The userName of the user wishing to delete an item
+     * @return returns HTTP status 200 on success, or HTTP status 404 on a failure.
+     */
     @DELETE
     @Path("{userName}/delete/{id}")
     public Response deleteFood(@PathParam("id") int id, @PathParam("userName") String userName){
         try {
+//          Access database to delete the food belonging to the user with the given id
             errorHandling.deleteFood(userName, id);
+//          returns HTTP status 200 (success) if operation was successful
             return Response.status(200).build();
         } catch (SQLException e) {
             e.printStackTrace();
-            return Response.status(400).build();
+//            On a failure returns HTTP response status 404, thus assuming the item was not found.
+            return Response.status(404).build();
         }
     }
 
