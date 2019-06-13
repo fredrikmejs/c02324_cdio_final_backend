@@ -5,6 +5,7 @@ import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
+import rest.DTS;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -55,7 +56,10 @@ public class Backend implements IFoodDAO {
         psQuery.setInt(3, food.getLocation().ordinal());
         psQuery.setInt(4, food.getCategory().ordinal());
         psQuery.setString(5,food.getUserName());
-        psQuery.setDate(6, food.getExpDate());
+        if(food.getLocation().ordinal() == 0)
+            psQuery.setDate(6, getExpirationDate(food.getCategory()));
+        else
+            psQuery.setDate(6, food.getExpDate());
         boolean success = psQuery.execute();
         closeConnection();
         return success;
@@ -115,7 +119,10 @@ public class Backend implements IFoodDAO {
         prepStat.setString(1,foodN.getFoodName());
         prepStat.setInt(2,foodN.getLocation().ordinal());
         prepStat.setInt(3, foodN.getCategory().ordinal());
-        prepStat.setDate(4,foodN.getExpDate());
+        if (foodN.getLocation().ordinal() == 0)
+            prepStat.setDate(4,getExpirationDate(foodN.getCategory()));
+        else
+            prepStat.setDate(4,foodN.getExpDate());
         prepStat.setInt(5, foodN.getID());
         prepStat.setString(6,foodN.getUserName());
         prepStat.executeUpdate();
@@ -232,5 +239,18 @@ public class Backend implements IFoodDAO {
         psQuery.executeQuery();
         closeConnection();
         return psQuery.execute();
+    }
+
+    private Date getExpirationDate(ECategory val) throws SQLException{
+        createConnection();
+        String query = "select freezer_exp from Freezer_expiration where cat_id =?";
+        PreparedStatement psQuery = con.prepareStatement(query);
+        psQuery.setInt(1,val.ordinal());
+        ResultSet rs = psQuery.executeQuery();
+        int days = 0;
+        while(rs.next())
+            days = rs.getInt("freezer_exp");
+        closeConnection();
+        return DTS.addDays(new Date(System.currentTimeMillis()), days);
     }
 }

@@ -19,7 +19,7 @@ public class DTS {
         return stringBuilder.toString();
     }
 
-    public Date addDays(Date day, int days){
+    public static Date addDays(Date day, int days){
         return new Date(day.getTime() + (days*(1000*60*60*24)));//time for given day * (millis/sec*sec/min*min/hr*hr/day)
     }
 }
