@@ -5,6 +5,7 @@ import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
+import com.google.gson.JsonObject;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -232,5 +233,25 @@ public class Backend implements IFoodDAO {
         psQuery.executeQuery();
         closeConnection();
         return psQuery.execute();
+    }
+
+    public List<IFoodDTO> getExpiredFood(int days, String userName) throws SQLException{
+        List<IFoodDTO> expiredFoods = new ArrayList<>();
+
+        createConnection();
+        String query = "SELECT * " +
+                "FROM Food " +
+                "WHERE expiration_date <= adddate(current_date(), ?) AND user_name = ?";
+        PreparedStatement psQuery = con.prepareStatement(query);
+        psQuery.setInt(1, days);
+        psQuery.setString(2, userName);
+        ResultSet resultSet = psQuery.executeQuery();
+        while(resultSet.next()){
+            IFoodDTO foodDTO = new FoodDTO(resultSet.getInt("food_id"),resultSet.getString("food_name"),
+                    resultSet.getDate("expiration_date"),ELocation.values()[resultSet.getInt("loc_id")],
+                    ECategory.values()[resultSet.getInt("cat_id")],resultSet.getString("user_name"));
+            expiredFoods.add(foodDTO);
+        }
+        return expiredFoods;
     }
 }
