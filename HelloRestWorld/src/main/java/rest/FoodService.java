@@ -89,7 +89,7 @@ public class FoodService {
         }
     }
     @DELETE
-    @Path("{userName}/{id}")
+    @Path("{userName}/delete/{id}")
     public Response deleteFood(@PathParam("id") int id, @PathParam("userName") String userName){
         try {
             errorHandling.deleteFood(userName, id);
@@ -99,6 +99,39 @@ public class FoodService {
             return Response.status(400).build();
         }
     }
+
+    @DELETE
+    @Path("delete/{userName}/{location}")
+    public Response deleteAllFood(@PathParam("userName") String userName, @PathParam("location") String location) {
+        if(ELocation.Fridge.name().equals(location)){
+            try {
+                errorHandling.deleteAll(ELocation.Fridge, userName);
+                return Response.status(200).build();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Response.status(400).build();
+            }
+        }else if(ELocation.Freezer.name().equals(location)){
+            try {
+                errorHandling.deleteAll(ELocation.Freezer, userName);
+                return Response.status(200).build();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Response.status(400).build();
+            }
+        }else if(ELocation.Pantry.name().equals(location)){
+            try {
+                errorHandling.deleteAll(ELocation.Pantry, userName);
+                return Response.status(200).build();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Response.status(400).build();
+            }
+        }else{
+            return Response.status(404).entity("Location for foods not found").build();
+        }
+    }
+
     @PUT
     @Path("{userName}/put/{id}")
     public Response updateFood(@PathParam("id") int id, @PathParam("userName") String userName,FoodDTO food) {
