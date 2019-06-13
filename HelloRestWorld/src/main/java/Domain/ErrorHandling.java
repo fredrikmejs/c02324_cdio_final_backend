@@ -91,7 +91,7 @@ public class ErrorHandling implements IErrorHandling {
 
            foodDTOList = backend.getFoodList(userName);
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             success = false;
         }
         if(success){
