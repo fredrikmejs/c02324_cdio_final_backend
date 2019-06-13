@@ -252,6 +252,7 @@ public class Backend implements IFoodDAO {
                     ECategory.values()[resultSet.getInt("cat_id")],resultSet.getString("user_name"));
             expiredFoods.add(foodDTO);
         }
+        closeConnection();
         return expiredFoods;
     }
 }
