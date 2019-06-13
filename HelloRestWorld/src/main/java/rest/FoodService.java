@@ -24,7 +24,8 @@ import java.util.Map;
 @Produces(MediaType.APPLICATION_JSON)
 public class FoodService {
     ErrorHandling errorHandling = new ErrorHandling();
-    //Dummy data for local testing
+
+//    Dummy data for local testing---------------------------------
     static Map<Integer, IFoodDTO> foodDTOMap = new HashMap<>();
     static {
         FoodDTO food1 = new FoodDTO();
@@ -35,25 +36,38 @@ public class FoodService {
         food1.setLocation(ELocation.Fridge);
         foodDTOMap.put(1, food1);
     }
+//    END of dummy data---------------------------------------------
+
+    /**
+     * This is a method to handle the HTTP get request to get all foods belonging to a certain user.
+     * @param userName This parameter is given in the HTTP GET request URL and is used to specify which user to access
+     * @return The method returns a HTTP response of either code=200 (success) + a body containing a JSON-array, or a HTTP response code=400 (BAD_REQUEST)
+     */
     //GET request from frontend receives a JSON array of JSON objects as a String
     @GET
     @Path("{userName}/get")
     public Response getAllFoods(@PathParam("userName") String userName) {
         List<IFoodDTO> foodList;
         try {
+            //Retrieve a list of FoodDTO objects
             foodList = errorHandling.getFoodList(userName);
             JsonArray jsonArray = new JsonArray();
+            //Add the data from the elements of the list of FoodDTO objects to a JSON object List<IFoodDTO> -> JsonObject -> JsonArray
             for (int i = 0; i < foodList.size(); i++) {
                 JsonObject jsonObject = new JsonObject();
+                //Add each parameter in the FoodDTO object as a property to the JsonObject
                 jsonObject.addProperty("id", foodList.get(i).getID());
                 jsonObject.addProperty("name", foodList.get(i).getFoodName());
                 jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
                 jsonObject.addProperty("category", foodList.get(i).getCategory().name());
                 jsonObject.addProperty("location", foodList.get(i).getLocation().name());
+                //Add the JsonObject to the JsonArray
                 jsonArray.add(jsonObject);
             }
+            //If no errors occurred return status 200 and the JsonArray as a String
             return Response.status(200).entity(jsonArray.toString()).build();
         }catch(SQLException e){
+            //If an error with the database occurred, catch exception and return status 400
             return Response.status(400).build();
         }
     }
