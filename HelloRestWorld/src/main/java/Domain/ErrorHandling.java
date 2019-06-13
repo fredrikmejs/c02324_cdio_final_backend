@@ -15,11 +15,13 @@ public class ErrorHandling implements IErrorHandling {
     private ArrayDataLayer dataLayer = new ArrayDataLayer();
 
     public boolean addFood(IFoodDTO food) throws SQLException {
+        backend.createConnection();
         boolean success;
         checkCategory(food);
         checkLocation(food);
         success = backend.createFood(food);
         dataLayer.addFood(food);
+        backend.closeConnection();
         if(success){
             return true;
         }else{
@@ -29,11 +31,14 @@ public class ErrorHandling implements IErrorHandling {
 
     public boolean updateFood(IFoodDTO foodDTO) throws SQLException {
 
+        backend.createConnection();
 //        checkCategory(oldFood);
 //        checkLocation(oldFood);
 //        backend.updateFood(newFood);
 //        dataLayer.updateFood(oldFood,newFood);
+
         boolean success =  backend.updateFood(foodDTO);
+        backend.closeConnection();
         if(success){
             return true;
         }else{
@@ -43,9 +48,11 @@ public class ErrorHandling implements IErrorHandling {
 
     public boolean deleteFood(String userName, int id) throws SQLException {
 
+        backend.createConnection();
 //        checkLocation(food);
 //        checkCategory(food);
         boolean success =  backend.deleteFood(id,userName);
+        backend.closeConnection();
         if(success){
             return true;
         }else{
@@ -57,10 +64,11 @@ public class ErrorHandling implements IErrorHandling {
 
     public boolean deleteAll(ELocation location, String userName) throws SQLException {
 
-
+        backend.createConnection();
 //        checkLocation(food);
         boolean success =  backend.deleteAllFoods(userName,location);
         dataLayer.deleteAll(location,userName);
+        backend.closeConnection();
         if(success){
             return true;
         }else{
@@ -85,12 +93,13 @@ public class ErrorHandling implements IErrorHandling {
         return false;
     }
     public List<IFoodDTO> getFoodList(String userName) throws SQLException{
+        backend.createConnection();
         boolean success = true;
         List<IFoodDTO> foodDTOList = new ArrayList<>();
         try {
 
            foodDTOList = backend.getFoodList(userName);
-
+           backend.closeConnection();
         } catch (SQLException e) {
             success = false;
         }
@@ -102,8 +111,9 @@ public class ErrorHandling implements IErrorHandling {
     }
 
     public IFoodDTO getFoodItem(String userName, int id) throws SQLException {
-
+        backend.createConnection();
         IFoodDTO  food =  backend.readFood(userName,id);
+        backend.closeConnection();
         if(food != null){
             return food;
         }else{

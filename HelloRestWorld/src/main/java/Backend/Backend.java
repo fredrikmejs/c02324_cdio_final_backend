@@ -46,7 +46,6 @@ public class Backend implements IFoodDAO {
      * @throws SQLException
      */
     public boolean createFood(IFoodDTO food) throws SQLException {
-        createConnection();
         String query = "INSERT INTO Food(food_id, food_name, " +
                 "loc_id, cat_id, user_name, expiration_date) " +
                 "VALUES(?, ?, ?, ?, ?, ?)";
@@ -61,7 +60,6 @@ public class Backend implements IFoodDAO {
         else
             psQuery.setDate(6, food.getExpDate());
         boolean success = psQuery.execute();
-        closeConnection();
         return success;
     }
 
@@ -73,7 +71,6 @@ public class Backend implements IFoodDAO {
      */
     public List<IFoodDTO> getFoodList(String name) throws SQLException {
         ResultSet rs;
-        createConnection();
         String query = "SELECT * FROM Food WHERE user_name = ?";
         PreparedStatement foodQuery = con.prepareStatement(query);
         foodQuery.setString(1,name);
@@ -91,7 +88,6 @@ public class Backend implements IFoodDAO {
             IFoodDTO food = new FoodDTO(foodId, foodName, expDate, location, category, userName);
             foodList.add(food);
         }
-        closeConnection();
         return foodList;
     }
 
@@ -112,7 +108,6 @@ public class Backend implements IFoodDAO {
             foodN.setExpDate(food.getExpDate());
         if (food.getFoodName() != null)
             foodN.setFoodName(food.getFoodName());
-        createConnection();
         String query = "UPDATE Food SET food_name = ?, loc_id = ?," +
                 " cat_id = ?,expiration_date = ? WHERE food_id = ? AND user_name = ?";
         PreparedStatement prepStat = con.prepareStatement(query);
@@ -127,7 +122,6 @@ public class Backend implements IFoodDAO {
         prepStat.setString(6,foodN.getUserName());
         prepStat.executeUpdate();
 
-        con.close();
         return true;
     }
 
@@ -139,13 +133,11 @@ public class Backend implements IFoodDAO {
      * @throws SQLException
      */
     public boolean deleteFood(int foodId, String userName) throws SQLException {
-        createConnection();
         String query =" DELETE FROM Food WHERE food_id = ? AND user_name = ?";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1,foodId );
         psQuery.setString(2,userName);
         boolean success = psQuery.execute();
-        closeConnection();
         return success;
     }
 
@@ -157,7 +149,6 @@ public class Backend implements IFoodDAO {
      * @throws SQLException
      */
     public boolean deleteAllFoods(String userName, ELocation location) throws SQLException {
-        createConnection();
 
         boolean success;
         if (ELocation.All == location){
@@ -174,7 +165,6 @@ public class Backend implements IFoodDAO {
             success = psQuery.execute();
         }
 
-        closeConnection();
         return success;
     }
 
@@ -206,7 +196,6 @@ public class Backend implements IFoodDAO {
      * @throws SQLException
      */
     public IFoodDTO readFood(String userName, int foodID) throws SQLException{
-        createConnection();
         String query = "SELECT * from Food where user_name = ? AND food_id = ?";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setString(1, userName);
@@ -227,22 +216,20 @@ public class Backend implements IFoodDAO {
             category = ECategory.values()[rs.getInt("cat_id")];
             user_Name = rs.getString("user_name");
         }
-        closeConnection();
         return new FoodDTO(foodId, foodName, expDate, location, category, user_Name);
     }
 
     public boolean createUser(String userName) throws SQLException{
-        createConnection();
+
         String query = "INSERT INTO User VALUES(?)";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setString(1,userName);
         psQuery.executeQuery();
-        closeConnection();
+
         return psQuery.execute();
     }
 
     private Date getExpirationDate(ECategory val) throws SQLException{
-        createConnection();
         String query = "select freezer_exp from Freezer_expiration where cat_id =?";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1,val.ordinal());
@@ -250,7 +237,6 @@ public class Backend implements IFoodDAO {
         int days = 0;
         while(rs.next())
             days = rs.getInt("freezer_exp");
-        closeConnection();
         return DTS.addDays(new Date(System.currentTimeMillis()), days);
     }
 }
