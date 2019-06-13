@@ -101,7 +101,7 @@ public class FoodService {
     }
 
     @DELETE
-    @Path("delete/{userName}/{location}")
+    @Path("{userName}/delete/all/{location}")
     public Response deleteAllFood(@PathParam("userName") String userName, @PathParam("location") String location) {
         if(ELocation.Fridge.name().equals(location)){
             try {
