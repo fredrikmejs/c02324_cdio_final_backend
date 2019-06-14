@@ -125,4 +125,16 @@ public class ErrorHandling implements IErrorHandling {
 //        TODO: Fix Errorhandling and add to interface
         return backend.getExpiredFood(days, userName);
     }
+
+    public boolean addUser(String userName){
+        try {
+            backend.createConnection();
+            backend.createUser(userName);
+            backend.closeConnection();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
