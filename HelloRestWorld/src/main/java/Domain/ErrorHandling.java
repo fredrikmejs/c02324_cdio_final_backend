@@ -126,6 +126,11 @@ public class ErrorHandling implements IErrorHandling {
         return backend.getExpiredFood(days, userName);
     }
 
+    /**
+     * Method is used to add a user to the database.
+     * @param userName Name of the user to be added.
+     * @return true on a success, else false.
+     */
     public boolean addUser(String userName){
         try {
             backend.createConnection();
@@ -138,6 +143,11 @@ public class ErrorHandling implements IErrorHandling {
         }
     }
 
+    /**
+     * Method is used to delete a user from the database.
+     * @param userName Name of the user to be deleted.
+     * @return true on a success, else false.
+     */
     public boolean deleteUser(String userName){
         try{
             backend.createConnection();
@@ -150,6 +160,11 @@ public class ErrorHandling implements IErrorHandling {
         }
     }
 
+    /**
+     * Method checks if user exists in database.
+     * @param userName Name of user to be checked.
+     * @return true on a success, else false.
+     */
     public boolean authenticateUser(String userName){
         try{
             backend.createConnection();
