@@ -280,6 +280,21 @@ public class FoodService {
 
     }
 
+    /**
+     * Method checks if given user exists in database.
+     * @param userName Name of user.
+     * @return returns HTTP response status 200 on a success, and 404 if user not found in database.
+     */
+    @GET
+    @Path("{userName}/get/verify")
+    public Response verifyUser(@PathParam("userName") String userName){
+        if(errorHandling.authenticateUser(userName)){
+            return Response.status(200).build();
+        }else{
+            return Response.status(404).build();
+        }
+    }
+
 
 
 }
