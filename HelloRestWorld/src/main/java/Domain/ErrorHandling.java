@@ -131,16 +131,13 @@ public class ErrorHandling implements IErrorHandling {
      * @param userName Name of the user to be added.
      * @return true on a success, else false.
      */
-    public boolean addUser(String userName){
-        try {
+    public boolean addUser(String userName)throws SQLException{
+        boolean success;
             backend.createConnection();
-            backend.createUser(userName);
+            success = backend.createUser(userName);
             backend.closeConnection();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+            return success;
+
     }
 
     /**
@@ -148,16 +145,11 @@ public class ErrorHandling implements IErrorHandling {
      * @param userName Name of the user to be deleted.
      * @return true on a success, else false.
      */
-    public boolean deleteUser(String userName){
-        try{
+    public boolean deleteUser(String userName)throws SQLException{
             backend.createConnection();
-            backend.deleteUser(userName);
+            boolean success = backend.deleteUser(userName);
             backend.closeConnection();
-            return true;
-        }catch(SQLException e){
-            e.printStackTrace();
-            return false;
-        }
+            return success;
     }
 
     /**

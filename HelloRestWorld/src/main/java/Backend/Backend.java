@@ -220,12 +220,12 @@ public class Backend implements IFoodDAO {
 
     public boolean createUser(String userName) throws SQLException{
 
-        String query = "INSERT INTO User VALUES(?)";
+        String query = "INSERT INTO User(user_name) VALUES(?)";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setString(1,userName);
-        psQuery.executeQuery();
+        boolean succes = psQuery.execute();
 
-        return psQuery.execute();
+        return succes;
     }
 
     public boolean authenticateUser(String userName)throws SQLException{

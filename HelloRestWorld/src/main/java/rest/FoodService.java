@@ -6,6 +6,7 @@ import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -301,12 +302,25 @@ public class FoodService {
      * @return returns HTTP status 201 on a success, else returns HTTP status 400.
      */
     @POST
-    @Path("add")
-    public Response addUser(String userName){
-        if(errorHandling.addUser(userName)){
+    @Path("{userName}/add")
+    public Response addUser(@PathParam("userName") String userName){
+        try {
+            errorHandling.addUser(userName);
             return Response.status(201).build();
-        }else{
+        } catch (SQLException e) {
+            e.printStackTrace();
             return Response.status(400).build();
+        }
+    }
+    @DELETE
+    @Path("{userName}/delete")
+    public Response deleteUser(@PathParam("userName") String userName){
+        try {
+            errorHandling.deleteUser(userName);
+            return Response.status(200).build();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Response.status(404).build();
         }
     }
 
