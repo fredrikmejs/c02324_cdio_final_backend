@@ -137,4 +137,16 @@ public class ErrorHandling implements IErrorHandling {
             return false;
         }
     }
+
+    public boolean deleteUser(String userName){
+        try{
+            backend.createConnection();
+            backend.deleteUser(userName);
+            backend.closeConnection();
+            return true;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
