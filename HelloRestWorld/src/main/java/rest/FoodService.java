@@ -295,6 +295,21 @@ public class FoodService {
         }
     }
 
+    /**
+     * Method adds a given user to the database.
+     * @param userName Name of the given user.
+     * @return returns HTTP status 201 on a success, else returns HTTP status 400.
+     */
+    @POST
+    @Path("add")
+    public Response addUser(String userName){
+        if(errorHandling.addUser(userName)){
+            return Response.status(201).build();
+        }else{
+            return Response.status(400).build();
+        }
+    }
+
 
 
 }
