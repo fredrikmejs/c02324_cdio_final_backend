@@ -149,4 +149,16 @@ public class ErrorHandling implements IErrorHandling {
             return false;
         }
     }
+
+    public boolean authenticateUser(String userName){
+        try{
+            backend.createConnection();
+            backend.authenticateUser(userName);
+            backend.closeConnection();
+            return true;
+        }catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
