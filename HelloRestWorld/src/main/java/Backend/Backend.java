@@ -240,6 +240,15 @@ public class Backend implements IFoodDAO {
         }
     }
 
+    public boolean deleteUser(String userName) throws SQLException{
+        String query = "DELETE FROM User WHERE user_name = ?";
+        PreparedStatement preparedStatement = con.prepareStatement(query);
+        preparedStatement.setString(1, userName);
+        boolean success = false;
+        success = preparedStatement.execute();
+        return success;
+    }
+
     public List<IFoodDTO> getExpiredFood(int days, String userName) throws SQLException {
         List<IFoodDTO> expiredFoods = new ArrayList<>();
 
