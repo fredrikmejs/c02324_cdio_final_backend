@@ -228,6 +228,18 @@ public class Backend implements IFoodDAO {
         return psQuery.execute();
     }
 
+    public boolean authenticateUser(String userName)throws SQLException{
+        String query = "SELECT * FROM User WHERE user_name = ?";
+        PreparedStatement preparedStatement = con.prepareStatement(query);
+        preparedStatement.setString(1, userName);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public List<IFoodDTO> getExpiredFood(int days, String userName) throws SQLException {
         List<IFoodDTO> expiredFoods = new ArrayList<>();
 
