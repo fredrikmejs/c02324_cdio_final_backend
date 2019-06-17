@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public interface IFoodDTO {
 
-
+    //Food ID
     int getID();
     void setID(int food_id);
 
@@ -13,29 +13,23 @@ public interface IFoodDTO {
     void setExpDate(Date date);
 
 
-    //TODO: Amount - redacted for now
 
-    //TODO: Unit - redacted for now
-
-    //Name
+    //Food name
     String getFoodName();
-    void setName(String name);
+    void setFoodName(String name);
 
 
     //Location
-    //TODO: Create enum for location (Freezer, Fridge, Pantry)
     ELocation getLocation();
     void setLocation(ELocation location);
 
 
     //Category
-    //TODO: Create enum for category (Fish, meats, vegetables etc.)
     ECategory getCategory();
     void setCategory(ECategory category);
 
-    double getAmount();
-    void setAmount(double amount);
 
+    //User name
     String getUserName();
     void setUserName(String userName);
 

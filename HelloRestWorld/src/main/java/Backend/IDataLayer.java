@@ -8,11 +8,12 @@ import java.util.Date;
 public interface IDataLayer {
     void addFood(IFoodDTO food);
 
-    IFoodDTO readFood(String name, Date expDate);
+    IFoodDTO readFood(String userName, int id);
 
-    void updateFood(IFoodDTO oldFood, IFoodDTO newFood);
+    void updateFood(IFoodDTO newFood);
 
-    void deleteFood(IFoodDTO food);
+    void deleteFood(String userName, int id);
 
-    void deleteAll(ELocation location);
+    void deleteAll(ELocation location, String userName);
+
 }

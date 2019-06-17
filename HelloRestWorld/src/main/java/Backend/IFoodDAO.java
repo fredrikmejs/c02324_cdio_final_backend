@@ -1,6 +1,7 @@
 package Backend;
 
 import Technical_Services.ELocation;
+import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
 
 import java.sql.Date;
@@ -14,14 +15,18 @@ public interface IFoodDAO {
     boolean createFood(IFoodDTO food) throws SQLException;
 
     //Read food
-    List readFoods(int id) throws SQLException;
+    List<IFoodDTO> getFoodList(String name) throws SQLException;
 
     //Update food
     boolean updateFood(IFoodDTO food) throws SQLException;
 
     //Delete food
-    boolean deleteFood(int foodId) throws SQLException;
+    boolean deleteFood(int foodId, String userName) throws SQLException;
 
     //Delete all foods
-    boolean deleteAllFoods(ELocation location, String userName) throws SQLException;
+    boolean deleteAllFoods(String userName, ELocation location) throws SQLException;
+
+    //gets a list of food that is expiring
+    List<IFoodDTO> getExpiredFood(int days, String userName) throws SQLException;
+
 }

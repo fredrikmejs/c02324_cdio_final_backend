@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-public class DataLayer implements IDataLayer {
+public class ArrayDataLayer implements IDataLayer {
     private ArrayList<IFoodDTO> foodList = new ArrayList<>();
 
     /**
@@ -23,18 +23,18 @@ public class DataLayer implements IDataLayer {
         id = foodList.get(foodList.size()-1).getID()+1;
         //test +=1;
         //int id = foodList.size();
-        foodList.add(new FoodDTO(id,food.getFoodName(),food.getExpDate(),food.getLocation(),food.getCategory(),food.getAmount(),food.getUserName()));
+        foodList.add(new FoodDTO(id,food.getFoodName(),food.getExpDate(),food.getLocation(),food.getCategory(),food.getUserName()));
     }
 
     /**
      * Method for finding a specific FoodDTO in the list.
-     * @param name The name of the item, used to for finding unique objects in unison with expDate.
-     * @param expDate The expiration date of the item.
+     * @param userName The name of the user, used to for finding unique objects in unison with expDate.
+     * @param id is the id of the food item.
      * @return
      */
-    public IFoodDTO readFood(String name, Date expDate) {
+    public IFoodDTO readFood(String userName, int id) {
         for (int i = 0; i <foodList.size() ; i++) {
-            if(foodList.get(i).getFoodName().equals(name) && foodList.get(i).getExpDate().equals(expDate))
+            if(foodList.get(i).getFoodName().equals(userName) && foodList.get(i).getID() == id)
                 return foodList.get(i);
         }
         return null;
@@ -42,25 +42,33 @@ public class DataLayer implements IDataLayer {
 
     /**
      * Method for updating an item in the list, where it is set to be a new FoodDTO.
-     * @param oldFood The old version of the item, which is to be updated.
-     * @param newFood The new version of the item, which should be set as.
+     *@param newFood The new version of the item, which should be set as.
      */
-    public void updateFood(IFoodDTO oldFood, IFoodDTO newFood) {
-        int pos = foodList.indexOf(oldFood);
-        foodList.set(pos, newFood);
+    public void updateFood(IFoodDTO newFood) {
+
+
+        int pos = -1; //= foodList.indexOf(newFood.getID());
+
+        for (int i = 0; i <foodList.size() ; i++) {
+            if (foodList.get(i).equals(newFood.getID()));
+            {
+                pos = i;
+                break;
+            }
+        }
+        if (pos != -1)
+            foodList.set(pos, newFood);
     }
 
     /**
      * Method for deleting one food item.
-     * @param food the item which is to be deleted.
+     * @param userName and id for the item which is to be deleted.
      */
-    public void deleteFood(IFoodDTO food) {
-       //foodList.remove(food);
-        //foodList.remove(food.getID());
+    public void deleteFood(String userName, int id) {
 
         int index = -1;
         for (int i = 0; i <foodList.size() ; i++) {
-            if (foodList.get(i).getID()== food.getID()){
+            if (foodList.get(i).getID() == id && foodList.get(i).getUserName().equals(userName)){
                 index = i;
                 break;
             }
@@ -72,14 +80,16 @@ public class DataLayer implements IDataLayer {
      * THis methods deletes all entries from the desired location.
      * @param location The location of deletion.
      */
-    public void deleteAll(ELocation location) {
+    public void deleteAll(ELocation location, String userName) {
 
         int size = foodList.size();
 
-        for (int i = size-1; i >= 0; i--) {
-            if (foodList.get(i).getLocation().equals(location) || location.equals(ELocation.All))
+        for (int i = size - 1; i >= 0; i--) {
+            if ((foodList.get(i).getLocation().equals(location) && foodList.get(i).getUserName().equals(userName))
+                    || ((location.equals(ELocation.All)) && foodList.get(i).getUserName().equals(userName))) {
                 foodList.remove(i);
 
+            }
         }
     }
     /**
