@@ -1,6 +1,6 @@
 package Domain;
 
-import Backend.Backend;
+import Backend.*;
 import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ErrorHandlingTest {
     private ErrorHandling eh = new ErrorHandling();
     private Backend bd = new Backend();
+    private ArrayDataLayer dl = new ArrayDataLayer();
 
 
     /**
@@ -25,7 +26,7 @@ class ErrorHandlingTest {
     void addFood() throws SQLException {
 
         try {
-            //eh.addUser("Pur");
+            //eh.addUser("Pur"); //if it's missing a user
             IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Pur");
             bd.createConnection();
             int size = bd.getLastID();
@@ -34,6 +35,7 @@ class ErrorHandlingTest {
             for (int i = 0; i < length; i++) {
                 eh.addFood(foo);
             }
+            dl.addFood(foo);
             size += length;
             bd.createConnection();
             int totalSize = bd.getLastID();
@@ -53,9 +55,12 @@ class ErrorHandlingTest {
      */
     @Test
     void deleteFood() throws SQLException {
+        IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Pur");
+
         bd.createConnection();
         int size = bd.getLastID();
         bd.closeConnection();
+
         eh.deleteFood("Pur",size);
         bd.createConnection();
         assertEquals(size-1,bd.getLastID());

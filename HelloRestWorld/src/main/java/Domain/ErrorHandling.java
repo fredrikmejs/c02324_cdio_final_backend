@@ -12,7 +12,6 @@ import java.util.List;
 public class ErrorHandling implements IErrorHandling {
 
     private Backend backend = new Backend();
-    private ArrayDataLayer dataLayer = new ArrayDataLayer();
 
     public boolean addFood(IFoodDTO food) throws SQLException {
         backend.createConnection();
@@ -20,7 +19,6 @@ public class ErrorHandling implements IErrorHandling {
         checkCategory(food.getCategory());
         checkLocation(food.getLocation());
         success = backend.createFood(food);
-        dataLayer.addFood(food);
         backend.closeConnection();
         if(success){
             return true;
@@ -39,7 +37,7 @@ public class ErrorHandling implements IErrorHandling {
             return false;
         }
 
-        dataLayer.updateFood(foodDTO);
+
 
         success =  backend.updateFood(foodDTO);
         backend.closeConnection();
@@ -54,7 +52,6 @@ public class ErrorHandling implements IErrorHandling {
         boolean success;
         backend.createConnection();
 
-        dataLayer.deleteFood(userName,id);
         success =  backend.deleteFood(id,userName);
         backend.closeConnection();
         if(success){
@@ -71,7 +68,6 @@ public class ErrorHandling implements IErrorHandling {
         backend.createConnection();
         checkLocation(location);
         boolean success =  backend.deleteAllFoods(userName,location);
-        dataLayer.deleteAll(location,userName);
         backend.closeConnection();
         if(success){
             return true;
