@@ -92,4 +92,11 @@ public class ArrayDataLayer implements IDataLayer {
             }
         }
     }
+    /**
+     * For testing purposes atm.
+     * @return This list.
+     */
+    public ArrayList<IFoodDTO> getFoodList() {
+        return foodList;
+    }
 }
