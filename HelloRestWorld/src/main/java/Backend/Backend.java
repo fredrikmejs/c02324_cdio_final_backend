@@ -228,6 +228,7 @@ public class Backend implements IFoodDAO {
         return succes;
     }
 
+    //TODO FIX method doesn't work
     public boolean authenticateUser(String userName)throws SQLException{
         String query = "SELECT * FROM User WHERE user_name = ?";
         PreparedStatement preparedStatement = con.prepareStatement(query);

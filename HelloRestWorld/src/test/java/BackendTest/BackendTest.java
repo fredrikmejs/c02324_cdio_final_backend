@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import static org.junit.jupiter.api.Assertions.*;
  //TODO when the DB is up
 class BackendTest {
-    Backend backend = new Backend();
+    private  Backend backend = new Backend();
 
 
     @Test
@@ -33,7 +33,7 @@ class BackendTest {
     void createFood()  {
         try {
             backend.createConnection();
-            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable,"Pur");
+            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-25"), ELocation.Pantry, ECategory.Vegetable,"Pur");
             int size = backend.getLastID();
 
             int length = 10;

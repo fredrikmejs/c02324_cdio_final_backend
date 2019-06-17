@@ -20,4 +20,7 @@ public interface IErrorHandling {
 
     IFoodDTO getFoodItem(String userName, int id)throws SQLException;
 
+    List<IFoodDTO> getExpiredFoods(String userName, int days) throws SQLException;
+
+
 }

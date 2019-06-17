@@ -122,8 +122,16 @@ public class ErrorHandling implements IErrorHandling {
     }
 
     public List<IFoodDTO> getExpiredFoods(String userName, int days) throws SQLException{
-//        TODO: Fix Errorhandling and add to interface
-        return backend.getExpiredFood(days, userName);
+
+
+        Backend backend = new Backend();
+
+        List<IFoodDTO> foodList = backend.getExpiredFood(days,userName);
+
+        if (foodList.isEmpty()){
+            return null;
+        }else
+            return foodList;
     }
 
     /**
@@ -169,3 +177,4 @@ public class ErrorHandling implements IErrorHandling {
         }
     }
 }
+
