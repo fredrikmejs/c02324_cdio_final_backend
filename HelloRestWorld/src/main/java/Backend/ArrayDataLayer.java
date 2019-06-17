@@ -56,8 +56,8 @@ public class ArrayDataLayer implements IDataLayer {
                 break;
             }
         }
-
-        foodList.set(pos, newFood);
+        if (pos != -1)
+            foodList.set(pos, newFood);
     }
 
     /**
@@ -65,8 +65,6 @@ public class ArrayDataLayer implements IDataLayer {
      * @param userName and id for the item which is to be deleted.
      */
     public void deleteFood(String userName, int id) {
-       //foodList.remove(food);
-        //foodList.remove(food.getID());
 
         int index = -1;
         for (int i = 0; i <foodList.size() ; i++) {
@@ -93,28 +91,5 @@ public class ArrayDataLayer implements IDataLayer {
 
             }
         }
-    }
-    /**
-     * For testing purposes atm.
-     * @return This list.
-     */
-    public ArrayList<IFoodDTO> getFoodList() {
-        return foodList;
-    }
-
-
-    public IFoodDTO readFood(int foodID, String userName) {
-        int pos = -1;
-
-        for (int i = 0; i <foodList.size() ; i++) {
-            if (foodList.get(i).equals(foodID)) {
-                pos = i;
-                break;
-            }
-        }
-        if (pos == -1){
-            return null;
-        }else
-        return new FoodDTO(foodList.get(pos).getID(), foodList.get(pos).getFoodName(), foodList.get(pos).getExpDate(),foodList.get(pos).getLocation(),foodList.get(pos).getCategory(),foodList.get(pos).getUserName());
     }
 }

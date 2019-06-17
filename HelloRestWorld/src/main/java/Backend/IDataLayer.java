@@ -16,5 +16,4 @@ public interface IDataLayer {
 
     void deleteAll(ELocation location, String userName);
 
-    IFoodDTO readFood(int foodID, String userName);
 }

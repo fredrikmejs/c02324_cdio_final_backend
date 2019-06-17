@@ -115,6 +115,8 @@ public class ErrorHandling implements IErrorHandling {
     }
 
     public IFoodDTO getFoodItem(String userName, int id) throws SQLException {
+        //TODO figure if we want it here?
+        //dataLayer.readFood(userName,id);
         backend.createConnection();
         IFoodDTO  food =  backend.readFood(userName,id);
         backend.closeConnection();
