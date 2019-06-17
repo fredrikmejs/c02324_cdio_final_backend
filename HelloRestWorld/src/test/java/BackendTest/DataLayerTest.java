@@ -26,9 +26,9 @@ class DataLayerTest {
         dl.addFood(food);
         dl.addFood(food);
         IFoodDTO foodDelete = new FoodDTO(4,"Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, "FredrikMejs");
-        dl.deleteFood(foodDelete);
+        dl.deleteFood(foodDelete.getUserName(),foodDelete.getID());
         foodDelete = new FoodDTO(3,"Fredrik", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef,"FredrikMejs");
-        dl.deleteFood(foodDelete);
+        dl.deleteFood(foodDelete.getUserName(),foodDelete.getID());
         dl.addFood(food);
         dl.addFood(food);
 
@@ -63,7 +63,7 @@ class DataLayerTest {
         IFoodDTO food = new FoodDTO(1,"Pære", Date.valueOf("2018-09-10"),ELocation.Fridge, ECategory.Beef, "FredrikMejs");
         dl.addFood(food);
         assertEquals(1,dl.getFoodList().size());
-        dl.deleteFood(food);
+        dl.deleteFood(food.getUserName(),food.getID());
         assertEquals(0,dl.getFoodList().size());
     }
 

@@ -171,10 +171,11 @@ public class ErrorHandling implements IErrorHandling {
      */
     public boolean authenticateUser(String userName){
         try{
+            boolean success;
             backend.createConnection();
-            backend.authenticateUser(userName);
+            success = backend.authenticateUser(userName);
             backend.closeConnection();
-            return true;
+            return success;
         }catch(SQLException e){
             e.printStackTrace();
             return false;

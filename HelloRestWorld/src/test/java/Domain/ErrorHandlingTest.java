@@ -96,7 +96,6 @@ class ErrorHandlingTest {
      */
     @Test
     void authenticateUser() {
-        //method doesn't work atm
     assertFalse(eh.authenticateUser("Per"));
     }
 }

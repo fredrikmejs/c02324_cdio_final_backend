@@ -234,11 +234,15 @@ public class Backend implements IFoodDAO {
         PreparedStatement preparedStatement = con.prepareStatement(query);
         preparedStatement.setString(1, userName);
         ResultSet resultSet = preparedStatement.executeQuery();
-        if(resultSet.next()){
-            return true;
-        }else{
-            return false;
+
+        String user_name = null;
+        while (resultSet.next()){
+            user_name = resultSet.getString("user_name");
         }
+        if (user_name != null){
+            return true;
+        }else
+            return false;
     }
 
     public boolean deleteUser(String userName) throws SQLException{
