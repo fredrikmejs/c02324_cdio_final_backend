@@ -26,4 +26,7 @@ public interface IFoodDAO {
     //Delete all foods
     boolean deleteAllFoods(String userName, ELocation location) throws SQLException;
 
+    //gets a list of food that is expiring
+    List<IFoodDTO> getExpiredFood(int days, String userName) throws SQLException;
+
 }
