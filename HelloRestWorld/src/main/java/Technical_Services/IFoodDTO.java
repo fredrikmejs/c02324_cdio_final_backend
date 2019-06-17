@@ -12,7 +12,7 @@ public interface IFoodDTO {
     Date getExpDate();
     void setExpDate(Date date);
 
-    //TODO: Unit - redacted for now
+
 
     //Food name
     String getFoodName();
@@ -20,13 +20,11 @@ public interface IFoodDTO {
 
 
     //Location
-    //TODO: Create enum for location (Freezer, Fridge, Pantry)
     ELocation getLocation();
     void setLocation(ELocation location);
 
 
     //Category
-    //TODO: Create enum for category (Fish, meats, vegetables etc.)
     ECategory getCategory();
     void setCategory(ECategory category);
 

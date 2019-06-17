@@ -10,7 +10,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
- //TODO when the DB is up
+
 class BackendTest {
     private  Backend backend = new Backend();
 
@@ -28,7 +28,7 @@ class BackendTest {
         }
     }
 
-//TODO check dates writes 2019-06-10 in the data-base
+
     @Test
     void createFood()  {
         try {
