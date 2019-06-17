@@ -44,22 +44,28 @@ public class Backend implements IFoodDAO {
      * @return
      * @throws SQLException
      */
-    public boolean createFood(IFoodDTO food) throws SQLException {
-        String query = "INSERT INTO Food(food_id, food_name, " +
-                "loc_id, cat_id, user_name, expiration_date) " +
-                "VALUES(?, ?, ?, ?, ?, ?)";
-        PreparedStatement psQuery = con.prepareStatement(query);
-        psQuery.setInt(1,getLastID()+1);
-        psQuery.setString(2, food.getFoodName());
-        psQuery.setInt(3, food.getLocation().ordinal());
-        psQuery.setInt(4, food.getCategory().ordinal());
-        psQuery.setString(5,food.getUserName());
-        if(food.getLocation().ordinal() == 0)
-            psQuery.setDate(6, getExpirationDate(food.getCategory()));
-        else
-            psQuery.setDate(6, food.getExpDate());
-        boolean success = psQuery.execute();
-        return success;
+    public boolean createFood(IFoodDTO food)  {
+        try {
+            String query = "INSERT INTO Food(food_id, food_name, " +
+                    "loc_id, cat_id, user_name, expiration_date) " +
+                    "VALUES(?, ?, ?, ?, ?, ?)";
+            PreparedStatement psQuery = con.prepareStatement(query);
+            psQuery.setInt(1, getLastID(food.getUserName()) + 1);
+            psQuery.setString(2, food.getFoodName());
+            psQuery.setInt(3, food.getLocation().ordinal());
+            psQuery.setInt(4, food.getCategory().ordinal());
+            psQuery.setString(5, food.getUserName());
+            if (food.getLocation().ordinal() == 0)
+                psQuery.setDate(6, getExpirationDate(food.getCategory()));
+            else
+                psQuery.setDate(6, food.getExpDate());
+            psQuery.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -97,7 +103,8 @@ public class Backend implements IFoodDAO {
      * @return true if successful.
      * @throws SQLException
      */
-    public boolean updateFood(IFoodDTO food) throws SQLException {
+    public boolean updateFood(IFoodDTO food) {
+        try{
         IFoodDTO foodN = readFood(food.getUserName(), food.getID());
         if (food.getLocation() != null)
             foodN.setLocation(food.getLocation());
@@ -121,6 +128,10 @@ public class Backend implements IFoodDAO {
         prepStat.setString(6,foodN.getUserName());
         prepStat.executeUpdate();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 
@@ -132,12 +143,17 @@ public class Backend implements IFoodDAO {
      * @throws SQLException
      */
     public boolean deleteFood(int foodId, String userName) throws SQLException {
+        try {
         String query =" DELETE FROM Food WHERE food_id = ? AND user_name = ?";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1,foodId );
         psQuery.setString(2,userName);
-        boolean success = psQuery.execute();
-        return success;
+        psQuery.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -172,11 +188,12 @@ public class Backend implements IFoodDAO {
      * @return the last ID used in the data base.
      * @throws SQLException
      */
-    public int getLastID() throws SQLException {
+    public int getLastID(String userName) throws SQLException {
         int ID;
         String query = "SELECT food_id " +
-                "FROM Food";
+                "FROM Food WHERE user_name = ?";
         PreparedStatement psQuery = con.prepareStatement(query);
+        psQuery.setString(1,userName);
         ResultSet rs = psQuery.executeQuery();
         rs.last();
         try {
@@ -218,14 +235,17 @@ public class Backend implements IFoodDAO {
         return new FoodDTO(foodId, foodName, expDate, location, category, user_Name);
     }
 
-    public boolean createUser(String userName) throws SQLException{
-
+    public boolean createUser(String userName) {
+        try{
         String query = "INSERT INTO User(user_name) VALUES(?)";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setString(1,userName);
-        boolean succes = psQuery.execute();
-
-        return succes;
+        psQuery.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public boolean authenticateUser(String userName)throws SQLException{
@@ -248,7 +268,7 @@ public class Backend implements IFoodDAO {
         String query = "DELETE FROM User WHERE user_name = ?";
         PreparedStatement preparedStatement = con.prepareStatement(query);
         preparedStatement.setString(1, userName);
-        boolean success = false;
+        boolean success;
         success = preparedStatement.execute();
         return success;
     }

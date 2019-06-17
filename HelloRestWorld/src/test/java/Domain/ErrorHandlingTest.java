@@ -29,7 +29,7 @@ class ErrorHandlingTest {
             //eh.addUser("Pur"); //if it's missing a user
             IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Pur");
             bd.createConnection();
-            int size = bd.getLastID();
+            int size = bd.getLastID(foo.getUserName());
             bd.closeConnection();
             int length = 10;
             for (int i = 0; i < length; i++) {
@@ -38,7 +38,7 @@ class ErrorHandlingTest {
             dl.addFood(foo);
             size += length;
             bd.createConnection();
-            int totalSize = bd.getLastID();
+            int totalSize = bd.getLastID(foo.getUserName());
             bd.closeConnection();
             assertEquals(totalSize, size);
 
@@ -58,12 +58,12 @@ class ErrorHandlingTest {
         IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Pur");
 
         bd.createConnection();
-        int size = bd.getLastID();
+        int size = bd.getLastID(foo.getUserName());
         bd.closeConnection();
 
         eh.deleteFood("Pur",size);
         bd.createConnection();
-        assertEquals(size-1,bd.getLastID());
+        assertEquals(size-1,bd.getLastID(foo.getUserName()));
         bd.closeConnection();
     }
 

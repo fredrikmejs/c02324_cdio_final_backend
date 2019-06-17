@@ -33,8 +33,9 @@ class BackendTest {
     void createFood()  {
         try {
             backend.createConnection();
+            backend.createUser("Pur");
             IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-25"), ELocation.Pantry, ECategory.Vegetable,"Pur");
-            int size = backend.getLastID();
+            int size = backend.getLastID(foo.getUserName());
 
             int length = 10;
             for (int i = 0; i < length ; i++) {
@@ -42,7 +43,7 @@ class BackendTest {
             }
             size += length;
 
-            int totalSize = backend.getLastID();
+            int totalSize = backend.getLastID(foo.getUserName());
             backend.closeConnection();
             assertEquals(totalSize,size);
 
@@ -56,7 +57,7 @@ class BackendTest {
     void readFoods() throws SQLException {
         createFood();
         backend.createConnection();
-        assertEquals(backend.getLastID(),backend.getFoodList("Pur").size());
+        assertEquals(backend.getLastID("Pur"),backend.getFoodList("Pur").size());
         if (backend.getFoodList("pur").isEmpty()){
             System.out.println("The list is empty");
         }else
@@ -77,11 +78,11 @@ class BackendTest {
     @Test
     void deleteFood() throws SQLException {
         backend.createConnection();
-        int size = backend.getLastID()-1;
+        int size = backend.getLastID("Pur")-1;
 
         backend.deleteFood(10,"Pur");
 
-        int size1 = backend.getLastID();
+        int size1 = backend.getLastID("Pur");
         assertEquals(size,size1);
 
         backend.closeConnection();
@@ -92,7 +93,7 @@ class BackendTest {
         backend.createConnection();
         IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.All, ECategory.Vegetable,"Pur");
         backend.deleteAllFoods(foo.getUserName(),foo.getLocation());
-        assertEquals(0,backend.getLastID());
+        assertEquals(0,backend.getLastID("Pur"));
         backend.closeConnection();
     }
 }
