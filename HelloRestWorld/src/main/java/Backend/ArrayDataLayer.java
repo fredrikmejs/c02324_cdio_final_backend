@@ -28,13 +28,13 @@ public class ArrayDataLayer implements IDataLayer {
 
     /**
      * Method for finding a specific FoodDTO in the list.
-     * @param name The name of the item, used to for finding unique objects in unison with expDate.
-     * @param expDate The expiration date of the item.
+     * @param userName The name of the user, used to for finding unique objects in unison with expDate.
+     * @param id is the id of the food item.
      * @return
      */
-    public IFoodDTO readFood(String name, Date expDate) {
+    public IFoodDTO readFood(String userName, int id) {
         for (int i = 0; i <foodList.size() ; i++) {
-            if(foodList.get(i).getFoodName().equals(name) && foodList.get(i).getExpDate().equals(expDate))
+            if(foodList.get(i).getFoodName().equals(userName) && foodList.get(i).getID() == id)
                 return foodList.get(i);
         }
         return null;
@@ -102,7 +102,8 @@ public class ArrayDataLayer implements IDataLayer {
         return foodList;
     }
 
-    public IFoodDTO readFood(int foodID) {
+
+    public IFoodDTO readFood(int foodID, String userName) {
         int pos = -1;
 
         for (int i = 0; i <foodList.size() ; i++) {
@@ -111,6 +112,9 @@ public class ArrayDataLayer implements IDataLayer {
                 break;
             }
         }
+        if (pos == -1){
+            return null;
+        }else
         return new FoodDTO(foodList.get(pos).getID(), foodList.get(pos).getFoodName(), foodList.get(pos).getExpDate(),foodList.get(pos).getLocation(),foodList.get(pos).getCategory(),foodList.get(pos).getUserName());
     }
 }
