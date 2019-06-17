@@ -17,8 +17,8 @@ public class ErrorHandling implements IErrorHandling {
     public boolean addFood(IFoodDTO food) throws SQLException {
         backend.createConnection();
         boolean success;
-        checkCategory(food);
-        checkLocation(food);
+        checkCategory(food.getCategory());
+        checkLocation(food.getLocation());
         success = backend.createFood(food);
         dataLayer.addFood(food);
         backend.closeConnection();
@@ -30,14 +30,18 @@ public class ErrorHandling implements IErrorHandling {
     }
 
     public boolean updateFood(IFoodDTO foodDTO) throws SQLException {
-
+        Boolean success;
         backend.createConnection();
-//        checkCategory(oldFood);
-//        checkLocation(oldFood);
-//        backend.updateFood(newFood);
-//        dataLayer.updateFood(oldFood,newFood);
 
-        boolean success =  backend.updateFood(foodDTO);
+        if (!checkCategory(foodDTO.getCategory()))
+            return false;
+        if (!checkLocation(foodDTO.getLocation())){
+            return false;
+        }
+
+        dataLayer.updateFood(foodDTO);
+
+        success =  backend.updateFood(foodDTO);
         backend.closeConnection();
         if(success){
             return true;
@@ -47,25 +51,25 @@ public class ErrorHandling implements IErrorHandling {
     }
 
     public boolean deleteFood(String userName, int id) throws SQLException {
-
+        boolean success;
         backend.createConnection();
-//        checkLocation(food);
-//        checkCategory(food);
-        boolean success =  backend.deleteFood(id,userName);
+
+        dataLayer.deleteFood(userName,id);
+        success =  backend.deleteFood(id,userName);
         backend.closeConnection();
         if(success){
             return true;
         }else{
             return false;
         }
-//        dataLayer.deleteFood(food);
+
 
     }
 
     public boolean deleteAll(ELocation location, String userName) throws SQLException {
 
         backend.createConnection();
-//        checkLocation(food);
+        checkLocation(location);
         boolean success =  backend.deleteAllFoods(userName,location);
         dataLayer.deleteAll(location,userName);
         backend.closeConnection();
@@ -76,17 +80,17 @@ public class ErrorHandling implements IErrorHandling {
         }
     }
 
-    private boolean checkCategory(IFoodDTO food) {
+    private boolean checkCategory(ECategory category) {
         for (ECategory c: ECategory.values()) {
-            if (c.equals(food.getCategory()))
+            if (c.equals(category))
                 return true;
         }
         return false;
     }
 
-    private boolean checkLocation(IFoodDTO food) {
+    private boolean checkLocation(ELocation location) {
         for (ELocation l: ELocation.values()) {
-            if (l.equals(food.getLocation())) {
+            if (l.equals(location)) {
                 return true;
             }
         }

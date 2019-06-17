@@ -12,7 +12,7 @@ public interface IDataLayer {
 
     void updateFood(IFoodDTO newFood);
 
-    void deleteFood(IFoodDTO food);
+    void deleteFood(String userName, int id);
 
     void deleteAll(ELocation location, String userName);
 

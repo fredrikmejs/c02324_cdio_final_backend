@@ -62,15 +62,15 @@ public class ArrayDataLayer implements IDataLayer {
 
     /**
      * Method for deleting one food item.
-     * @param food the item which is to be deleted.
+     * @param userName and id for the item which is to be deleted.
      */
-    public void deleteFood(IFoodDTO food) {
+    public void deleteFood(String userName, int id) {
        //foodList.remove(food);
         //foodList.remove(food.getID());
 
         int index = -1;
         for (int i = 0; i <foodList.size() ; i++) {
-            if (foodList.get(i).getID()== food.getID()){
+            if (foodList.get(i).getID() == id && foodList.get(i).getUserName().equals(userName)){
                 index = i;
                 break;
             }
