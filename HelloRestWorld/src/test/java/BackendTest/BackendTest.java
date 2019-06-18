@@ -42,7 +42,6 @@ class BackendTest {
                 backend.createFood(foo);
             }
             size += length;
-            IFoodDTO iFoodDTO = backend.readFood("Pur", 1);
 
             int totalSize = backend.getLastID(foo.getUserName());
             backend.deleteUser("Pur");
