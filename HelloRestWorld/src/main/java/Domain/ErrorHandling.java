@@ -13,6 +13,12 @@ public class ErrorHandling implements IErrorHandling {
 
     private Backend backend = new Backend();
 
+    /**
+     *Method adds food to the database through the backend
+     * @param food The food object to be added.
+     * @return true/false on success/failure
+     * @throws SQLException
+     */
     public boolean addFood(IFoodDTO food) throws SQLException {
         backend.createConnection();
         boolean success;
