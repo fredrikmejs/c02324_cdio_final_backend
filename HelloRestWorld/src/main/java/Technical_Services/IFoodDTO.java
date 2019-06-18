@@ -33,5 +33,11 @@ public interface IFoodDTO {
     String getUserName();
     void setUserName(String userName);
 
+    //toString
+    String toString();
+
+    //equals
+    boolean equals(Object object);
+
 
 }
