@@ -303,21 +303,33 @@ public class FoodService {
     @Path("{userName}/add")
     public Response addUser(@PathParam("userName") String userName){
         try {
+//            Attempts to add a user through the database
             errorHandling.addUser(userName);
+//            Response 201 (created) if successful
             return Response.status(201).build();
         } catch (SQLException e) {
             e.printStackTrace();
+//            Response 400 (BAD_REQUEST) on failure
             return Response.status(400).build();
         }
     }
+
+    /**
+     * Method deletes a user from the database given a username through the URL.
+     * @param userName Name of the user to be deleted.
+     * @return Returns HTTP status code 200 if successful, else it returns HTTP status code 404 on a failure.
+     */
     @DELETE
     @Path("{userName}/delete")
     public Response deleteUser(@PathParam("userName") String userName){
         try {
+//            Deletes a user from the database
             errorHandling.deleteUser(userName);
+//            Returns status code 200 (ok) on success
             return Response.status(200).build();
         } catch (SQLException e) {
             e.printStackTrace();
+//            Returns status code 404 on failure
             return Response.status(404).build();
         }
     }
