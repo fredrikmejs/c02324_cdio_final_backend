@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class IntegrationTest {
@@ -33,7 +34,6 @@ public class IntegrationTest {
         }else {
             assertTrue(userExists);
         }
-
 //        Add food to user
         IFoodDTO testFood = new FoodDTO(1,"Salt", Date.valueOf("2019-06-25"), ELocation.Pantry, ECategory.Vegetable,userName);
         try {
@@ -48,9 +48,7 @@ public class IntegrationTest {
         IFoodDTO foodDTO = new FoodDTO();
         try {
             foodDTO = er.getFoodItem(userName, 1);
-            assertNotEquals(null, foodDTO);
-            //assertEquals(testFood, foodDTO);
-            System.out.println(foodDTO.toString());
+            assertEquals(testFood, foodDTO);
         } catch (SQLException e) {
             fail();
             e.printStackTrace();
