@@ -73,7 +73,7 @@ class ErrorHandlingTest {
      */
     @Test
     void getFoodList() throws SQLException {
-    System.out.println(eh.getFoodList("Pur").toString());
+    System.out.println(eh.getFoodList("Pur", ).toString());
     }
 
     /**

@@ -39,17 +39,18 @@ public class FoodService {
     /**
      * This is a method to handle the HTTP get request to get all foods belonging to a certain user.
      * @param userName This parameter is given in the HTTP GET request URL and is used to specify which user to access
+     * @param location
      * @return The method returns a HTTP response of either code=200 (success) + a body containing a JSON-array, or a HTTP response code=400 (BAD_REQUEST)
      */
     //GET request from frontend receives a JSON array of JSON objects as a String
     @SuppressWarnings("Duplicates")
     @GET
-    @Path("{userName}/get")
-    public Response getAllFoods(@PathParam("userName") String userName) {
+    @Path("{userName}/get/storage/{location}")
+    public Response getAllFoods(@PathParam("userName") String userName, @PathParam("location") String location) {
         List<IFoodDTO> foodList;
         try {
             //Retrieve a list of FoodDTO objects
-            foodList = errorHandling.getFoodList(userName);
+            foodList = errorHandling.getFoodList(userName, location);
             JsonArray jsonArray = new JsonArray();
             //Add the data from the elements of the list of FoodDTO objects to a JSON object List<IFoodDTO> -> JsonObject -> JsonArray
             for (int i = 0; i < foodList.size(); i++) {

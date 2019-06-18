@@ -5,13 +5,11 @@ import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
-import org.json.HTTP;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class IntegrationTest {
@@ -57,7 +55,7 @@ public class IntegrationTest {
         //Get food list
         List<IFoodDTO> foodDTOList;
         try {
-            foodDTOList = er.getFoodList(userName);
+            foodDTOList = er.getFoodList(userName, );
             assertEquals(1, foodDTOList.size());
         } catch (SQLException e) {
             fail();
@@ -86,9 +84,9 @@ public class IntegrationTest {
         //Delete
         try {
             er.addFood(testFood);
-            assertEquals(2, er.getFoodList(userName).size());
+            assertEquals(2, er.getFoodList(userName, ).size());
             er.deleteFood(userName, 1);
-            assertEquals(1, er.getFoodList(userName).size());
+            assertEquals(1, er.getFoodList(userName, ).size());
         } catch (SQLException e) {
             fail();
             e.printStackTrace();
@@ -97,7 +95,7 @@ public class IntegrationTest {
         //Delete all
         try {
             er.deleteAll(ELocation.Pantry, userName);
-            List<IFoodDTO> foodToBeDeleted = er.getFoodList(userName);
+            List<IFoodDTO> foodToBeDeleted = er.getFoodList(userName, );
             assertEquals(0, foodToBeDeleted.size());
         } catch (SQLException e) {
             fail();

@@ -81,12 +81,13 @@ public class Backend implements IFoodDAO {
      * @return Returns a userlist
      * @throws SQLException
      */
-    public List<IFoodDTO> getFoodList(String name) throws SQLException {
+    public List<IFoodDTO> getFoodList(String name, String location) throws SQLException {
 //        Prepare for SQL statement
         ResultSet rs;
-        String query = "SELECT * FROM Food WHERE user_name = ?";
+        String query = "SELECT * FROM Food WHERE user_name = ? AND loc_id = ?";
         PreparedStatement foodQuery = con.prepareStatement(query);
         foodQuery.setString(1,name);
+        foodQuery.setString(2, location);
         rs = foodQuery.executeQuery();
 //        Storage for food items
         List<IFoodDTO> foodList = new ArrayList<>();
@@ -96,11 +97,11 @@ public class Backend implements IFoodDAO {
             String foodName = rs.getString("food_name");
             Date expDate = rs.getDate("expiration_date");
 
-            ELocation location = ELocation.values()[rs.getInt("loc_id")];
+            ELocation loc_id = ELocation.values()[rs.getInt("loc_id")];
             ECategory category = ECategory.values()[rs.getInt("cat_id")];
             String userName = rs.getString("user_name");
 //          Creates a new food from the received parameters to add to the list.
-            IFoodDTO food = new FoodDTO(foodId, foodName, expDate, location, category, userName);
+            IFoodDTO food = new FoodDTO(foodId, foodName, expDate, loc_id, category, userName);
             foodList.add(food);
         }
         return foodList;
