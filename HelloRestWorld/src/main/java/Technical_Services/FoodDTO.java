@@ -95,7 +95,7 @@ public FoodDTO(){}
         if( !((FoodDTO) other).getExpDate().toString().equals(this.getExpDate().toString())) return false;
         if( ((FoodDTO) other).getCategory() != this.getCategory()) return false;
         if( ((FoodDTO) other).getLocation() != this.getLocation()) return false;
-        if( ((FoodDTO) other).getUserName() != this.getUserName()) return false;
+        if( !((FoodDTO) other).getUserName().equals(this.getUserName())) return false;
 
         return true;
 

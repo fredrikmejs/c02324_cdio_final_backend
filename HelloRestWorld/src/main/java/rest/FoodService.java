@@ -45,6 +45,7 @@ public class FoodService {
      * @return The method returns a HTTP response of either code=200 (success) + a body containing a JSON-array, or a HTTP response code=400 (BAD_REQUEST)
      */
     //GET request from frontend receives a JSON array of JSON objects as a String
+    @SuppressWarnings("Duplicates")
     @GET
     @Path("{userName}/get")
     public Response getAllFoods(@PathParam("userName") String userName) {

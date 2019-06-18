@@ -48,7 +48,7 @@ public class IntegrationTest {
         IFoodDTO foodDTO = new FoodDTO();
         try {
             foodDTO = er.getFoodItem(userName, 1);
-            assertEquals(testFood, foodDTO);
+            assertTrue(testFood.equals(foodDTO));
         } catch (SQLException e) {
             fail();
             e.printStackTrace();
