@@ -87,14 +87,14 @@ public class FoodService {
         IFoodDTO food;
         JsonObject jsonObject = new JsonObject();
         try {
-            //Access database to retrieve sinle item belonging to the user
+            //Access database to retrieve a single item belonging to the user
             food = errorHandling.getFoodItem(userName, id);
             jsonObject.addProperty("id", food.getID());
             jsonObject.addProperty("name", food.getFoodName());
             jsonObject.addProperty("expDate", food.getExpDate().toString());
             jsonObject.addProperty("category", food.getCategory().name());
             jsonObject.addProperty("location", food.getLocation().name());
-            //Returns reponse 200 (success) and the requested JsonObject
+            //Returns response 200 (success) and the requested JsonObject
             return Response.status(200).entity(jsonObject.toString()).build();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -259,14 +259,14 @@ public class FoodService {
             foodList = errorHandling.getExpiredFoods(userName, days);
             JsonArray jsonArray = new JsonArray();
             //Add the data from the elements of the list of FoodDTO objects to a JSON object List<IFoodDTO> -> JsonObject -> JsonArray
-            for (int i = 0; i < foodList.size(); i++) {
+            for (IFoodDTO aFoodList : foodList) {
                 JsonObject jsonObject = new JsonObject();
                 //Add each parameter in the FoodDTO object as a property to the JsonObject
-                jsonObject.addProperty("id", foodList.get(i).getID());
-                jsonObject.addProperty("name", foodList.get(i).getFoodName());
-                jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
-                jsonObject.addProperty("category", foodList.get(i).getCategory().name());
-                jsonObject.addProperty("location", foodList.get(i).getLocation().name());
+                jsonObject.addProperty("id", aFoodList.getID());
+                jsonObject.addProperty("name", aFoodList.getFoodName());
+                jsonObject.addProperty("expDate", aFoodList.getExpDate().toString());
+                jsonObject.addProperty("category", aFoodList.getCategory().name());
+                jsonObject.addProperty("location", aFoodList.getLocation().name());
                 //Add the JsonObject to the JsonArray
                 jsonArray.add(jsonObject);
             }
