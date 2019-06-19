@@ -5,6 +5,7 @@ import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
+import org.junit.experimental.categories.Categories;
 import org.junit.jupiter.api.Test;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -56,10 +57,13 @@ class BackendTest {
 
     @Test
     void readFoods() throws SQLException {
+        IFoodDTO food = new FoodDTO(1,"Test", new Date(System.currentTimeMillis()),ELocation.Pantry, ECategory.Beef, "Test");
         backend.createConnection();
         backend.createUser("Test");
-
-
+        backend.createFood(food);
+        IFoodDTO iFoodDTO = backend.readFood("Test", 1);
+        assertTrue(food.equals(iFoodDTO));
+        backend.deleteUser("Test");
         backend.closeConnection();
     }
 
