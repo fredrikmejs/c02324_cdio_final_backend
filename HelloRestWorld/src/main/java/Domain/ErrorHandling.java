@@ -98,7 +98,7 @@ public class ErrorHandling implements IErrorHandling {
         }
         return false;
     }
-    public List<IFoodDTO> getFoodList(String userName, String location) throws SQLException{
+    public List<IFoodDTO> getFoodList(String userName, int location) throws SQLException{
         backend.createConnection();
         boolean success = true;
         List<IFoodDTO> foodDTOList = new ArrayList<>();

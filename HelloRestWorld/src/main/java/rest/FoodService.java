@@ -20,7 +20,7 @@ import java.util.Map;
 @Path("food/user")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class FoodService {
+public class FoodService implements IFoodService{
     ErrorHandling errorHandling = new ErrorHandling();
 
 //    Dummy data for local testing---------------------------------
@@ -46,7 +46,7 @@ public class FoodService {
     @SuppressWarnings("Duplicates")
     @GET
     @Path("{userName}/get/storage/{location}")
-    public Response getAllFoods(@PathParam("userName") String userName, @PathParam("location") String location) {
+    public Response getAllFoods(@PathParam("userName") String userName, @PathParam("location") int location) {
         List<IFoodDTO> foodList;
         try {
             //Retrieve a list of FoodDTO objects

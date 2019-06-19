@@ -81,13 +81,13 @@ public class Backend implements IFoodDAO {
      * @return Returns a userlist
      * @throws SQLException
      */
-    public List<IFoodDTO> getFoodList(String name, String location) throws SQLException {
+    public List<IFoodDTO> getFoodList(String name, int location) throws SQLException {
 //        Prepare for SQL statement
         ResultSet rs;
         String query = "SELECT * FROM Food WHERE user_name = ? AND loc_id = ?";
         PreparedStatement foodQuery = con.prepareStatement(query);
         foodQuery.setString(1,name);
-        foodQuery.setString(2, location);
+        foodQuery.setInt(2, location);
         rs = foodQuery.executeQuery();
 //        Storage for food items
         List<IFoodDTO> foodList = new ArrayList<>();
