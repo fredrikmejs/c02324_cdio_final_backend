@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,27 +26,16 @@ class ErrorHandlingTest {
     void addFood() {
 
         try {
-            //eh.addUser("Pur"); //if it's missing a user
-            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Pur");
-            bd.createConnection();
-            int size = bd.getLastID(foo.getUserName());
-            bd.closeConnection();
-            int length = 10;
-            for (int i = 0; i < length; i++) {
-                eh.addFood(foo);
-            }
-            dl.addFood(foo);
-            size += length;
-            bd.createConnection();
-            int totalSize = bd.getLastID(foo.getUserName());
-            bd.closeConnection();
-            assertEquals(totalSize, size);
-
-        } catch (
-                SQLException e) {
+            eh.addUser("Test");
+            IFoodDTO foo = new FoodDTO(0 ,"Popsickle", Date.valueOf("2019-06-25"), ELocation.Pantry, ECategory.Vegetable,"Test");
+            eh.addFood(foo);
+            IFoodDTO foodDTO = eh.getFoodItem("Test", 1);
+            assertEquals(foo, foodDTO);
+            eh.deleteUser("Test");
+        } catch (SQLException e) {
             e.printStackTrace();
-            fail();
         }
+
     }
 
     /**
@@ -54,16 +44,13 @@ class ErrorHandlingTest {
      */
     @Test
     void deleteFood() throws SQLException {
-        IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Pur");
-
-        bd.createConnection();
-        int size = bd.getLastID(foo.getUserName());
-        bd.closeConnection();
-
-        eh.deleteFood("Pur",size);
-        bd.createConnection();
-        assertEquals(size-1,bd.getLastID(foo.getUserName()));
-        bd.closeConnection();
+        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Test");
+        eh.addUser("Test");
+        eh.addFood(foo);
+        eh.deleteFood("Test", foo.getID());
+        List<IFoodDTO> foodDTOList = eh.getFoodList("Test", ELocation.Pantry.ordinal());
+        assertEquals(0, foodDTOList.size());
+        eh.deleteUser("Test");
     }
 
     /**

@@ -58,13 +58,13 @@ class BackendTest {
 
     @Test
     void readFoods() throws SQLException {
-        IFoodDTO food = new FoodDTO(1,"Test", new Date(System.currentTimeMillis()),ELocation.Pantry, ECategory.Beef, "Test");
+        IFoodDTO food = new FoodDTO(1,"Test2", Date.valueOf("2019-06-19"),ELocation.Pantry, ECategory.Beef, "Test2");
         backend.createConnection();
-        backend.createUser("Test");
+        backend.createUser("Test2");
         backend.createFood(food);
-        IFoodDTO iFoodDTO = backend.readFood("Test", 1);
+        IFoodDTO iFoodDTO = backend.readFood("Test2", 1);
         assertTrue(food.equals(iFoodDTO));
-        backend.deleteUser("Test");
+        backend.deleteUser("Test2");
         backend.closeConnection();
     }
 
