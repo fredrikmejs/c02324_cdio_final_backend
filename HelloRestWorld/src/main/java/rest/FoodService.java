@@ -23,19 +23,6 @@ import java.util.Map;
 public class FoodService implements IFoodService{
     ErrorHandling errorHandling = new ErrorHandling();
 
-//    Dummy data for local testing---------------------------------
-    static Map<Integer, IFoodDTO> foodDTOMap = new HashMap<>();
-    static {
-        FoodDTO food1 = new FoodDTO();
-        food1.setID(1);
-        food1.setFoodName("Smør");
-        food1.setExpDate(new Date(System.currentTimeMillis()));
-        food1.setCategory(ECategory.Dairy);
-        food1.setLocation(ELocation.Fridge);
-        foodDTOMap.put(1, food1);
-    }
-//    END of dummy data---------------------------------------------
-
     /**
      * This is a method to handle the HTTP get request to get all foods belonging to a certain user.
      * @param userName This parameter is given in the HTTP GET request URL and is used to specify which user to access
@@ -229,8 +216,6 @@ public class FoodService implements IFoodService{
             if(food.getLocation() != null){
                 updatedFood.setLocation(food.getLocation());
             }
-//            Food is added to arraylist (redacted)
-            foodDTOMap.replace(id, updatedFood);
 //            Update command sent to MySQL database
             errorHandling.updateFood(updatedFood);
 //            On a success method returns HTTP response status 200 (success)
