@@ -58,11 +58,11 @@ class BackendTest {
     void readFoods() throws SQLException {
         createFood();
         backend.createConnection();
-        assertEquals(backend.getLastID("Pur"),backend.getFoodList("Pur").size());
-        if (backend.getFoodList("pur").isEmpty()){
+        assertEquals(backend.getLastID("Pur"),backend.getFoodList("Pur", ELocation.Pantry.ordinal()).size());
+        if (backend.getFoodList("pur", ELocation.Pantry.ordinal()).isEmpty()){
             System.out.println("The list is empty");
         }else
-           System.out.println(backend.getFoodList("Pur").toString());
+           System.out.println(backend.getFoodList("Pur", ELocation.Pantry.ordinal()).toString());
 
         backend.closeConnection();
     }
@@ -92,7 +92,7 @@ class BackendTest {
     @Test
     void deleteAllFoods() throws SQLException {
         backend.createConnection();
-        IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.All, ECategory.Vegetable,"Pur");
+        IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable,"Pur");
         backend.deleteAllFoods(foo.getUserName(),foo.getLocation());
         assertEquals(0,backend.getLastID("Pur"));
         backend.closeConnection();

@@ -158,9 +158,8 @@ public class Backend implements IFoodDAO {
      * @param foodId the id of the food
      * @param userName the user name of the user.
      * @return returns true if successful
-     * @throws SQLException
      */
-    public boolean deleteFood(int foodId, String userName) throws SQLException {
+    public boolean deleteFood(int foodId, String userName) {
         try {
 //        Prepare a SQL query
         String query =" DELETE FROM Food WHERE food_id = ? AND user_name = ?";
@@ -298,10 +297,7 @@ public class Backend implements IFoodDAO {
         while (resultSet.next()){
             user_name = resultSet.getString("user_name");
         }
-        if (user_name != null){
-            return true;
-        }else
-            return false;
+        return user_name != null;
     }
 
     /**

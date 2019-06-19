@@ -177,9 +177,7 @@ public class FoodDTO extends Equals implements IFoodDTO {
         if( !((FoodDTO) other).getExpDate().toString().equals(this.getExpDate().toString())) return false;
         if( ((FoodDTO) other).getCategory() != this.getCategory()) return false;
         if( ((FoodDTO) other).getLocation() != this.getLocation()) return false;
-        if( !((FoodDTO) other).getUserName().equals(this.getUserName())) return false;
-
-        return true;
+        return ((FoodDTO) other).getUserName().equals(this.getUserName());
 
     }
 

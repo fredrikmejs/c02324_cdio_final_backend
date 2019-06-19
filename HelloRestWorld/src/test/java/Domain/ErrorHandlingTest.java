@@ -20,10 +20,9 @@ class ErrorHandlingTest {
 
     /**
      * Test if we are able to add food from the domain layer
-     * @throws SQLException
      */
     @Test
-    void addFood() throws SQLException {
+    void addFood() {
 
         try {
             //eh.addUser("Pur"); //if it's missing a user
@@ -73,7 +72,7 @@ class ErrorHandlingTest {
      */
     @Test
     void getFoodList() throws SQLException {
-    System.out.println(eh.getFoodList("Pur", ).toString());
+    System.out.println(eh.getFoodList("Pur",ELocation.Pantry.ordinal() ).toString());
     }
 
     /**

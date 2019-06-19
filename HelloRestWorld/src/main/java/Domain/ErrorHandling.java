@@ -26,11 +26,7 @@ public class ErrorHandling implements IErrorHandling {
         checkLocation(food.getLocation());
         success = backend.createFood(food);
         backend.closeConnection();
-        if(success){
-            return true;
-        }else{
-            return false;
-        }
+        return success;
     }
 
     public boolean updateFood(IFoodDTO foodDTO) throws SQLException {
@@ -47,11 +43,7 @@ public class ErrorHandling implements IErrorHandling {
 
         success =  backend.updateFood(foodDTO);
         backend.closeConnection();
-        if(success){
-            return true;
-        }else{
-            return false;
-        }
+        return success;
     }
 
     public boolean deleteFood(String userName, int id) throws SQLException {
@@ -60,11 +52,7 @@ public class ErrorHandling implements IErrorHandling {
 
         success =  backend.deleteFood(id,userName);
         backend.closeConnection();
-        if(success){
-            return true;
-        }else{
-            return false;
-        }
+        return success;
 
 
     }
@@ -75,11 +63,7 @@ public class ErrorHandling implements IErrorHandling {
         checkLocation(location);
         boolean success =  backend.deleteAllFoods(userName,location);
         backend.closeConnection();
-        if(success){
-            return true;
-        }else{
-            return false;
-        }
+        return success;
     }
 
     private boolean checkCategory(ECategory category) {
