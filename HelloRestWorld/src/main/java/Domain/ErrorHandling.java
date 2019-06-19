@@ -120,10 +120,7 @@ public class ErrorHandling implements IErrorHandling {
 
         List<IFoodDTO> foodList = backend.getExpiredFood(days,userName);
 
-        if (foodList.isEmpty()){
-            return null;
-        }else
-            return foodList;
+        return foodList;
     }
 
     /**
