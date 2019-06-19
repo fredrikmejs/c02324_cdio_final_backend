@@ -9,7 +9,7 @@ import java.sql.Date;
  */
 public class FoodDTO extends Equals implements IFoodDTO {
 //Define variables
-    private Date expDate;
+    private long expDate;
     private String name;
     private ELocation location;
     private ECategory category;
@@ -24,9 +24,9 @@ public class FoodDTO extends Equals implements IFoodDTO {
      * @param category The category of which the food belongs.
      * @param userName The user name of the user who owns the food.
      */
-    public FoodDTO(String foodName, Date date, ELocation location, ECategory category, String userName){
+    public FoodDTO(String foodName, long date, ELocation location, ECategory category, String userName){
 //      Variables are initialised
-    this.expDate = new Date(date.getTime() + (1000*60*60*12));//The supplied date is added 12 additional hours to compensate for DST and MySQL incompatibility
+    this.expDate = date + (1000*60*60*12);//The supplied date is added 12 additional hours to compensate for DST and MySQL incompatibility
     this.name = foodName;
     this.category = category;
     this.location = location;
@@ -43,9 +43,9 @@ public class FoodDTO extends Equals implements IFoodDTO {
      * @param category The category of which the food belongs.
      * @param userName The user name of the user who owns the food.
      */
-    public FoodDTO(int food_id, String foodName, Date date, ELocation location, ECategory category, String userName){
+    public FoodDTO(int food_id, String foodName, long date, ELocation location, ECategory category, String userName){
 //        Variables are now initialised
-        this.expDate = new Date(date.getTime() + (1000*60*60*12));//12 hours are added to fix compatibility issues
+        this.expDate = date + (1000*60*60*12);//12 hours are added to fix compatibility issues
         this.name = foodName;
         this.category = category;
         this.location = location;
@@ -62,16 +62,16 @@ public class FoodDTO extends Equals implements IFoodDTO {
      * Method gets the expiration date of the food
      * @return An SQL date which represents the expiration date
      */
-    public Date getExpDate() {
+    public long getExpDate() {
         return expDate;
     }
 
     /**
      * Method sets the expiration date
-     * @param date SQL date
+     * @param timeSinceEpochInMillis
      */
-    public void setExpDate(Date date) {
-    this.expDate = new Date(date.getTime() + (1000*60*60*12)); //Add 12 hours to day to hopefully fix off by 1 day because of DST
+    public void setExpDate(long timeSinceEpochInMillis) {
+    this.expDate = timeSinceEpochInMillis + (1000*60*60*12); //Add 12 hours to day to hopefully fix off by 1 day because of DST
     }
 
     /**
@@ -174,7 +174,7 @@ public class FoodDTO extends Equals implements IFoodDTO {
     public boolean equals (Object other){
         if (!other.getClass().isInstance(this)) return false;
         if( !((FoodDTO) other).getFoodName().equals(this.getFoodName())) return false;
-        if( !((FoodDTO) other).getExpDate().toString().equals(this.getExpDate().toString())) return false;
+        if( ((FoodDTO) other).getExpDate() != this.getExpDate()) return false;
         if( ((FoodDTO) other).getCategory() != this.getCategory()) return false;
         if( ((FoodDTO) other).getLocation() != this.getLocation()) return false;
         return ((FoodDTO) other).getUserName().equals(this.getUserName());

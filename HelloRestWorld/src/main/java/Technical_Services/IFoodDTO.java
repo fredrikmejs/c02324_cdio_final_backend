@@ -1,7 +1,5 @@
 package Technical_Services;
 
-import java.sql.Date;
-
 public interface IFoodDTO {
 
     //Food ID
@@ -9,8 +7,8 @@ public interface IFoodDTO {
     void setID(int food_id);
 
     //Expiration Dates
-    Date getExpDate();
-    void setExpDate(Date date);
+    long getExpDate();
+    void setExpDate(long timeSinceEpochInMillis);
 
 
 
