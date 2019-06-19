@@ -54,32 +54,46 @@ class ErrorHandlingTest {
     }
 
     /**
-     * Checks if we can get a list of food. The test print something to the terminal, and the test result should be readen yourself.
+     * Checks if we can get a list of food.
      * @throws SQLException
      */
     @Test
     void getFoodList() throws SQLException {
-    System.out.println(eh.getFoodList("Pur",ELocation.Pantry.ordinal() ).toString());
+        eh.addUser("Test");
+        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Test");
+        eh.addFood(foo);
+        List<IFoodDTO> list = eh.getFoodList("Test", ELocation.Pantry.ordinal());
+        assertEquals(1, list.size());
+        eh.deleteUser("Test");
+
     }
 
     /**
-     * Like getFoodList, you get a single food element and the result shall be determent yourself.
+     * Gets a single food element
      * @throws SQLException
      */
     @Test
     void getFoodItem() throws SQLException {
-        System.out.println(eh.getFoodItem("Pur",5).toString());
+        eh.addUser("Test");
+        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Test");
+        eh.addFood(foo);
+        IFoodDTO foodDTO = eh.getFoodItem("Test", 1);
+        assertEquals(foo, foodDTO);
+        eh.deleteUser("Test");
     }
 
     /**
-     * Checks if any food as an expiration date inside of 3 days and if we are able to update a food.
+     * Checks if any food has an expiration date within X days.
      * @throws SQLException
      */
     @Test
     void getExpiredFoods() throws SQLException {
-        IFoodDTO foo = new FoodDTO(3,"Popsickle", Date.valueOf("2019-06-19"), ELocation.Pantry, ECategory.Vegetable, "Pur");
-        eh.updateFood(foo);
-        System.out.println(eh.getExpiredFoods("Pur",3));
+        eh.addUser("Test");
+        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Test");
+        eh.addFood(foo);
+        List<IFoodDTO> list = eh.getExpiredFoods("Test", 3);
+        assertEquals(1, list.size());
+        eh.deleteUser("Test");
     }
 
     /**
@@ -87,6 +101,6 @@ class ErrorHandlingTest {
      */
     @Test
     void authenticateUser() {
-    assertFalse(eh.authenticateUser("Per"));
+    assertFalse(eh.authenticateUser("TheOneWhoDoesNotExist"));
     }
 }
