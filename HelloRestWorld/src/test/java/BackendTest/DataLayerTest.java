@@ -72,23 +72,7 @@ class DataLayerTest {
      */
     @Test
     void deleteAll() {
-        //test if it's delete all the elements.
         IFoodDTO food = new FoodDTO("kage", Date.valueOf("2018-09-10"),ELocation.Freezer, ECategory.Beef, "FredrikMejs");
-        dl.addFood(food);
-        dl.addFood(food);
-        dl.addFood(food);
-        dl.addFood(food);
-        dl.addFood(food);
-        dl.addFood(food);
-        dl.addFood(food);
-        dl.addFood(food);
-        dl.addFood(food);
-        dl.addFood(food);
-
-        assertEquals(10,dl.getFoodList().size());
-
-        dl.deleteAll(ELocation.All, "FredrikMejs");
-        assertEquals(0,dl.getFoodList().size());
 
         //Checks if the deletes the elements in the Freezer
         dl.addFood(food);

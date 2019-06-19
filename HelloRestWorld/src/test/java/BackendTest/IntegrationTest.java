@@ -55,7 +55,7 @@ public class IntegrationTest {
         //Get food list
         List<IFoodDTO> foodDTOList;
         try {
-            foodDTOList = er.getFoodList(userName, );
+            foodDTOList = er.getFoodList(userName, ELocation.Pantry.ordinal());
             assertEquals(1, foodDTOList.size());
         } catch (SQLException e) {
             fail();
@@ -84,9 +84,9 @@ public class IntegrationTest {
         //Delete
         try {
             er.addFood(testFood);
-            assertEquals(2, er.getFoodList(userName, ).size());
+            assertEquals(2, er.getFoodList(userName, ELocation.Pantry.ordinal()).size());
             er.deleteFood(userName, 1);
-            assertEquals(1, er.getFoodList(userName, ).size());
+            assertEquals(1, er.getFoodList(userName, ELocation.Pantry.ordinal()).size());
         } catch (SQLException e) {
             fail();
             e.printStackTrace();
@@ -95,7 +95,7 @@ public class IntegrationTest {
         //Delete all
         try {
             er.deleteAll(ELocation.Pantry, userName);
-            List<IFoodDTO> foodToBeDeleted = er.getFoodList(userName, );
+            List<IFoodDTO> foodToBeDeleted = er.getFoodList(userName, ELocation.Pantry.ordinal());
             assertEquals(0, foodToBeDeleted.size());
         } catch (SQLException e) {
             fail();

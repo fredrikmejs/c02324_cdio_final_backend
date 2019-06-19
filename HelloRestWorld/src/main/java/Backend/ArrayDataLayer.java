@@ -85,10 +85,8 @@ public class ArrayDataLayer implements IDataLayer {
         int size = foodList.size();
 
         for (int i = size - 1; i >= 0; i--) {
-            if ((foodList.get(i).getLocation().equals(location) && foodList.get(i).getUserName().equals(userName))
-                    || ((location.equals(ELocation.All)) && foodList.get(i).getUserName().equals(userName))) {
+            if ((foodList.get(i).getLocation().equals(location) && foodList.get(i).getUserName().equals(userName))) {
                 foodList.remove(i);
-
             }
         }
     }

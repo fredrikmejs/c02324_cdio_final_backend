@@ -185,21 +185,13 @@ public class Backend implements IFoodDAO {
     public boolean deleteAllFoods(String userName, ELocation location) throws SQLException {
 
         boolean success;
-//        If the location is set to all, remove food from all locations
-        if (ELocation.All == location){
-            String query = "DELETE FROM Food WHERE user_name = ?";
-            PreparedStatement psQuery = con.prepareStatement(query);
-            psQuery.setString(1,userName);
-            success = psQuery.execute();
-
-        }else {
 //            Remove food from the supplied location
             String query = "DELETE FROM Food WHERE user_name = ? AND loc_id = ?";
             PreparedStatement psQuery = con.prepareStatement(query);
             psQuery.setString(1, userName);
             psQuery.setInt(2, location.ordinal());
             success = psQuery.execute();
-        }
+
 
         return success;
     }
@@ -246,7 +238,7 @@ public class Backend implements IFoodDAO {
         int foodId = 0;
         String foodName = "";
         Date expDate = new Date(System.currentTimeMillis());
-        ELocation location = ELocation.All;
+        ELocation location = ELocation.Freezer;
         ECategory category = ECategory.Beef;
         String user_Name = "";
 //        Get the first item in the list (list only contains one, at index 0. List starts by default at index -1)
