@@ -9,6 +9,7 @@ import org.junit.experimental.categories.Categories;
 import org.junit.jupiter.api.Test;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,8 +35,8 @@ class BackendTest {
     void createFood()  {
         try {
             backend.createConnection();
-            backend.createUser("Pur");
-            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-25"), ELocation.Pantry, ECategory.Vegetable,"Pur");
+            backend.createUser("Test1");
+            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-25"), ELocation.Pantry, ECategory.Vegetable,"Test1");
             int size = backend.getFoodList(foo.getUserName(), ELocation.Pantry.ordinal()).size();
 
             int length = 10;
@@ -45,7 +46,7 @@ class BackendTest {
             size += length;
 
             int totalSize = backend.getFoodList(foo.getUserName(), ELocation.Pantry.ordinal()).size();
-            backend.deleteUser("Pur");
+            backend.deleteUser("Test1");
             backend.closeConnection();
             assertEquals(totalSize,size);
 
@@ -69,9 +70,16 @@ class BackendTest {
 
     @Test
     void updateFood() throws SQLException {
+        IFoodDTO food = new FoodDTO(1,"Test", new Date(System.currentTimeMillis()),ELocation.Pantry, ECategory.Beef, "Test");
         backend.createConnection();
-        IFoodDTO foo = new FoodDTO(3,"smør", Date.valueOf("2019-06-03"), ELocation.Freezer, ECategory.Beef, "Pur");
+        backend.createUser("Test");
+        backend.createFood(food);
+
+        IFoodDTO foo = new FoodDTO(1,"UpdatedTest", food.getExpDate(),ELocation.Pantry, ECategory.Beef, "Test");
         backend.updateFood(foo);
+        food = backend.readFood("Test", 1);
+        assertEquals(foo, food);
+        backend.deleteUser("Test");
         backend.closeConnection();
     }
 
@@ -79,22 +87,25 @@ class BackendTest {
     @Test
     void deleteFood() throws SQLException {
         backend.createConnection();
-        int size = backend.getLastID("Pur");
-
-        backend.deleteFood(10,"Pur");
-
-        int size1 = backend.getLastID("Pur");
-        assertEquals(size,size1);
-
+        backend.createUser("Test1");
+        IFoodDTO food = new FoodDTO(1,"Test", new Date(System.currentTimeMillis()),ELocation.Pantry, ECategory.Beef, "Test1");
+        backend.createFood(food);
+        backend.deleteFood(food.getID(), "Test1");
+        List<IFoodDTO> list = backend.getFoodList("Test1", ELocation.Pantry.ordinal());
+        assertEquals(0, list.size());
+        backend.deleteUser("Test1");
         backend.closeConnection();
     }
 
     @Test
     void deleteAllFoods() throws SQLException {
         backend.createConnection();
-        IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-11"), ELocation.Pantry, ECategory.Vegetable,"Pur");
+        backend.createUser("Test1");
+        IFoodDTO foo = new FoodDTO(1,"Test", new Date(System.currentTimeMillis()),ELocation.Pantry, ECategory.Beef, "Test1");
         backend.deleteAllFoods(foo.getUserName(),foo.getLocation());
-        assertEquals(0,backend.getLastID("Pur"));
+        List<IFoodDTO> list = backend.getFoodList("Test1", ELocation.Pantry.ordinal());
+        assertEquals(0, list.size());
+        backend.deleteUser("Test1");
         backend.closeConnection();
     }
 }
