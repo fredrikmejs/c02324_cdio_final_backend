@@ -20,6 +20,8 @@ public class DTS {
     }
 
     public static Date addDays(Date day, int days){
-        return new Date(day.getTime() + (days*(1000*60*60*24)));//time for given day * (millis/sec*sec/min*min/hr*hr/day)
+
+        Date date = Date.valueOf(LocalDate.now().plusDays(days));
+        return date;//time for given day * (millis/sec*sec/min*min/hr*hr/day)
     }
 }
