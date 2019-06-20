@@ -58,7 +58,7 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
             psQuery.setInt(4, food.getCategory().ordinal());
             psQuery.setString(5, food.getUserName());
 //            Checks if the food has been placed in the freezer
-            if (food.getLocation().ordinal() == 0 && food.getCategory().ordinal() == 8) {
+            if (food.getLocation().ordinal() == 0 && food.getCategory().ordinal() != 8) {
 //                Sets the expiration date for the food in the freezer
                 psQuery.setDate(6, getExpirationDate(food.getCategory()));
             }else {
@@ -135,7 +135,7 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
             prepStat.setInt(2, foodN.getLocation().ordinal());
             prepStat.setInt(3, foodN.getCategory().ordinal());
 //        Check the location for the food
-            if (foodN.getLocation().ordinal() == 0 && foodN.getCategory().ordinal() == 8){
+            if (foodN.getLocation().ordinal() == 0 && foodN.getCategory().ordinal() != 8){
                 prepStat.setDate(4, getExpirationDate(foodN.getCategory()));
             }else{
                 prepStat.setDate(4, new Date(foodN.getExpDate()));
