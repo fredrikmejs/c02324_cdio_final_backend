@@ -91,7 +91,7 @@ public class FoodService implements IFoodService{
 
     /**
      * This method creates a food in the database from the parameters given via the HTTP POST request.
-     * @param jsonObject This parameter is given by the HTTP POST request and represents the food to be created.
+     * @param foodDTO This parameter is given by the HTTP POST request and represents the food to be created.
      * @return Returns HTTP response status 201 (created) on a success, and status 400 (BAD_REQUEST) on a failure.
      */
     @POST
