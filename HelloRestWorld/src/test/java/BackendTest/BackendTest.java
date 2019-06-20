@@ -1,11 +1,10 @@
 package BackendTest;
 
-import Backend.Backend;
+import Backend.DatabaseDataLayer;
 import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
-import org.junit.experimental.categories.Categories;
 import org.junit.jupiter.api.Test;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -14,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BackendTest {
-    private  Backend backend = new Backend();
+    private DatabaseDataLayer backend = new DatabaseDataLayer();
 
 
     @Test

@@ -5,10 +5,8 @@ import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 
-public class ArrayDataLayer implements IDataLayer {
+public class ArrayDataLayer implements IArrayDataLayer {
     private ArrayList<IFoodDTO> foodList = new ArrayList<>();
 
     /**
@@ -30,7 +28,7 @@ public class ArrayDataLayer implements IDataLayer {
      * Method for finding a specific FoodDTO in the list.
      * @param userName The name of the user, used to for finding unique objects in unison with expDate.
      * @param id is the id of the food item.
-     * @return
+     * @return returns the requested food item
      */
     public IFoodDTO readFood(String userName, int id) {
         for (int i = 0; i <foodList.size() ; i++) {

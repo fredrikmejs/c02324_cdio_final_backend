@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ErrorHandling implements IErrorHandling {
 
-    private Backend backend = new Backend();
+    private DatabaseDataLayer backend = new DatabaseDataLayer();
 
     /**
      *Method adds food to the database through the backend
@@ -116,7 +116,7 @@ public class ErrorHandling implements IErrorHandling {
     public List<IFoodDTO> getExpiredFoods(String userName, int days) throws SQLException{
 
 
-        Backend backend = new Backend();
+        DatabaseDataLayer backend = new DatabaseDataLayer();
 
         List<IFoodDTO> foodList = backend.getExpiredFood(days,userName);
 

@@ -9,7 +9,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface IFoodDAO {
+public interface IDatabaseDataLayer {
     //CRUD
 
     //Create food

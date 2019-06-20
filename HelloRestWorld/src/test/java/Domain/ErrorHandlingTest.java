@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ErrorHandlingTest {
     private ErrorHandling eh = new ErrorHandling();
-    private Backend bd = new Backend();
+    private DatabaseDataLayer bd = new DatabaseDataLayer();
     private ArrayDataLayer dl = new ArrayDataLayer();
 
 

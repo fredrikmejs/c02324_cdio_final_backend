@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Backend implements IFoodDAO {
+public class DatabaseDataLayer implements IDatabaseDataLayer {
 
     private static Connection con;
 
