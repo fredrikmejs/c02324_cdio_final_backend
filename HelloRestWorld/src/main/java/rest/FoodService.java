@@ -1,6 +1,7 @@
 package rest;
 
 import Domain.ErrorHandling;
+import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
@@ -90,10 +91,11 @@ public class FoodService implements IFoodService{
 
     /**
      * This method creates a food in the database from the parameters given via the HTTP POST request.
-     * @param foodDTO This parameter is given by the HTTP POST request and represents the food to be created.
+     * @param jsonObject This parameter is given by the HTTP POST request and represents the food to be created.
      * @return Returns HTTP response status 201 (created) on a success, and status 400 (BAD_REQUEST) on a failure.
      */
     @POST
+    @Consumes("application/json")
     public Response createFood(FoodDTO foodDTO){
         try {
 //            Accesses the database to add the provided food item

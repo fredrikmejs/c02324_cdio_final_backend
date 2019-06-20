@@ -2,6 +2,7 @@ package rest;
 
 
 import Technical_Services.FoodDTO;
+import com.google.gson.JsonObject;
 
 import javax.ws.rs.core.Response;
 
