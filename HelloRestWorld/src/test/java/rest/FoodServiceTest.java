@@ -28,7 +28,7 @@ class FoodServiceTest {
     int foodID = 1;
     FoodService fs = new FoodService();
     ErrorHandling eh = new ErrorHandling();
-    IFoodDTO foo = new FoodDTO(foodID,"TestFood", Date.valueOf(date), location, category, userName);
+    IFoodDTO foo = new FoodDTO(foodID,"TestFood", Date.valueOf(date).getTime(), location, category, userName);
 
     @BeforeEach
     void setUp() throws SQLException {

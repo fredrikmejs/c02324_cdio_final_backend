@@ -33,7 +33,7 @@ public class IntegrationTest {
             assertTrue(userExists);
         }
 //        Add food to user
-        IFoodDTO testFood = new FoodDTO(1,"Salt", Date.valueOf("2019-06-25"), ELocation.Pantry, ECategory.Vegetable,userName);
+        IFoodDTO testFood = new FoodDTO(1,"Salt", Date.valueOf("2019-06-25").getTime(), ELocation.Pantry, ECategory.Vegetable,userName);
         try {
             boolean success = er.addFood(testFood);
             assertTrue(success);

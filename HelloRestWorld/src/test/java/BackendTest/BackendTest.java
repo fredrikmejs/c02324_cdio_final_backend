@@ -36,7 +36,7 @@ class BackendTest {
         try {
             backend.createConnection();
             backend.createUser("Test1");
-            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-25"), ELocation.Pantry, ECategory.Vegetable,"Test1");
+            IFoodDTO foo = new FoodDTO("Popsickle", Date.valueOf("2019-06-25").getTime(), ELocation.Pantry, ECategory.Vegetable,"Test1");
             int size = backend.getFoodList(foo.getUserName(), ELocation.Pantry.ordinal()).size();
 
             int length = 10;
@@ -58,7 +58,7 @@ class BackendTest {
 
     @Test
     void readFoods() throws SQLException {
-        IFoodDTO food = new FoodDTO(1,"Test2", Date.valueOf("2019-06-19"),ELocation.Pantry, ECategory.Beef, "Test2");
+        IFoodDTO food = new FoodDTO(1,"Test2", Date.valueOf("2019-06-19").getTime(),ELocation.Pantry, ECategory.Beef, "Test2");
         backend.createConnection();
         backend.createUser("Test2");
         backend.createFood(food);
@@ -70,7 +70,7 @@ class BackendTest {
 
     @Test
     void updateFood() throws SQLException {
-        IFoodDTO food = new FoodDTO(1,"Test", Date.valueOf("2019-06-19"),ELocation.Pantry, ECategory.Beef, "Test");
+        IFoodDTO food = new FoodDTO(1,"Test", Date.valueOf("2019-06-19").getTime(),ELocation.Pantry, ECategory.Beef, "Test");
         backend.createConnection();
         backend.createUser("Test");
         backend.createFood(food);
@@ -88,7 +88,7 @@ class BackendTest {
     void deleteFood() throws SQLException {
         backend.createConnection();
         backend.createUser("Test1");
-        IFoodDTO food = new FoodDTO(1,"Test", Date.valueOf("2019-06-19"),ELocation.Pantry, ECategory.Beef, "Test1");
+        IFoodDTO food = new FoodDTO(1,"Test", Date.valueOf("2019-06-19").getTime(),ELocation.Pantry, ECategory.Beef, "Test1");
         backend.createFood(food);
         backend.deleteFood(food.getID(), "Test1");
         List<IFoodDTO> list = backend.getFoodList("Test1", ELocation.Pantry.ordinal());
@@ -101,7 +101,7 @@ class BackendTest {
     void deleteAllFoods() throws SQLException {
         backend.createConnection();
         backend.createUser("Test1");
-        IFoodDTO foo = new FoodDTO(1,"Test", Date.valueOf("2019-06-19"),ELocation.Pantry, ECategory.Beef, "Test1");
+        IFoodDTO foo = new FoodDTO(1,"Test", Date.valueOf("2019-06-19").getTime(),ELocation.Pantry, ECategory.Beef, "Test1");
         backend.deleteAllFoods(foo.getUserName(),foo.getLocation());
         List<IFoodDTO> list = backend.getFoodList("Test1", ELocation.Pantry.ordinal());
         assertEquals(0, list.size());

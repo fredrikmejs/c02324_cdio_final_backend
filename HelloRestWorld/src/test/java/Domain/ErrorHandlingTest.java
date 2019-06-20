@@ -27,7 +27,7 @@ class ErrorHandlingTest {
 
         try {
             eh.addUser("Test");
-            IFoodDTO foo = new FoodDTO(0 ,"Popsickle", Date.valueOf("2019-06-25"), ELocation.Pantry, ECategory.Vegetable,"Test");
+            IFoodDTO foo = new FoodDTO(0 ,"Popsickle", Date.valueOf("2019-06-25").getTime(), ELocation.Pantry, ECategory.Vegetable,"Test");
             eh.addFood(foo);
             IFoodDTO foodDTO = eh.getFoodItem("Test", 1);
             assertEquals(foo, foodDTO);
@@ -44,7 +44,7 @@ class ErrorHandlingTest {
      */
     @Test
     void deleteFood() throws SQLException {
-        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Test");
+        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22").getTime(), ELocation.Pantry, ECategory.Vegetable, "Test");
         eh.addUser("Test");
         eh.addFood(foo);
         eh.deleteFood("Test", foo.getID());
@@ -60,7 +60,7 @@ class ErrorHandlingTest {
     @Test
     void getFoodList() throws SQLException {
         eh.addUser("Test");
-        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Test");
+        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22").getTime(), ELocation.Pantry, ECategory.Vegetable, "Test");
         eh.addFood(foo);
         List<IFoodDTO> list = eh.getFoodList("Test", ELocation.Pantry.ordinal());
         assertEquals(1, list.size());
@@ -75,7 +75,7 @@ class ErrorHandlingTest {
     @Test
     void getFoodItem() throws SQLException {
         eh.addUser("Test");
-        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Test");
+        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22").getTime(), ELocation.Pantry, ECategory.Vegetable, "Test");
         eh.addFood(foo);
         IFoodDTO foodDTO = eh.getFoodItem("Test", 1);
         assertEquals(foo, foodDTO);
@@ -89,7 +89,7 @@ class ErrorHandlingTest {
     @Test
     void getExpiredFoods() throws SQLException {
         eh.addUser("Test");
-        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22"), ELocation.Pantry, ECategory.Vegetable, "Test");
+        IFoodDTO foo = new FoodDTO(1,"TestFood", Date.valueOf("2019-06-22").getTime(), ELocation.Pantry, ECategory.Vegetable, "Test");
         eh.addFood(foo);
         List<IFoodDTO> list = eh.getExpiredFoods("Test", 3);
         assertEquals(1, list.size());

@@ -1,7 +1,6 @@
 package rest;
 
 import Domain.ErrorHandling;
-import Technical_Services.ECategory;
 import Technical_Services.ELocation;
 import Technical_Services.FoodDTO;
 import Technical_Services.IFoodDTO;
@@ -13,9 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 //Path to this class is now
 @Path("food/user")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -45,7 +43,7 @@ public class FoodService implements IFoodService{
                 //Add each parameter in the FoodDTO object as a property to the JsonObject
                 jsonObject.addProperty("id", foodList.get(i).getID());
                 jsonObject.addProperty("name", foodList.get(i).getFoodName());
-                jsonObject.addProperty("expDate", foodList.get(i).getExpDate().toString());
+                jsonObject.addProperty("expDate", new Date(foodList.get(i).getExpDate()).toString());
                 jsonObject.addProperty("category", foodList.get(i).getCategory().name());
                 jsonObject.addProperty("location", foodList.get(i).getLocation().name());
                 //Add the JsonObject to the JsonArray
@@ -78,7 +76,7 @@ public class FoodService implements IFoodService{
             food = errorHandling.getFoodItem(userName, id);
             jsonObject.addProperty("id", food.getID());
             jsonObject.addProperty("name", food.getFoodName());
-            jsonObject.addProperty("expDate", food.getExpDate().toString());
+            jsonObject.addProperty("expDate", new Date(food.getExpDate()).toString());
             jsonObject.addProperty("category", food.getCategory().name());
             jsonObject.addProperty("location", food.getLocation().name());
             //Returns response 200 (success) and the requested JsonObject
@@ -198,6 +196,12 @@ public class FoodService implements IFoodService{
 //        Sets the ID and userName to always be set, given this does not change
         updatedFood.setID(id);
         updatedFood.setUserName(userName);
+        IFoodDTO oldFoodFromDB = new FoodDTO();
+        try {
+            oldFoodFromDB= errorHandling.getFoodItem(userName, id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         try {
 //            If food name has been changed, it is replaced
@@ -205,7 +209,7 @@ public class FoodService implements IFoodService{
                 updatedFood.setFoodName(food.getFoodName());
             }
 //            if expiration date has changed, it is replaced
-            if(food.getExpDate() != null){
+            if(food.getExpDate() != oldFoodFromDB.getExpDate()){
                 updatedFood.setExpDate(food.getExpDate());
             }
 //            if food category has changed, it is replaced
@@ -249,7 +253,7 @@ public class FoodService implements IFoodService{
                 //Add each parameter in the FoodDTO object as a property to the JsonObject
                 jsonObject.addProperty("id", aFoodList.getID());
                 jsonObject.addProperty("name", aFoodList.getFoodName());
-                jsonObject.addProperty("expDate", aFoodList.getExpDate().toString());
+                jsonObject.addProperty("expDate", new Date(aFoodList.getExpDate()).toString());
                 jsonObject.addProperty("category", aFoodList.getCategory().name());
                 jsonObject.addProperty("location", aFoodList.getLocation().name());
                 //Add the JsonObject to the JsonArray

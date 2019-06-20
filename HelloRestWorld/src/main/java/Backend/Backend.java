@@ -63,7 +63,7 @@ public class Backend implements IFoodDAO {
                 psQuery.setDate(6, getExpirationDate(food.getCategory()));
             }else {
 //                Sets the expiration date for the food.
-                psQuery.setDate(6, food.getExpDate());
+                psQuery.setDate(6, new Date(food.getExpDate()));
             }
             psQuery.execute();
 
@@ -101,7 +101,7 @@ public class Backend implements IFoodDAO {
             ECategory category = ECategory.values()[rs.getInt("cat_id")];
             String userName = rs.getString("user_name");
 //          Creates a new food from the received parameters to add to the list.
-            IFoodDTO food = new FoodDTO(foodId, foodName, expDate, loc_id, category, userName);
+            IFoodDTO food = new FoodDTO(foodId, foodName, expDate.getTime(), loc_id, category, userName);
             foodList.add(food);
         }
         return foodList;
@@ -122,7 +122,7 @@ public class Backend implements IFoodDAO {
                 foodN.setLocation(food.getLocation());
             if (food.getCategory() != null)
                 foodN.setCategory(food.getCategory());
-            if (food.getExpDate() != null)
+            if (food.getExpDate() != foodN.getExpDate())
                 foodN.setExpDate(food.getExpDate());
             if (food.getFoodName() != null) {
                 foodN.setFoodName(food.getFoodName());
@@ -138,7 +138,7 @@ public class Backend implements IFoodDAO {
             if (foodN.getLocation().ordinal() == 0){
                 prepStat.setDate(4, getExpirationDate(foodN.getCategory()));
             }else{
-                prepStat.setDate(4, foodN.getExpDate());
+                prepStat.setDate(4, new Date(foodN.getExpDate()));
             }
         prepStat.setInt(5, foodN.getID());
         prepStat.setString(6,foodN.getUserName());
@@ -252,7 +252,7 @@ public class Backend implements IFoodDAO {
             user_Name = rs.getString("user_name");
         }
 //        return a new food object from the supplied data
-        return new FoodDTO(foodId, foodName, expDate, location, category, user_Name);
+        return new FoodDTO(foodId, foodName, expDate.getTime(), location, category, user_Name);
     }
 
     /**
@@ -329,7 +329,7 @@ public class Backend implements IFoodDAO {
 //        Go through the result set and create foods from the data
         while (resultSet.next()) {
             IFoodDTO foodDTO = new FoodDTO(resultSet.getInt("food_id"), resultSet.getString("food_name"),
-                    resultSet.getDate("expiration_date"), ELocation.values()[resultSet.getInt("loc_id")],
+                    resultSet.getDate("expiration_date").getTime(), ELocation.values()[resultSet.getInt("loc_id")],
                     ECategory.values()[resultSet.getInt("cat_id")], resultSet.getString("user_name"));
 //            Add the food to the list of expired foods
             expiredFoods.add(foodDTO);
