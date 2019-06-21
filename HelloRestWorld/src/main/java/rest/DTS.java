@@ -1,5 +1,7 @@
 package rest;
 
+import java.util.concurrent.TimeUnit;
+
 public class DTS {
 
     /**
@@ -8,7 +10,8 @@ public class DTS {
      * @return Returns the expiration date of the food item.
      */
     public static long addDays(int days) {
-
-        return System.currentTimeMillis() + (days*(1000*60*60*24));
+        long currentDay = System.currentTimeMillis();
+        long totalTime = currentDay + TimeUnit.DAYS.toMillis(days);
+        return totalTime;
     }
 }
