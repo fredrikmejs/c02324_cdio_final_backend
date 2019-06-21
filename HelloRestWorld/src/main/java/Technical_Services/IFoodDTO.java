@@ -1,42 +1,39 @@
 package Technical_Services;
 
-import java.sql.Date;
-
 public interface IFoodDTO {
 
-
+    //Food ID
     int getID();
     void setID(int food_id);
 
     //Expiration Dates
-    Date getExpDate();
-    void setExpDate(Date date);
+    long getExpDate();
+    void setExpDate(long timeSinceEpochInMillis);
 
 
-    //TODO: Amount - redacted for now
 
-    //TODO: Unit - redacted for now
-
-    //Name
-    String getName();
-    void setName(String name);
+    //Food name
+    String getFoodName();
+    void setFoodName(String name);
 
 
     //Location
-    //TODO: Create enum for location (Freezer, Fridge, Pantry)
     ELocation getLocation();
     void setLocation(ELocation location);
 
 
     //Category
-    //TODO: Create enum for category (Fish, meats, vegetables etc.)
     ECategory getCategory();
     void setCategory(ECategory category);
 
-    int getAmount();
-    void setAmount(int amount);
-
+    //User name
     String getUserName();
     void setUserName(String userName);
+
+    //toString
+    String toString();
+
+    //equals
+    boolean equals(Object object);
 }
 
