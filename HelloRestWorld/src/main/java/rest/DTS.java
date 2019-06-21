@@ -1,8 +1,5 @@
 package rest;
 
-import java.sql.Date;
-import java.time.LocalDate;
-
 public class DTS {
 
     /**
@@ -10,9 +7,8 @@ public class DTS {
      * @param days Days comes from the freezer_expiration in the date base.
      * @return Returns the expiration date of the food item.
      */
-    public static Date addDays(int days) {
+    public static long addDays(int days) {
 
-        Date date = Date.valueOf(LocalDate.now().plusDays(days));
-        return date;//time for given day * (millis/sec*sec/min*min/hr*hr/day)
+        return System.currentTimeMillis() + (days*(1000*60*60*24));
     }
 }

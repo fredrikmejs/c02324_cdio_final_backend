@@ -58,12 +58,12 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
             psQuery.setInt(4, food.getCategory().ordinal());
             psQuery.setString(5, food.getUserName());
 //            Checks if the food has been placed in the freezer
-            if (food.getLocation().ordinal() == 0 && food.getCategory().ordinal() != 8) {
+            if (food.getLocation() == ELocation.Freezer && food.getCategory() != ECategory.Other) {
 //                Sets the expiration date for the food in the freezer
-                psQuery.setDate(6, getExpirationDate(food.getCategory()));
+                psQuery.setLong(6, getExpirationDate(food.getCategory()));
             }else {
 //                Sets the expiration date for the food.
-                psQuery.setDate(6, new Date(food.getExpDate()));
+                psQuery.setLong(6, food.getExpDate());
             }
             psQuery.execute();
 
@@ -95,13 +95,13 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
         while (rs.next()) {
             int foodId = rs.getInt("food_id");
             String foodName = rs.getString("food_name");
-            Date expDate = rs.getDate("expiration_date");
+            long expDate = rs.getLong("expiration_date");
 
             ELocation loc_id = ELocation.values()[rs.getInt("loc_id")];
             ECategory category = ECategory.values()[rs.getInt("cat_id")];
             String userName = rs.getString("user_name");
 //          Creates a new food from the received parameters to add to the list.
-            IFoodDTO food = new FoodDTO(foodId, foodName, expDate.getTime(), loc_id, category, userName);
+            IFoodDTO food = new FoodDTO(foodId, foodName, expDate, loc_id, category, userName);
             foodList.add(food);
         }
         return foodList;
@@ -136,9 +136,9 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
             prepStat.setInt(3, foodN.getCategory().ordinal());
 //        Check the location for the food
             if (foodN.getLocation().ordinal() == 0 && foodN.getCategory().ordinal() != 8){
-                prepStat.setDate(4, getExpirationDate(foodN.getCategory()));
+                prepStat.setLong(4, getExpirationDate(foodN.getCategory()));
             }else{
-                prepStat.setDate(4, new Date(foodN.getExpDate()));
+                prepStat.setLong(4, foodN.getExpDate());
             }
         prepStat.setInt(5, foodN.getID());
         prepStat.setString(6,foodN.getUserName());
@@ -237,7 +237,7 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
 //        Initialise variables
         int foodId = 0;
         String foodName = "";
-        Date expDate = new Date(System.currentTimeMillis());
+        long expDate = 0;
         ELocation location = ELocation.Freezer;
         ECategory category = ECategory.Beef;
         String user_Name = "";
@@ -245,14 +245,14 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
         while(rs.next()) {
             foodId = rs.getInt("food_id");
             foodName = rs.getString("food_name");
-            expDate = rs.getDate("expiration_date");
+            expDate = rs.getLong("expiration_date");
 
             location = ELocation.values()[rs.getInt("loc_id")];
             category = ECategory.values()[rs.getInt("cat_id")];
             user_Name = rs.getString("user_name");
         }
 //        return a new food object from the supplied data
-        return new FoodDTO(foodId, foodName, expDate.getTime(), location, category, user_Name);
+        return new FoodDTO(foodId, foodName, expDate, location, category, user_Name);
     }
 
     /**
@@ -321,7 +321,7 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
 //        Prepare a SQL query
         String query = "SELECT * " +
                 "FROM Food " +
-                "WHERE expiration_date <= adddate(current_date(), ?) AND user_name = ?";
+                "WHERE expiration_date <= ((UNIX_TIMESTAMP() * 1000) + (? *1000*60*60*24)) AND user_name = ?";
         PreparedStatement psQuery = con.prepareStatement(query);
         psQuery.setInt(1, days);
         psQuery.setString(2, userName);
@@ -329,7 +329,7 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
 //        Go through the result set and create foods from the data
         while (resultSet.next()) {
             IFoodDTO foodDTO = new FoodDTO(resultSet.getInt("food_id"), resultSet.getString("food_name"),
-                    resultSet.getDate("expiration_date").getTime(), ELocation.values()[resultSet.getInt("loc_id")],
+                    resultSet.getLong("expiration_date"), ELocation.values()[resultSet.getInt("loc_id")],
                     ECategory.values()[resultSet.getInt("cat_id")], resultSet.getString("user_name"));
 //            Add the food to the list of expired foods
             expiredFoods.add(foodDTO);
@@ -344,7 +344,7 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
      * @return Returns the date of which the food expires on.
      * @throws SQLException
      */
-    private Date getExpirationDate(ECategory val) throws SQLException{
+    private long getExpirationDate(ECategory val) throws SQLException{
 //        Query to access freezer dates
         String query = "select freezer_exp from Freezer_expiration where cat_id =?";
         PreparedStatement psQuery = con.prepareStatement(query);
