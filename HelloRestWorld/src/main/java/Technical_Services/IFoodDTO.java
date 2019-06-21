@@ -26,7 +26,6 @@ public interface IFoodDTO {
     ECategory getCategory();
     void setCategory(ECategory category);
 
-
     //User name
     String getUserName();
     void setUserName(String userName);
@@ -36,6 +35,5 @@ public interface IFoodDTO {
 
     //equals
     boolean equals(Object object);
-
-
 }
+

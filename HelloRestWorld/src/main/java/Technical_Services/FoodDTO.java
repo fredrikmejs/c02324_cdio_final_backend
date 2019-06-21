@@ -23,6 +23,7 @@ public class FoodDTO extends Equals implements IFoodDTO {
      * @return An SQL date which represents the expiration date
      */
     public long getExpDate() {
+
         return expDate;
     }
 
@@ -136,15 +137,18 @@ public class FoodDTO extends Equals implements IFoodDTO {
      * Method sets the userName of the food.
      * @param userName Name of the user to own the food.
      */
+
     @Override
     public void setUserName(String userName) {
     this.userName = userName;
     }
 
+
     /**
      * Method sets the ID of the food
      * @param id ID of the food
      */
+
     public void setID(int id){
         this.food_id = id;
     }
