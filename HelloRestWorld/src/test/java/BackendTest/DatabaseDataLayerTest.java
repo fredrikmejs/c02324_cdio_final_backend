@@ -74,7 +74,6 @@ class DatabaseDataLayerTest {
         backend.createConnection();
         backend.createUser("Test");
         backend.createFood(food);
-
         IFoodDTO foo = new FoodDTO(1,"UpdatedTest", food.getExpDate(),ELocation.Pantry, ECategory.Beef, "Test");
         backend.updateFood(foo);
         food = backend.readFood("Test", 1);
