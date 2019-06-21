@@ -19,9 +19,13 @@ public class DTS {
         return stringBuilder.toString();
     }
 
-    public static Date addDays(Date day, int days){
-
-        Date date = Date.valueOf(LocalDate.now().plusDays(days));
-        return date;//time for given day * (millis/sec*sec/min*min/hr*hr/day)
+    /**
+     * Finds the correct date for the items we put in the freezer.
+     * @param days Days comes from the freezer_expiration in the date base.
+     * @return Returns the expiration date of the food item.
+     */
+    public static Date addDays(int days){
+        //takes the current date and adds the days given from the freezer_expiration in the database
+        return Date.valueOf(LocalDate.now().plusDays(days));
     }
 }

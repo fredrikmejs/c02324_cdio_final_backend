@@ -354,6 +354,6 @@ public class DatabaseDataLayer implements IDatabaseDataLayer {
         while(rs.next())
             days = rs.getInt("freezer_exp");
 //        Method to add extra days to the supplied expiration date.
-        return DTS.addDays(new Date(System.currentTimeMillis()), days);
+        return DTS.addDays(days);
     }
 }
