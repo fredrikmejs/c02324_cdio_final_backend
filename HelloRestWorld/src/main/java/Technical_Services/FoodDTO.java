@@ -17,6 +17,74 @@ public class FoodDTO extends Equals implements IFoodDTO {
     private String userName;
 
     /**
+     * An empty constructor for use with REST
+     */
+    public FoodDTO(){}
+    /**
+     * Method gets the expiration date of the food
+     * @return An SQL date which represents the expiration date
+     */
+    public long getExpDate() {
+        return expDate;
+    }
+
+    /**
+     * Method sets the expiration date
+     * @param timeSinceEpochInMillis
+     */
+    public void setExpDate(long timeSinceEpochInMillis) {
+        this.expDate = timeSinceEpochInMillis + (1000*60*60*3); //Add 12 hours to day to hopefully fix off by 1 day because of DST
+    }
+
+    /**
+     * Method gets name of the food.
+     * @return Name of food as String.
+     */
+    public String getFoodName(){
+        return name;
+    }
+
+    /**
+     * Method sets the name of the food
+     * @param name String of the name
+     */
+    public void setFoodName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Method gets the location of the food
+     * @return Returns the location of the food (ELocation).
+     */
+    public ELocation getLocation() {
+        return location;
+    }
+
+    /**
+     * Method sets the location of the food.
+     * @param location The location of the food.
+     */
+    public void setLocation(ELocation location) {
+        this.location = location;
+    }
+
+    /**
+     * Method gets the category of the food.
+     * @return Returns the category of the food.
+     */
+    public ECategory getCategory() {
+        return category;
+    }
+
+    /**
+     * Method sets the category of the food.
+     * @param category The category of the food.
+     */
+    public void setCategory(ECategory category) {
+        this.category = category;
+    }
+
+    /**
      * Constructor to create a food item without an ID
      * @param foodName Name of the food.
      * @param date The expiration date of the food.
@@ -53,74 +121,9 @@ public class FoodDTO extends Equals implements IFoodDTO {
         this.food_id = food_id;
     }
 
-    /**
-     * An empty constructor for use with REST
-     */
-    public FoodDTO(){}
 
-    /**
-     * Method gets the expiration date of the food
-     * @return An SQL date which represents the expiration date
-     */
-    public long getExpDate() {
-        return expDate;
-    }
 
-    /**
-     * Method sets the expiration date
-     * @param timeSinceEpochInMillis
-     */
-    public void setExpDate(long timeSinceEpochInMillis) {
-    this.expDate = timeSinceEpochInMillis + (1000*60*60*3); //Add 12 hours to day to hopefully fix off by 1 day because of DST
-    }
 
-    /**
-     * Method gets name of the food.
-     * @return Name of food as String.
-     */
-    public String getFoodName(){
-        return name;
-    }
-
-    /**
-     * Method sets the name of the food
-     * @param name String of the name
-     */
-    public void setFoodName(String name) {
-    this.name = name;
-    }
-
-    /**
-     * Method gets the location of the food
-     * @return Returns the location of the food (ELocation).
-     */
-    public ELocation getLocation() {
-        return location;
-    }
-
-    /**
-     * Method sets the location of the food.
-     * @param location The location of the food.
-     */
-    public void setLocation(ELocation location) {
-    this.location = location;
-    }
-
-    /**
-     * Method gets the category of the food.
-     * @return Returns the category of the food.
-     */
-    public ECategory getCategory() {
-        return category;
-    }
-
-    /**
-     * Method sets the category of the food.
-     * @param category The category of the food.
-     */
-    public void setCategory(ECategory category) {
-    this.category = category;
-    }
 
     /**
      * Method gets the userName of the foods (its owner)

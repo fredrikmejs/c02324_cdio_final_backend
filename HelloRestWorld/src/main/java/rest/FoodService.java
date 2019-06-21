@@ -69,6 +69,7 @@ public class FoodService implements IFoodService{
      */
     @GET
     @Path("{userName}/get/{id}")
+    @Deprecated
     public Response getFood(@PathParam("id") int id, @PathParam("userName") String userName){
         IFoodDTO food;
         JsonObject jsonObject = new JsonObject();
