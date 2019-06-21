@@ -58,37 +58,36 @@ public class FoodService implements IFoodService{
         }
     }
 
-    /**
-     * This method accepts a HTTP GET request and grabs a food_id and userName from the URL
-     * Which is then used to access the database and acquire a specific food item belonging to the user.
-     * If it succeeds it returns a HTTP response status of 200 (success) and the requested food item as a JsonObject.
-     * If it fails the return is a HTTP response status of 404 (File not found).
-     * @param id ID of the food being requested
-     * @param userName userName for the user requesting the food item
-     * @return HTTP status 200 (success) or 404 (failure -> File not found)
-     */
-    @GET
-    @Path("{userName}/get/{id}")
-    @Deprecated
-    public Response getFood(@PathParam("id") int id, @PathParam("userName") String userName){
-        IFoodDTO food;
-        JsonObject jsonObject = new JsonObject();
-        try {
-            //Access database to retrieve a single item belonging to the user
-            food = errorHandling.getFoodItem(userName, id);
-            jsonObject.addProperty("id", food.getID());
-            jsonObject.addProperty("name", food.getFoodName());
-            jsonObject.addProperty("expDate", new Date(food.getExpDate()).toString());
-            jsonObject.addProperty("category", food.getCategory().name());
-            jsonObject.addProperty("location", food.getLocation().name());
-            //Returns response 200 (success) and the requested JsonObject
-            return Response.status(200).entity(jsonObject.toString()).build();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            //Returns response 404 (file not found)
-            return Response.status(404).build();
-        }
-    }
+//    /**
+//     * This method accepts a HTTP GET request and grabs a food_id and userName from the URL
+//     * Which is then used to access the database and acquire a specific food item belonging to the user.
+//     * If it succeeds it returns a HTTP response status of 200 (success) and the requested food item as a JsonObject.
+//     * If it fails the return is a HTTP response status of 404 (File not found).
+//     * @param id ID of the food being requested
+//     * @param userName userName for the user requesting the food item
+//     * @return HTTP status 200 (success) or 404 (failure -> File not found)
+//     */
+//    @GET
+//    @Path("{userName}/get/{id}")
+//    public Response getFood(@PathParam("id") int id, @PathParam("userName") String userName){
+//        IFoodDTO food;
+//        JsonObject jsonObject = new JsonObject();
+//        try {
+//            //Access database to retrieve a single item belonging to the user
+//            food = errorHandling.getFoodItem(userName, id);
+//            jsonObject.addProperty("id", food.getID());
+//            jsonObject.addProperty("name", food.getFoodName());
+//            jsonObject.addProperty("expDate", new Date(food.getExpDate()).toString());
+//            jsonObject.addProperty("category", food.getCategory().name());
+//            jsonObject.addProperty("location", food.getLocation().name());
+//            //Returns response 200 (success) and the requested JsonObject
+//            return Response.status(200).entity(jsonObject.toString()).build();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            //Returns response 404 (file not found)
+//            return Response.status(404).build();
+//        }
+//    }
 
     /**
      * This method creates a food in the database from the parameters given via the HTTP POST request.

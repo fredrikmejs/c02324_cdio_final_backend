@@ -57,11 +57,11 @@ class FoodServiceTest {
         }
     }
 
-    @Test
-    void getFood() {
-        Response response1 = fs.getFood(foodID, userName);
-        assertEquals(200, response1.getStatus());
-    }
+//    @Test
+//    void getFood() {
+//        Response response1 = fs.getFood(foodID, userName);
+//        assertEquals(200, response1.getStatus());
+//    }
 
     @Test
     void createFood() {

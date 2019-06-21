@@ -33,7 +33,19 @@ public class FoodDTO extends Equals implements IFoodDTO {
      * @param timeSinceEpochInMillis
      */
     public void setExpDate(long timeSinceEpochInMillis) {
-        this.expDate = timeSinceEpochInMillis + (1000*60*60*3); //Add 12 hours to day to hopefully fix off by 1 day because of DST
+        this.expDate = timeSinceEpochInMillis + (1000*60*60*3); //Add 3 hours to day to hopefully fix off by 1 day because of DST
+    }
+
+    /**
+     * Method sets the expiration date
+     * @param timeSinceEpochInMillis time to now
+     * @param addExtraTime add 3 hours to compensate for DST and timezones
+     */
+    public void setExpDate(long timeSinceEpochInMillis, boolean addExtraTime){
+        this.expDate = timeSinceEpochInMillis;
+        if(addExtraTime){
+            this.expDate += (1000*60*60*3);
+        }
     }
 
     /**
@@ -94,7 +106,7 @@ public class FoodDTO extends Equals implements IFoodDTO {
      */
     public FoodDTO(String foodName, long date, ELocation location, ECategory category, String userName){
 //      Variables are initialised
-    this.expDate = date + (1000*60*60*3);//The supplied date is added 12 additional hours to compensate for DST and MySQL incompatibility
+    this.expDate = date + (1000*60*60*3);//The supplied date is added 3 additional hours to compensate for DST and MySQL incompatibility
     this.name = foodName;
     this.category = category;
     this.location = location;
@@ -113,7 +125,7 @@ public class FoodDTO extends Equals implements IFoodDTO {
      */
     public FoodDTO(int food_id, String foodName, long date, ELocation location, ECategory category, String userName){
 //        Variables are now initialised
-        this.expDate = date + (1000*60*60*3);//12 hours are added to fix compatibility issues
+        this.expDate = date + (1000*60*60*3);//3 hours are added to fix compatibility issues
         this.name = foodName;
         this.category = category;
         this.location = location;

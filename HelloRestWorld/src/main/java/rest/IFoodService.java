@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 
 public interface IFoodService {
     Response getAllFoods(String username, int location);
-    Response getFood(int id, String userName);
+//    Response getFood(int id, String userName);
     Response createFood(FoodDTO foodDTO);
     Response deleteFood(int id, String userName);
     Response deleteAllFood(String userName, String location);
